@@ -14,28 +14,29 @@ interface SuggestedActionsProps {
 }
 
 function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
-  const suggestedActions = [
-    {
-      title: 'What are the advantages',
-      label: 'of using Next.js?',
-      action: 'What are the advantages of using Next.js?',
+    const suggestedActions = [
+         {
+      title: "Quelle tenue porter ce soir ? 🧥",
+      label: "à Bordeaux en fonction de la météo",
+      action: "En tenant compte de la météo à Bordeaux ce soir, quelle tenue me conseilles-tu de porter pour sortir ?",
     },
-    {
-      title: 'Write code to',
-      label: `demonstrate djikstra's algorithm`,
-      action: `Write code to demonstrate djikstra's algorithm`,
-    },
-    {
-      title: 'Help me write an essay',
-      label: `about silicon valley`,
-      action: `Help me write an essay about silicon valley`,
-    },
-    {
-      title: 'What is the weather',
-      label: 'in San Francisco?',
-      action: 'What is the weather in San Francisco?',
-    },
-  ];
+      {
+        title: "Mon meilleur ami m'a ghosté 😢",
+        label: "comment gérer ça ?",
+        action: "Mon meilleur ami m'a ghosté et je ne sais pas comment réagir. Peux-tu m'aider à gérer ça ?",
+      },
+      {
+        title: "J'ai le teint pale et fatigué 😴",
+        label: "routine beauté et soins",
+        action: "J'ai le teint pâle et fatigué. Peux-tu me conseiller une routine beauté et soins pour retrouver de l'éclat ?",
+      },
+      {
+        title: "Je ne sais pas quoi cuisiner ce soir 🍲",
+        label: "recette facile et rapide de saison et équilibrée",
+        action: "Je ne sais pas quoi cuisiner ce soir. Peux-tu me donner une recette facile, rapide, de saison et équilibrée ?",
+      },
+    ];
+
 
   return (
     <div className="grid sm:grid-cols-2 gap-2 w-full">

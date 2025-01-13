@@ -46,13 +46,13 @@ export function PureMessageActions({
               variant="outline"
               onClick={async () => {
                 await copyToClipboard(message.content as string);
-                toast.success('Copied to clipboard!');
+                toast.success('Copié!');
               }}
             >
               <CopyIcon />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Copy</TooltipContent>
+          <TooltipContent>Copier</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -74,7 +74,7 @@ export function PureMessageActions({
                 });
 
                 toast.promise(upvote, {
-                  loading: 'Upvoting Response...',
+                  loading: 'Bonne réponse voté...',
                   success: () => {
                     mutate<Array<Vote>>(
                       `/api/vote?chatId=${chatId}`,
@@ -97,16 +97,16 @@ export function PureMessageActions({
                       { revalidate: false },
                     );
 
-                    return 'Upvoted Response!';
+                    return 'Bon vote!';
                   },
-                  error: 'Failed to upvote response.',
+                  error: 'Erreur lors du vote de la réponse.',
                 });
               }}
             >
               <ThumbUpIcon />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Upvote Response</TooltipContent>
+          <TooltipContent>Voter pour cette réponse</TooltipContent>
         </Tooltip>
 
         <Tooltip>
@@ -151,16 +151,16 @@ export function PureMessageActions({
                       { revalidate: false },
                     );
 
-                    return 'Downvoted Response!';
+                    return 'Mauvaise réponse votée!';
                   },
-                  error: 'Failed to downvote response.',
+                  error: 'Erreur lors du vote de la réponse.',
                 });
               }}
             >
               <ThumbDownIcon />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>Downvote Response</TooltipContent>
+          <TooltipContent>Voter contre cette réponse</TooltipContent>
         </Tooltip>
       </div>
     </TooltipProvider>

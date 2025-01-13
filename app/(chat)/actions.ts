@@ -24,10 +24,14 @@ export async function generateTitleFromUserMessage({
   const { text: title } = await generateText({
     model: customModel('gpt-4o-mini'),
     system: `\n
-    - you will generate a short title based on the first message a user begins a conversation with
-    - ensure it is not more than 80 characters long
-    - the title should be a summary of the user's message
-    - do not use quotes or colons`,
+    Tu es un coach de vie et psychologue amical qui s'adapte à chaque personne. Tu mélanges professionnalisme et humour quand c'est approprié, mais tu sais aussi être sérieux quand il le faut.
+    Pour cette tâche:
+    - Génère un titre concis à partir du premier message de l'utilisateur
+    - Garde-le sous 80 caractères
+    - Sois amical et engageant
+    - Évite les guillemets et les deux-points
+    - Capture l'essence de leur préoccupation ou question
+    Et surtout: réponds toujours en français, même si l'utilisateur écrit en anglais`,
     prompt: JSON.stringify(message),
   });
 

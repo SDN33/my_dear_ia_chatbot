@@ -54,7 +54,7 @@ function PureBlockActions({
               <ClockRewind size={18} />
             </Button>
           </TooltipTrigger>
-          <TooltipContent>View changes</TooltipContent>
+          <TooltipContent>Voir les modifications précédentes</TooltipContent>
         </Tooltip>
       )}
 
@@ -87,7 +87,7 @@ function PureBlockActions({
             <RedoIcon size={18} />
           </Button>
         </TooltipTrigger>
-        <TooltipContent>View Next version</TooltipContent>
+        <TooltipContent>Voir la version actuelle</TooltipContent>
       </Tooltip>
 
       <Tooltip>
@@ -104,7 +104,7 @@ function PureBlockActions({
             <CopyIcon size={18} />
           </Button>
         </TooltipTrigger>
-        <TooltipContent>Copy to clipboard</TooltipContent>
+        <TooltipContent>Copier le contenu</TooltipContent>
       </Tooltip>
     </div>
   );

@@ -66,7 +66,7 @@ export function MessageEditor({
             setMode('view');
           }}
         >
-          Cancel
+          Annuler
         </Button>
         <Button
           variant="default"
