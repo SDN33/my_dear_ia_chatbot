@@ -1,6 +1,5 @@
-import type { NextConfig } from 'next';
-
-const nextConfig: NextConfig = {
+// next.config.js
+module.exports = {
   experimental: {
     ppr: true,
   },
@@ -12,5 +11,3 @@ const nextConfig: NextConfig = {
     ],
   },
 };
-
-export default nextConfig;
