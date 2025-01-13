@@ -2,7 +2,7 @@ import React from 'react';
 
 const Header = () => (
   <div className="w-full text-center py-4 border-b">
-  <div className="text-2xl font-bold text-gray-800 dark:text-zinc-200 w-8 h-auto mx-auto">
+  <div className="text-2xl font-bold text-gray-800 dark:text-zinc-200 w-8 h-auto mx-auto -mt-4">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
       {/* Fond décoratif */}
       <circle cx="100" cy="100" r="90" fill="#F8E1E8" opacity="0.3"/>
