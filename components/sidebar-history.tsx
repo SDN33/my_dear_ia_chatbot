@@ -89,7 +89,7 @@ const PureChatItem = ({
             showOnHover={!isActive}
           >
             <MoreHorizontalIcon />
-            <span className="sr-only">More</span>
+            <span className="sr-only">Plus</span>
           </SidebarMenuAction>
         </DropdownMenuTrigger>
 
@@ -109,7 +109,7 @@ const PureChatItem = ({
                 >
                   <div className="flex flex-row gap-2 items-center">
                     <LockIcon size={12} />
-                    <span>Private</span>
+                    <span>Privé</span>
                   </div>
                   {visibilityType === 'private' ? (
                     <CheckCircleFillIcon />
@@ -123,7 +123,7 @@ const PureChatItem = ({
                 >
                   <div className="flex flex-row gap-2 items-center">
                     <GlobeIcon />
-                    <span>Public</span>
+                    <span>Publique</span>
                   </div>
                   {visibilityType === 'public' ? <CheckCircleFillIcon /> : null}
                 </DropdownMenuItem>
@@ -136,7 +136,7 @@ const PureChatItem = ({
             onSelect={() => onDelete(chat.id)}
           >
             <TrashIcon />
-            <span>Delete</span>
+            <span>Supprimer la discussion</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -174,16 +174,16 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     });
 
     toast.promise(deletePromise, {
-      loading: 'Deleting chat...',
+      loading: 'Suppression de la discussion...',
       success: () => {
         mutate((history) => {
           if (history) {
             return history.filter((h) => h.id !== id);
           }
         });
-        return 'Chat deleted successfully';
+        return 'Discussion supprimée!';
       },
-      error: 'Failed to delete chat',
+      error: 'Erreur lors de la suppression de la discussion.',
     });
 
     setShowDeleteDialog(false);
@@ -198,7 +198,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
       <SidebarGroup>
         <SidebarGroupContent>
           <div className="px-2 text-zinc-500 w-full flex flex-row justify-center items-center text-sm gap-2">
-            Login to save and revisit previous chats!
+            Connectez vous pour voir vos discussions récentes.
           </div>
         </SidebarGroupContent>
       </SidebarGroup>
@@ -209,7 +209,7 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     return (
       <SidebarGroup>
         <div className="px-2 py-1 text-xs text-sidebar-foreground/50">
-          Today
+          Aujourd&apos;hui
         </div>
         <SidebarGroupContent>
           <div className="flex flex-col">
