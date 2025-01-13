@@ -19,16 +19,16 @@ const Header = () => (
       <circle cx="100" cy="100" r="35" fill="#F8E1E8"/>
 
       {/* Lignes décoratives courbes */}
-      <path d="M65 100 Q100 130 135 100" stroke="#B4D7D9" stroke-width="3" fill="none"/>
-      <path d="M65 90 Q100 120 135 90" stroke="#B4D7D9" stroke-width="3" fill="none"/>
+      <path d="M65 100 Q100 130 135 100" stroke="#B4D7D9" strokeWidth="3" fill="none"/>
+      <path d="M65 90 Q100 120 135 90" stroke="#B4D7D9" strokeWidth="3" fill="none"/>
 
       {/* Détails élégants */}
       <circle cx="70" cy="85" r="5" fill="#B4D7D9"/>
       <circle cx="130" cy="85" r="5" fill="#B4D7D9"/>
 
       {/* Éléments de connexion subtils */}
-      <path d="M40 70 Q70 40 100 40" stroke="#E8B4BC" stroke-width="2" fill="none" opacity="0.6"/>
-      <path d="M160 70 Q130 40 100 40" stroke="#E8B4BC" stroke-width="2" fill="none" opacity="0.6"/>
+      <path d="M40 70 Q70 40 100 40" stroke="#E8B4BC" strokeWidth="2" fill="none" opacity="0.6"/>
+      <path d="M160 70 Q130 40 100 40" stroke="#E8B4BC" strokeWidth="2" fill="none" opacity="0.6"/>
     </svg>
   </div>
   </div>
