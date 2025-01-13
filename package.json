@@ -96,5 +96,9 @@
     "tailwindcss": "^3.4.1",
     "tsx": "^4.19.1",
     "typescript": "^5.6.3"
+  },
+  "resolutions": {
+  "next": "^15.1.4"
   }
+
 }
