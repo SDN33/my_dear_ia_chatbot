@@ -77,7 +77,7 @@ export function MessageEditor({
             const messageId = userMessageIdFromServer ?? message.id;
 
             if (!messageId) {
-              toast.error('Something went wrong, please try again!');
+              toast.error('Une erreur est survenue.');
               setIsSubmitting(false);
               return;
             }
@@ -105,7 +105,7 @@ export function MessageEditor({
             reload();
           }}
         >
-          {isSubmitting ? 'Sending...' : 'Send'}
+          {isSubmitting ? 'envoi en cours...' : 'Send'}
         </Button>
       </div>
     </div>

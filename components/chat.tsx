@@ -68,6 +68,7 @@ export function Chat({
           isReadonly={isReadonly}
         />
 
+        
         <Messages
           chatId={id}
           isLoading={isLoading}

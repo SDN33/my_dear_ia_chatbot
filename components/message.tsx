@@ -3,7 +3,7 @@
 import type { ChatRequestOptions, Message } from 'ai';
 import cx from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
-import { memo, useMemo, useState } from 'react';
+import { memo, useMemo, useState, useCallback, useEffect } from 'react';
 
 import type { Vote } from '@/lib/db/schema';
 
@@ -19,6 +19,117 @@ import { Button } from './ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { MessageEditor } from './message-editor';
 import { DocumentPreview } from './document-preview';
+
+import AISpeakingAnimation from '@/components/AISpeakingAnimation';
+
+import { VolumeIcon, VolumeXIcon } from 'lucide-react';
+
+// Hook personnalisé pour la synthèse vocale
+// Créez un fichier .env.local avec votre clé API
+// NEXT_PUBLIC_ELEVENLABS_API_KEY=votre_clé_api
+
+const useSpeechSynthesis = () => {
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [audioElement, setAudioElement] = useState<HTMLAudioElement | null>(null);
+
+  const speak = useCallback(async (text: string) => {
+    try {
+      // Arrêter toute lecture en cours
+      if (audioElement) {
+        audioElement.pause();
+        audioElement.currentTime = 0;
+      }
+
+      setIsSpeaking(true);
+
+      // Add caching for previously synthesized text
+      const cacheKey = `tts-cache-${text.slice(0, 100)}`; // Use first 100 chars as key
+      const cachedAudio = localStorage.getItem(cacheKey);
+
+      if (cachedAudio) {
+        const audio = new Audio(cachedAudio);
+        setAudioElement(audio);
+        await audio.play();
+        return;
+      }
+
+      // Split long text into smaller chunks to optimize API calls
+      const maxChunkLength = 200; // Adjust based on your needs
+      const textChunks = text.match(new RegExp(`.{1,${maxChunkLength}}(\s|$)`, 'g')) || [text];
+
+      const response = await fetch('https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM', {
+        method: 'POST',
+        headers: {
+          'Accept': 'audio/mpeg',
+          'Content-Type': 'application/json',
+          'xi-api-key': process.env.NEXT_PUBLIC_ELEVENLABS_API_KEY || '',
+        },
+        body: JSON.stringify({
+          text: textChunks[0], // Only process first chunk to reduce credits
+          model_id: 'eleven_multilingual_v2',
+          voice_settings: {
+        stability: 0.3, // Reduced for faster processing
+        similarity_boost: 0.5, // Balanced setting
+        style: 0.3,
+        speed: 1.2 // Slightly faster
+          }
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error('Erreur lors de la synthèse vocale');
+      }
+
+      const audioBlob = await response.blob();
+      const audioUrl = URL.createObjectURL(audioBlob);
+      const audio = new Audio(audioUrl);
+
+      audio.onended = () => {
+        setIsSpeaking(false);
+        URL.revokeObjectURL(audioUrl);
+      };
+
+      audio.onerror = () => {
+        setIsSpeaking(false);
+        URL.revokeObjectURL(audioUrl);
+      };
+
+      setAudioElement(audio);
+      await audio.play();
+
+    } catch (error) {
+      console.error('Erreur de synthèse vocale:', error);
+      setIsSpeaking(false);
+
+      // Fallback vers la synthèse vocale du navigateur si l'API échoue
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'fr-FR';
+      utterance.pitch = 1.0;
+      utterance.rate = 1.2;
+      window.speechSynthesis.speak(utterance);
+    }
+  }, [audioElement]);
+
+  const stop = useCallback(() => {
+    if (audioElement) {
+      audioElement.pause();
+      audioElement.currentTime = 0;
+    }
+    setIsSpeaking(false);
+  }, [audioElement]);
+
+  useEffect(() => {
+    return () => {
+      if (audioElement) {
+        audioElement.pause();
+        audioElement.currentTime = 0;
+      }
+    };
+  }, [audioElement]);
+
+  return { speak, stop, isSpeaking };
+};
+
 
 const PurePreviewMessage = ({
   chatId,
@@ -42,6 +153,15 @@ const PurePreviewMessage = ({
   isReadonly: boolean;
 }) => {
   const [mode, setMode] = useState<'view' | 'edit'>('view');
+  const { speak, stop, isSpeaking } = useSpeechSynthesis();
+
+  const handleToggleSpeech = () => {
+    if (isSpeaking) {
+      stop();
+    } else if (message.content) {
+      speak(message.content);
+    }
+  };
 
   return (
     <AnimatePresence>
@@ -95,7 +215,27 @@ const PurePreviewMessage = ({
                         <PencilEditIcon />
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent>Edit message</TooltipContent>
+                    <TooltipContent>Editer message</TooltipContent>
+                  </Tooltip>
+                )}
+
+                {/* Ajout du bouton de synthèse vocale pour les messages de l'assistant */}
+                {message.role === 'assistant' && (
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        className="px-2 h-fit rounded-full text-muted-foreground border border-gray-300"
+                        onClick={handleToggleSpeech}
+                      >
+                        <div className="flex items-center justify-center">
+                          {isSpeaking ? <VolumeXIcon size={16} /> : <VolumeIcon size={16} />}
+                        </div>
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      {isSpeaking ? 'Arrêter la lecture' : 'Lire le message'}
+                    </TooltipContent>
                   </Tooltip>
                 )}
 
@@ -113,7 +253,6 @@ const PurePreviewMessage = ({
             {message.content && mode === 'edit' && (
               <div className="flex flex-row gap-2 items-start">
                 <div className="size-8" />
-
                 <MessageEditor
                   key={message.id}
                   message={message}
@@ -123,6 +262,8 @@ const PurePreviewMessage = ({
                 />
               </div>
             )}
+
+            <AISpeakingAnimation isSpeaking={isSpeaking} />
 
             {message.toolInvocations && message.toolInvocations.length > 0 && (
               <div className="flex flex-col gap-4">

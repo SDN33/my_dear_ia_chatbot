@@ -30,6 +30,7 @@ import { Textarea } from './ui/textarea';
 import { SuggestedActions } from './suggested-actions';
 import equal from 'fast-deep-equal';
 
+
 function PureMultimodalInput({
   chatId,
   input,
@@ -252,9 +253,10 @@ function PureMultimodalInput({
             }
           }
         }}
-      />
+            />
 
-      <div className="absolute bottom-0 p-2 w-fit hidden">
+
+      <div className="absolute bottom-0 p-2 w-fit">
         <AttachmentsButton fileInputRef={fileInputRef} isLoading={isLoading} />
       </div>
 
