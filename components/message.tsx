@@ -62,7 +62,7 @@ const useSpeechSynthesis = () => {
         headers: {
           'Accept': 'audio/mpeg',
           'Content-Type': 'application/json',
-          'xi-api-key': process.env.NEXT_PUBLIC_ELEVENLABS_API_KEY || '',
+          'xi-api-key': process.env.ELEVENLABS_API_KEY || '',
         },
         body: JSON.stringify({
           text: textChunks[0], // Only process first chunk to reduce credits
