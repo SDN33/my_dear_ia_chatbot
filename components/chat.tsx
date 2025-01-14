@@ -69,7 +69,22 @@ export function Chat({
           isReadonly={isReadonly}
         />
 
+        <div className='flex flex-col items-center justify-center mb-4 -mt-4'>
+          <span className='mt-4 mx-4 text-xs text-muted-foreground'>
+            My Dear IA peut faire des erreurs. Envisagez de vérifier les informations importantes.
+          </span>
+        </div>
+
         {messages.length === 0 && <TrendingCards />}
+
+        <div className='flex flex-col items-center justify-center mb-4'>
+          <span className='mt-4 mx-4 text-sm text-muted-foreground text-center'>
+            Bonjour, je suis<p className="text-base font-bold tracking-wide text-gray-800 dark:text-zinc-200" style={{ fontFamily: "'Jersey 15'" }}>My Dear <span className="font-bold bg-[#b4d7d9] bg-clip-text text-transparent">IA</span>
+        </p>ton assistant personnel
+            <br />Comment puis-je t&apos;aider aujourd&apos;hui ?
+          </span>
+        </div>
+
 
         <Messages
           chatId={id}

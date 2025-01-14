@@ -35,7 +35,9 @@ export function AppSidebar({ user }: { user: User | undefined }) {
               className="flex flex-row gap-3 items-center"
             >
                 <span className="text-lg font-semibold px-2 hover:bg-muted rounded-md cursor-pointer flex items-center gap-2">
-                My Dear IA
+                <h1 className="text-xl font-bold tracking-wide text-gray-800 dark:text-zinc-200" style={{ fontFamily: "'Jersey 15'" }}>
+                  My Dear <span className="font-bold bg-[#b4d7d9] bg-clip-text text-transparent">IA</span>
+                </h1>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" className="w-8 h-auto">
                   {/* Fond décoratif */}
                   <circle cx="100" cy="100" r="90" fill="#F8E1E8" opacity="0.3"/>
@@ -85,7 +87,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
           </div>
         </SidebarMenu>
         <span className="block text-xs text-gray-500 dark:text-zinc-400 -mt-2 ml-2 mb-4">
-          Votre compagnon IA personnelle
+          Votre compagnon IA personnel
         </span>
       </SidebarHeader>
       <SidebarContent>

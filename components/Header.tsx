@@ -6,7 +6,7 @@ const inter = Inter({ subsets: ['latin'] });
 const Header = () => (
   <header className="w-full bg-white dark:bg-gray-900">
         <h1 className="text-xl font-bold tracking-wide text-gray-800 dark:text-zinc-200" style={{ fontFamily: "'Jersey 15'" }}>
-          My Dear <span className="font-bold bg-[#b4d7d9] bg-clip-text text-transparent">AI</span>
+          My Dear <span className="font-bold bg-[#b4d7d9] bg-clip-text text-transparent">IA</span>
         </h1>
 
         {/* Centered logo */}
@@ -59,4 +59,3 @@ const Header = () => (
 );
 
 export default Header;
-

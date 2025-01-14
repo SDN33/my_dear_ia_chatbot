@@ -51,8 +51,8 @@ export default function Page() {
 
       <div className="flex-1 w-full flex items-start pt-12 md:pt-24 justify-center">
 
-        <div className="w-full max-w-md overflow-hidden rounded-2xl gap-12 flex flex-col">
-          <div className="flex flex-col items-center justify-center gap-2 px-4 text-center sm:px-16">
+        <div className="w-full max-w-md overflow-hidden rounded-2xl gap-12 flex flex-col mt-10">
+          <div className="flex flex-col items-center justify-center gap-2 px-4 text-center sm:px-16 -mb-6">
             <h3 className="text-xl font-semibold dark:text-zinc-50">S&apos;inscrire à My Dear IA</h3>
             <p className="text-sm text-gray-500 dark:text-zinc-400">
               Créez un compte pour accéder à My Dear IA.
