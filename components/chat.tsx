@@ -68,13 +68,7 @@ export function Chat({
           selectedVisibilityType={selectedVisibilityType}
           isReadonly={isReadonly}
         />
-
-        <div className='flex flex-col items-center justify-center mb-4 -mt-4'>
-          <span className='mt-4 mx-4 text-xs text-muted-foreground'>
-            My Dear IA peut faire des erreurs. Envisagez de vérifier les informations importantes.
-          </span>
-        </div>
-
+        
         {messages.length === 0 && <TrendingCards />}
 
         <div className='flex flex-col items-center justify-center mb-4'>

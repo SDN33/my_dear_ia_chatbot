@@ -65,6 +65,13 @@ function PureChatHeader({
           className="order-1 md:order-3 !hidden"
         />
       )}
+
+
+      <div className='flex flex-col mx-auto items-center justify-center mb-4 -mt-4'>
+        <span className='mt-4 mx-4 text-xs text-muted-foreground'>
+          My Dear IA peut faire des erreurs. Envisagez de vérifier les informations importantes.
+        </span>
+      </div>
     </header>
   );
 }
