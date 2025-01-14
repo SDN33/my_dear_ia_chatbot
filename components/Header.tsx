@@ -1,37 +1,62 @@
 import React from 'react';
+import { Inter } from 'next/font/google';
+
+const inter = Inter({ subsets: ['latin'] });
 
 const Header = () => (
-  <div className="w-full text-center py-4 border-b">
-  <div className="text-2xl font-bold text-gray-800 dark:text-zinc-200 w-8 h-auto mx-auto -mt-4">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-      {/* Fond décoratif */}
-      <circle cx="100" cy="100" r="90" fill="#F8E1E8" opacity="0.3"/>
+  <header className="w-full bg-white dark:bg-gray-900">
+        <h1 className="text-xl font-bold tracking-wide text-gray-800 dark:text-zinc-200" style={{ fontFamily: "'Jersey 15'" }}>
+          My Dear <span className="font-bold bg-[#b4d7d9] bg-clip-text text-transparent">AI</span>
+        </h1>
 
-      {/* Cercle principal */}
-      <circle cx="100" cy="100" r="60" fill="#E8B4BC"/>
+        {/* Centered logo */}
+        <div className="absolute left-1/2 -translate-x-1/2 size-12">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 200 200"
+            className="size-full"
+          >
+            <defs>
+              <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#F8E1E8" />
+                <stop offset="100%" stopColor="#E8B4BC" />
+              </linearGradient>
+            </defs>
 
-      {/* Motifs géométriques élégants */}
-      <path d="M100 40 L120 60 L100 80 L80 60 Z" fill="#B4D7D9" opacity="0.6"/>
-      <path d="M40 100 L60 120 L40 140 L20 120 Z" fill="#B4D7D9" opacity="0.6"/>
-      <path d="M160 100 L180 120 L160 140 L140 120 Z" fill="#B4D7D9" opacity="0.6"/>
+            <circle cx="100" cy="100" r="90" fill="url(#logoGradient)" opacity="0.9"/>
+            <circle cx="100" cy="100" r="60" fill="#E8B4BC" opacity="0.8"/>
+            <circle cx="100" cy="100" r="35" fill="#F8E1E8"/>
 
-      {/* Éléments abstraits */}
-      <circle cx="100" cy="100" r="35" fill="#F8E1E8"/>
+            <path
+              d="M100 40 L120 60 L100 80 L80 60 Z"
+              fill="#B4D7D9"
+              opacity="0.8"
+            />
 
-      {/* Lignes décoratives courbes */}
-      <path d="M65 100 Q100 130 135 100" stroke="#B4D7D9" strokeWidth="3" fill="none"/>
-      <path d="M65 90 Q100 120 135 90" stroke="#B4D7D9" strokeWidth="3" fill="none"/>
+            <path
+              d="M65 100 Q100 130 135 100"
+              stroke="#B4D7D9"
+              strokeWidth="4"
+              fill="none"
+              strokeLinecap="round"
+            />
+            <path
+              d="M65 90 Q100 120 135 90"
+              stroke="#B4D7D9"
+              strokeWidth="4"
+              fill="none"
+              strokeLinecap="round"
+            />
 
-      {/* Détails élégants */}
-      <circle cx="70" cy="85" r="5" fill="#B4D7D9"/>
-      <circle cx="130" cy="85" r="5" fill="#B4D7D9"/>
+            <circle cx="70" cy="85" r="5" fill="#B4D7D9"/>
+            <circle cx="130" cy="85" r="5" fill="#B4D7D9"/>
+          </svg>
+        </div>
 
-      {/* Éléments de connexion subtils */}
-      <path d="M40 70 Q70 40 100 40" stroke="#E8B4BC" strokeWidth="2" fill="none" opacity="0.6"/>
-      <path d="M160 70 Q130 40 100 40" stroke="#E8B4BC" strokeWidth="2" fill="none" opacity="0.6"/>
-    </svg>
-  </div>
-  </div>
+        {/* Empty div to balance the layout */}
+        <div className="w-[68px]"></div>
+  </header>
 );
 
 export default Header;
+
