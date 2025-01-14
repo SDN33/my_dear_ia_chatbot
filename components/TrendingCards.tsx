@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Music, Film, Clock, Brain } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Music, Film, Clock, Tv } from 'lucide-react';
 import Parser from 'rss-parser'; // Importation de rss-parser
+import { motion, AnimatePresence } from 'framer-motion';
+
 
 const TrendingCards = () => {
   const [activeModule, setActiveModule] = useState(0);
@@ -28,8 +30,8 @@ const TrendingCards = () => {
       content: <NewsModule />,
     },
     {
-      title: 'Devinettes',
-      icon: <Brain className="size-4" />,
+      title: 'Publicités',
+      icon: <Tv className="size-4" />,
       content: <RiddlesModule />,
     },
   ];
@@ -42,26 +44,39 @@ const TrendingCards = () => {
     setActiveModule((prev) => (prev === modules.length - 1 ? 0 : prev + 1));
   };
 
-  return (
-    <div className="w-full flex items-center justify-center">
-      <button onClick={handlePrev} aria-label="Previous">
-        <ChevronLeft />
-      </button>
-      <Card className="w-full max-w-md mx-4">
-        <CardHeader className="flex justify-between pb-2">
-          <CardTitle className="text-sm font-medium flex items-center gap-2">
-            {modules[activeModule].icon}
-            {modules[activeModule].title}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>{modules[activeModule].content}</CardContent>
-      </Card>
-      <button onClick={handleNext} aria-label="Next">
-        <ChevronRight />
-      </button>
-    </div>
-  );
-};
+
+    return (
+      <div className="w-full flex items-center justify-center">
+        <button onClick={handlePrev} aria-label="Previous">
+          <ChevronLeft />
+        </button>
+        <Card className="w-full max-w-md mx-4 overflow-hidden">
+          <CardHeader className="flex justify-between pb-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
+              {modules[activeModule].icon}
+              {modules[activeModule].title}
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeModule}
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -100 }}
+                transition={{ duration: 0.3 }}
+              >
+                {modules[activeModule].content}
+              </motion.div>
+            </AnimatePresence>
+          </CardContent>
+        </Card>
+        <button onClick={handleNext} aria-label="Next">
+          <ChevronRight />
+        </button>
+      </div>
+    );
+  };
 
 // Module pour les actualités
 const NewsModule = () => {
@@ -114,7 +129,7 @@ const NewsModule = () => {
           {news.slice(0, 4).map((item, index) => (
             <div key={index} className="text-center">
               <a href={item.link} target="_blank" rel="noopener noreferrer" className="text-sm mt-2 hover:underline">
-              {item.title}
+                {item.title.length > 100 ? `${item.title.substring(0, 100)}...` : item.title}
               </a>
               {item.pubDate && (
               <p className="text-xs text-gray-500 mt-1 flex items-center justify-center gap-1">
@@ -135,29 +150,9 @@ const NewsModule = () => {
 
 // Module pour les devinettes
 const RiddlesModule = () => {
-  const riddles = [
-    { question: 'Qu’est-ce qui a un cou mais pas de tête ?', answer: 'Une bouteille.' },
-    { question: 'Plus je sèche, plus je grandis. Que suis-je ?', answer: 'Une serviette.' },
-    { question: 'Quel est l’animal qui a la queue devant ?', answer: 'Un serpent.' },
-  ];
-
-  const [currentRiddle, setCurrentRiddle] = useState(0);
-
   return (
     <div>
-      <p className="font-medium">{riddles[currentRiddle].question}</p>
-      <button
-        onClick={() => alert(riddles[currentRiddle].answer)}
-        className="text-blue-500 hover:underline mt-2"
-      >
-        Voir la réponse
-      </button>
-      <button
-        onClick={() => setCurrentRiddle((prev) => (prev === riddles.length - 1 ? 0 : prev + 1))}
-        className="mt-2 block text-gray-500 hover:text-gray-700"
-      >
-        Devinette suivante
-      </button>
+     <span>Chargement...</span>
     </div>
   );
 };

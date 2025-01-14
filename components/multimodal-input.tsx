@@ -256,7 +256,7 @@ function PureMultimodalInput({
             />
 
 
-      <div className="absolute bottom-0 p-2 w-fit">
+      <div className="absolute bottom-0 p-2 w-fit hidden">
         <AttachmentsButton fileInputRef={fileInputRef} isLoading={isLoading} />
       </div>
 
