@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Music, Film, Clock, Tv, FilmIcon } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Music, Film, Clock, Tv, FilmIcon, PhoneIcon } from 'lucide-react';
 import Parser from 'rss-parser';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { title } from 'process';
 
 const TrendingCards = () => {
   const [activeModule, setActiveModule] = useState(0);
@@ -27,6 +26,11 @@ const TrendingCards = () => {
       title: 'Actualités',
       icon: <Film className="size-4" />,
       content: <NewsModule />,
+    },
+    {
+      title: 'TikTok - Top France',
+      icon: <PhoneIcon className="size-4" />,
+
     },
     {
       title: 'Publicités',

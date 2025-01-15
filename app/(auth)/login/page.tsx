@@ -75,8 +75,8 @@ export default function Page() {
               className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white -mb-8"
               {...fadeInUp}
             >
-              <span className="text-black dark:text-teal-700">My Dear</span> <br />
-              Un Assistant <em>IA</em><br />
+              <span className="text-black dark:text-teal-700">My Dear <em>IA</em></span> <br />
+              Un Assistant<br />
               <span className="text-teal-700 dark:text-teal-400">Plus Proche de Vous</span><br />
 
             </motion.h1>
