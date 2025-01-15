@@ -93,22 +93,44 @@ const NewsModule = () => {
   useEffect(() => {
     const fetchNews = async () => {
       try {
-        const parser = new Parser();
-        const response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://news.google.com/rss?hl=fr'));
-        const data = await response.json();
+      // Check cache first
+      const cachedData = localStorage.getItem('newsCache');
+      const cacheTimestamp = localStorage.getItem('newsCacheTimestamp');
+      const CACHE_DURATION = 15 * 60 * 1000; // 15 minutes in milliseconds
 
-        const feed = await parser.parseString(data.contents);
-        setNews(feed.items.map(item => ({
-          title: item.title || '',
-          link: item.link || '',
-          description: item.contentSnippet || item.content || '',
-          pubDate: item.pubDate || '',
-          enclosure: item.enclosure
-        })));
-      } catch (error) {
-        console.error('Erreur lors de la récupération des actualités :', error);
-      } finally {
+      // If we have valid cached data, use it
+      if (cachedData && cacheTimestamp) {
+        const isStillValid = Date.now() - parseInt(cacheTimestamp) < CACHE_DURATION;
+        if (isStillValid) {
+        setNews(JSON.parse(cachedData));
         setIsLoading(false);
+        return;
+        }
+      }
+
+      // If no cache or expired, fetch new data
+      const parser = new Parser();
+      const response = await fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://news.google.com/rss?hl=fr'));
+      const data = await response.json();
+
+      const feed = await parser.parseString(data.contents);
+      const newsData = feed.items.map(item => ({
+        title: item.title || '',
+        link: item.link || '',
+        description: item.contentSnippet || item.content || '',
+        pubDate: item.pubDate || '',
+        enclosure: item.enclosure
+      }));
+
+      // Update cache
+      localStorage.setItem('newsCache', JSON.stringify(newsData));
+      localStorage.setItem('newsCacheTimestamp', Date.now().toString());
+
+      setNews(newsData);
+      } catch (error) {
+      console.error('Erreur lors de la récupération des actualités :', error);
+      } finally {
+      setIsLoading(false);
       }
     };
 

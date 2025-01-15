@@ -69,32 +69,33 @@ export function Chat({
           isReadonly={isReadonly}
         />
 
-        {messages.length === 0 && <TrendingCards />}
-
         {messages.length === 0 && (
           <div className='flex flex-col items-center justify-center mb-4'>
-            <span className='mt-4 mx-4 text-sm text-muted-foreground text-center'>
-              Bonjour, je suis
-              <p className="text-base font-bold tracking-wide text-gray-800 dark:text-zinc-200" style={{ fontFamily: "'Jersey 15'" }}>
-                My Dear <span className="font-bold bg-[#b4d7d9] bg-clip-text text-transparent">IA</span>
-              </p>
-              ton assistant personnel
-              <br />Comment puis-je t&apos;aider aujourd&apos;hui ?
-            </span>
+        <span className='mt-4 mx-4 text-sm text-muted-foreground text-center'>
+          Bonjour, je suis
+          <p className="text-base font-bold tracking-wide text-gray-800 dark:text-zinc-200" style={{ fontFamily: "'Jersey 15'" }}>
+            My Dear <span className="font-bold bg-[#b4d7d9] bg-clip-text text-transparent">IA</span>
+          </p>
+          ton assistant personnel
+          <br /><br />Comment puis-je t&apos;aider aujourd&apos;hui ?
+        </span>
           </div>
         )}
 
-
-        <Messages
-          chatId={id}
-          isLoading={isLoading}
-          votes={votes}
-          messages={messages}
-          setMessages={setMessages}
-          reload={reload}
-          isReadonly={isReadonly}
-          isBlockVisible={isBlockVisible}
-        />
+        {messages.length === 0 && <TrendingCards />}
+        <br />
+        {messages.length > 0 && (
+          <Messages
+        chatId={id}
+        isLoading={isLoading}
+        votes={votes}
+        messages={messages}
+        setMessages={setMessages}
+        reload={reload}
+        isReadonly={isReadonly}
+        isBlockVisible={isBlockVisible}
+          />
+        )}
 
         <form className="flex mx-auto px-4 bg-background pb-4 md:pb-6 gap-2 w-full md:max-w-3xl">
           {!isReadonly && (
