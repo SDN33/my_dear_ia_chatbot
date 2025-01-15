@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { ChevronLeft, ChevronRight, Music, Film, Clock, Tv, FilmIcon, PhoneIcon } from 'lucide-react';
-import Parser from 'rss-parser';
-import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+
+import { ChevronLeft, ChevronRight, Music, Film, Clock, Tv, FilmIcon, Smartphone } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+
+import Parser from 'rss-parser';
 
 const TrendingCards = () => {
   const [activeModule, setActiveModule] = useState(0);
@@ -29,7 +32,7 @@ const TrendingCards = () => {
     },
     {
       title: 'TikTok - Top France',
-      icon: <PhoneIcon className="size-4" />,
+      icon: <Smartphone className="size-4" />,
 
     },
     {
@@ -160,12 +163,12 @@ const fetchTopMovies = async () => {
             <p className="text-sm font-medium text-center line-clamp-2" title={movie.title}>
               {movie.title}
             </p>
-            <p className="text-xs text-gray-500">{movie.year}</p>
+            <p>{movie.year}</p>
             <a
               href={movie.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-blue-500 hover:underline"
+              className="text-xs text-teal-500 hover:underline"
             >
               Voir sur IMDb
             </a>
@@ -278,6 +281,18 @@ const NewsModule = () => {
   );
 };
 
+
+// Module pour les vidéos TikTok
+const TikTokModule = () => {
+  return (
+    <div className="h-full flex items-center justify-center">
+      <p className="text-gray-500">Chargement...</p>
+    </div>
+  );
+}
+
+
+// Module pour les publicités
 const RiddlesModule = () => {
   return (
     <div className="h-full flex items-center justify-center">

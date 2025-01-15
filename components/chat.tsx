@@ -73,18 +73,8 @@ export function Chat({
           selectedVisibilityType={selectedVisibilityType}
           isReadonly={isReadonly}
         />
-
-        {messages.length === 0 && (
-          <div className="flex flex-col items-center justify-center my-2 px-4">
-            <span className="text-sm text-muted-foreground text-center">
-              <p className={`text-base font-bold text-gray-800 dark:text-zinc-200 ${isMobile ? 'text-lg' : ''}`}
-                 style={{ fontFamily: "'Jersey 15'" }}>
-                My Dear <span className="font-bold bg-teal-700 bg-clip-text text-transparent">IA</span>
-              </p>
-            </span>
-          </div>
-        )}
-
+        <br />
+        
         {messages.length === 0 && (
           <div className={`${isMobile ? 'px-4' : ''}`}>
             <TrendingCards />

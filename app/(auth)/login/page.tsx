@@ -66,11 +66,11 @@ export default function Page() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ">
 
           {/* Left Column - Hero Section */}
-          <motion.div
+            <motion.div
             className="space-y-8"
             initial="initial"
             animate="animate"
-          >
+            >
             <motion.h1
               className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white -mb-8"
               {...fadeInUp}
@@ -78,17 +78,35 @@ export default function Page() {
               <span className="text-black dark:text-teal-700">My Dear <em>IA</em></span> <br />
               Un Assistant<br />
               <span className="text-teal-700 dark:text-teal-400">Plus Proche de Vous</span><br />
-
             </motion.h1>
 
             <motion.img
               src="/images/avatar.png"
               alt="Assistant IA"
-              className="w-50 h-auto"
+              className="w-50 h-auto neon-effect"
               {...fadeInUp}
               transition={{ delay: 0.2 }}
             />
-          </motion.div>
+            </motion.div>
+
+            <style jsx>{`
+            .neon-effect {
+              position: relative;
+              z-index: 1;
+            }
+            .neon-effect::before {
+              content: '';
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              width: 100%;
+              height: 100%;
+              background: radial-gradient(circle, rgba(255, 20, 147, 0.6), rgba(0, 128, 128, 0.3));
+              transform: translate(-50%, -50%);
+              z-index: -1;
+              filter: blur(20px);
+            }
+            `}</style>
 
           {/* Right Column - Auth Form */}
           <motion.div
@@ -128,7 +146,7 @@ export default function Page() {
           </motion.div>
 
           <motion.p
-              className="text-lg text-gray-600 dark:text-gray-300"
+              className="text-lg text-gray-600 dark:text-gray-300 text-bold"
               {...fadeInUp}
               transition={{ delay: 0.2 }}
             >
@@ -146,7 +164,7 @@ export default function Page() {
                   key={index}
                   className="p-4 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700"
                 >
-                  <div className="text-teal-700 dark:text-teal-400 mb-2">
+                  <div className=" dark:text-white mb-2">
                     {feature.icon}
                   </div>
                   <h3 className="font-semibold mb-1 dark:text-white">
@@ -158,6 +176,15 @@ export default function Page() {
                 </div>
               ))}
             </motion.div>
+
+            <footer className="text-center text-gray-500 dark:text-gray-400 mt-8">
+                <p>
+                &copy; {new Date().getFullYear()} My Dear IA - Une création de <a href="https://stillinov.com" className='underline'>Still-inov Agency</a>. Tous droits réservés.
+                </p>
+                <p>
+                <a href="/legal" className='underline'>Mentions Légales</a> - <a href="/privacy" className='underline'>Politique de Confidentialité</a> - <a href="/cookies" className='underline'>Cookies</a>
+                </p>
+            </footer>
 
         </div>
       </div>

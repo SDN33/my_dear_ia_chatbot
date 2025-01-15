@@ -37,7 +37,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
             >
                 <span className="text-lg font-semibold px-2 hover:bg-muted rounded-md cursor-pointer flex items-center gap-2">
                 <h1 className="text-xl font-bold tracking-wide text-gray-800 dark:text-zinc-200" style={{ fontFamily: "'Jersey 15'" }}>
-                  My Dear <span className="font-bold bg-teal-700 bg-clip-text text-transparent">IA</span>
+                  My Dear <span className="font-bold bg-teal-500 bg-clip-text text-transparent">IA</span>
                 </h1>
                 <Image
                   src="/images/avatar.png"
