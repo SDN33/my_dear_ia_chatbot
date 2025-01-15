@@ -45,7 +45,7 @@ const TrendingCards = () => {
 
   return (
     <div className="w-full flex items-center justify-center">
-      <button onClick={handlePrev} className="p-2 hover:bg-gray-100 rounded-full" aria-label="Previous">
+      <button onClick={handlePrev} className="p-2 hover:scale-150 rounded-full" aria-label="Previous">
         <ChevronLeft className="size-6" />
       </button>
       <Card className="w-full max-w-2xl mx-4">
@@ -70,7 +70,7 @@ const TrendingCards = () => {
           </AnimatePresence>
         </CardContent>
       </Card>
-      <button onClick={handleNext} className="p-2 hover:bg-gray-100 rounded-full" aria-label="Next">
+      <button onClick={handleNext} className="p-2 hover:scale-150 rounded-full" aria-label="Next">
         <ChevronRight className="size-6" />
       </button>
     </div>

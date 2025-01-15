@@ -73,7 +73,7 @@ export function Chat({
           <div className='flex flex-col items-center justify-center mb-4'>
         <span className='mx-4 text-sm text-muted-foreground text-center'>
           <p className="text-base font-bold text-gray-800 dark:text-zinc-200" style={{ fontFamily: "'Jersey 15'" }}>
-            My Dear <span className="font-bold bg-teal-500 bg-clip-text text-transparent -mb-10">IA</span>
+            My Dear <span className="font-bold bg-teal-700 bg-clip-text text-transparent -mb-10">IA</span>
           </p>
             <span className='text-xs -mt-4'>ton assistant plus que jamais à ton service</span>
         </span>

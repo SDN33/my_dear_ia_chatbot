@@ -4,25 +4,44 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useActionState, useEffect, useState } from 'react';
 import { toast } from 'sonner';
-
 import { AuthForm } from '@/components/auth-form';
 import { SubmitButton } from '@/components/submit-button';
-import Header from '@/components/Header';
-
+import { ArrowRight, Brain, MessageSquare, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { login, type LoginActionState } from '../actions';
+
+const fadeInUp = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+  transition: { duration: 0.5 }
+};
+
+const features = [
+  {
+    icon: <Brain className="size-6" />,
+    title: "IA Personnalisée",
+    description: "Un assistant qui apprend et s'adapte à vos besoins"
+  },
+  {
+    icon: <MessageSquare className="size-6" />,
+    title: "Chat Intuitif",
+    description: "Conversations naturelles et fluides"
+  },
+  {
+    icon: <Sparkles className="size-6" />,
+    title: "Contenus Connecté",
+    description: "Accédez à des contenus connectés et dynamiques"
+  }
+];
 
 export default function Page() {
   const router = useRouter();
-
   const [email, setEmail] = useState('');
   const [isSuccessful, setIsSuccessful] = useState(false);
 
-  const [state, formAction] = useActionState<LoginActionState, FormData>(
-    login,
-    {
-      status: 'idle',
-    },
-  );
+  const [state, formAction] = useActionState<LoginActionState, FormData>(login, {
+    status: 'idle',
+  });
 
   useEffect(() => {
     if (state.status === 'failed') {
@@ -41,32 +60,105 @@ export default function Page() {
   };
 
   return (
-    <div className="flex h-dvh w-screen flex-col items-center bg-background">
-      <div className="w-full text-center py-4 border-b">
-        <Header />
-      </div>
+    <div className="min-h-dvh w-full bg-background">
 
-      <div className="flex-1 w-full flex items-start pt-12 md:pt-24 justify-center">
-        <div className="w-full max-w-md overflow-hidden rounded-2xl gap-12 flex flex-col mt-10">
-          <div className="flex flex-col items-center justify-center gap-2 px-4 text-center sm:px-16 -mb-6">
-            <h3 className="text-xl font-semibold dark:text-zinc-50">Connection à My Dear IA</h3>
-            <p className="text-sm text-gray-500 dark:text-zinc-400">
-              Utilisez votre email et mot de passe pour vous connecter.
-            </p>
-          </div>
-          <AuthForm action={handleSubmit} defaultEmail={email}>
-            <SubmitButton isSuccessful={isSuccessful}>Se Connecter</SubmitButton>
-            <p className="text-center text-sm text-gray-600 mt-4 dark:text-zinc-400">
-              {"Pas encore de compte? "}
-              <Link
-                href="/register"
-                className="font-semibold text-gray-800 hover:underline dark:text-zinc-200"
-              >
-                S&apos;inscrire
-              </Link>
-              {' gratuitement.'}
-            </p>
-          </AuthForm>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ">
+
+          {/* Left Column - Hero Section */}
+          <motion.div
+            className="space-y-8"
+            initial="initial"
+            animate="animate"
+          >
+            <motion.h1
+              className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white -mb-8"
+              {...fadeInUp}
+            >
+              <span className="text-black dark:text-teal-700">My Dear</span> <br />
+              Un Assistant <em>IA</em><br />
+              <span className="text-teal-700 dark:text-teal-400">Plus Proche de Vous</span><br />
+
+            </motion.h1>
+
+            <motion.img
+              src="/images/avatar.png"
+              alt="Assistant IA"
+              className="w-50 h-auto"
+              {...fadeInUp}
+              transition={{ delay: 0.2 }}
+            />
+          </motion.div>
+
+          {/* Right Column - Auth Form */}
+          <motion.div
+            className="lg:ml-auto w-full max-w-md"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.6 }}
+          >
+            <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
+              <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold mb-2 dark:text-white">
+                  Connectez-vous
+                </h2>
+                <p className="text-gray-600 dark:text-gray-300">
+                  Accédez à votre assistant personnel
+                </p>
+              </div>
+
+              <AuthForm action={handleSubmit} defaultEmail={email}>
+                <SubmitButton isSuccessful={isSuccessful}>
+                  Se Connecter <ArrowRight className="ml-2 size-4" />
+                </SubmitButton>
+
+                <div className="mt-6 text-center">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {"Pas encore de compte? "}
+                    <Link
+                      href="/register"
+                      className="font-semibold text-teal-700 hover:text-teal-500 dark:text-teal-400"
+                    >
+                      S&apos;inscrire gratuitement
+                    </Link>
+                  </p>
+                </div>
+              </AuthForm>
+            </div>
+          </motion.div>
+
+          <motion.p
+              className="text-lg text-gray-600 dark:text-gray-300"
+              {...fadeInUp}
+              transition={{ delay: 0.2 }}
+            >
+              Découvrez une nouvelle façon de travailler, se divertir avec un assistant IA qui comprend
+              vos besoins plus que jamais.
+            </motion.p>
+
+            <motion.div
+              className="grid grid-cols-1 md:grid-cols-3 gap-6"
+              {...fadeInUp}
+              transition={{ delay: 0.4 }}
+            >
+              {features.map((feature, index) => (
+                <div
+                  key={index}
+                  className="p-4 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700"
+                >
+                  <div className="text-teal-700 dark:text-teal-400 mb-2">
+                    {feature.icon}
+                  </div>
+                  <h3 className="font-semibold mb-1 dark:text-white">
+                    {feature.title}
+                  </h3>
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    {feature.description}
+                  </p>
+                </div>
+              ))}
+            </motion.div>
+
         </div>
       </div>
     </div>
