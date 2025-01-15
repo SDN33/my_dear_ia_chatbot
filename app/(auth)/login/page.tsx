@@ -26,9 +26,9 @@ export default function Page() {
 
   useEffect(() => {
     if (state.status === 'failed') {
-      toast.error('Invalid credentials!');
+      toast.error('Mauvais email ou mot de passe');
     } else if (state.status === 'invalid_data') {
-      toast.error('Failed validating your submission!');
+      toast.error('Échec de validation de votre soumission!');
     } else if (state.status === 'success') {
       setIsSuccessful(true);
       router.refresh();
