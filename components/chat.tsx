@@ -71,13 +71,11 @@ export function Chat({
 
         {messages.length === 0 && (
           <div className='flex flex-col items-center justify-center mb-4'>
-        <span className='mt-4 mx-4 text-sm text-muted-foreground text-center'>
-          Bonjour, je suis
-          <p className="text-base font-bold tracking-wide text-gray-800 dark:text-zinc-200" style={{ fontFamily: "'Jersey 15'" }}>
-            My Dear <span className="font-bold bg-[#b4d7d9] bg-clip-text text-transparent">IA</span>
+        <span className='mx-4 text-sm text-muted-foreground text-center'>
+          <p className="text-base font-bold text-gray-800 dark:text-zinc-200" style={{ fontFamily: "'Jersey 15'" }}>
+            My Dear <span className="font-bold bg-[#b4d7d9] bg-clip-text text-transparent -mb-10">IA</span>
           </p>
-          ton assistant personnel
-          <br /><br />Comment puis-je t&apos;aider aujourd&apos;hui ?
+            <span className='text-xs -mt-4'>ton assistant plus que jamais à ton service</span>
         </span>
           </div>
         )}
