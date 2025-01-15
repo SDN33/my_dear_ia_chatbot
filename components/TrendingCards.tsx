@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight, Music, Film, Clock, Tv, FilmIcon } from 'luc
 import Parser from 'rss-parser';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
+import { title } from 'process';
 
 const TrendingCards = () => {
   const [activeModule, setActiveModule] = useState(0);
@@ -98,29 +99,46 @@ const [movies, setMovies] = useState<Movie[]>([]);
 
 const fetchTopMovies = async () => {
   const OMDB_API_KEY = process.env.NEXT_PUBLIC_OMDB_API_KEY;
-  const topMovieIds = ['tt0111161', 'tt0068646', 'tt0071562', 'tt0468569']; // Top rated movies IMDb IDs
 
-  const moviePromises = topMovieIds.map(async (id) => {
-    const response = await fetch(
-      `http://www.omdbapi.com/?i=${id}&apikey=${OMDB_API_KEY}`
-    );
-    const movie = await response.json();
-    return {
-      title: movie.Title,
-      year: movie.Year,
-      poster: movie.Poster,
-      link: `https://www.imdb.com/title/${id}`
-    };
-  });
+  const topMovieTitles = [
+    { title: 'The Brutalist' },
+    { title: 'The Substance' },
+    { title: 'Wicked' },
+    { title: 'Emilia Pérez' },
+    { title: 'Babygirl' },
+    { title: 'Anora' },
+    { title: 'Companion' },
+    { title: 'Landman' },
+    { title: 'Squid Game' },
+    { title: 'Fateh' },
+
+
+  ]
+
+  const moviePromises = topMovieTitles
+    .sort(() => 0.5 - Math.random())
+    .slice(0, 4)
+    .map(async ({ title }) => {
+      const response = await fetch(
+        `http://www.omdbapi.com/?t=${title}&apikey=${OMDB_API_KEY}`
+      );
+      const movie = await response.json();
+      return {
+        title: movie.Title,
+        year: movie.Year,
+        poster: movie.Poster,
+        link: `https://www.imdb.com/title/${movie.imdbID}`
+      };
+    });
 
   const movies = await Promise.all(moviePromises);
   setMovies(movies);
   setIsLoading(false);
-};
+  };
 
-useEffect(() => {
-  fetchTopMovies();
-}, []);
+  useEffect(() => {
+    fetchTopMovies();
+  }, []);
 
 
   if (isLoading) {
