@@ -13,17 +13,8 @@ const TrendingCards = () => {
       title: 'Top Musiques',
       icon: <Music className="size-4" />,
       content: (
-        <div className="h-full flex items-center justify-center mt-16">
-          <iframe
-            style={{ borderRadius: '12px' }}
-            src="https://open.spotify.com/embed/playlist/37i9dQZF1DWVuV87wUBNwc?utm_source=generator"
-            width="100%"
-            height="300"
-            frameBorder="0"
-            allowFullScreen
-            allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy"
-          ></iframe>
+        <div className="h-full flex items-center justify-center mt-16 dark:bg-black">
+          <iframe className='item-center -mt-40' style={{ borderRadius: '12px' }} src="https://open.spotify.com/embed/playlist/37i9dQZF1DWVuV87wUBNwc?utm_source=generator" width="100%" height="152" frameBorder="0" allowFullScreen allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
       ),
     },
@@ -64,7 +55,7 @@ const TrendingCards = () => {
             {modules[activeModule].title}
           </CardTitle>
         </CardHeader>
-        <CardContent className="h-[260px] overflow-hidden">
+        <CardContent className="h-[260px] overflow-hidden dark:bg-black">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeModule}
@@ -90,6 +81,7 @@ const BestRatedMovies = () => {
   interface Movie {
     title: string;
     poster: string;
+    year: string;
     link: string;
   }
 
@@ -107,10 +99,8 @@ const fetchTopMovies = async () => {
     { title: 'Emilia Pérez' },
     { title: 'Babygirl' },
     { title: 'Anora' },
-    { title: 'Companion' },
     { title: 'Landman' },
     { title: 'Squid Game' },
-    { title: 'Fateh' },
 
 
   ]
@@ -152,7 +142,7 @@ const fetchTopMovies = async () => {
   return (
     <div className="h-full grid grid-cols-2 md:grid-cols-4 gap-4">
       {movies.map((movie, index) => (
-        <div key={index} className="flex flex-col justify-between p-2 bg-gray-50 rounded-lg">
+        <div key={index} className="flex flex-col justify-between p-2 bg-gray-50 dark:bg-black rounded-lg">
           <div className="relative w-full h-40 mb-2">
             <Image
               src={movie.poster || '/api/placeholder/160/200'}
@@ -166,6 +156,7 @@ const fetchTopMovies = async () => {
             <p className="text-sm font-medium text-center line-clamp-2" title={movie.title}>
               {movie.title}
             </p>
+            <p className="text-xs text-gray-500">{movie.year}</p>
             <a
               href={movie.link}
               target="_blank"
@@ -262,7 +253,7 @@ const NewsModule = () => {
   return (
     <div className="h-full grid grid-cols-1 md:grid-cols-2 gap-4 ">
       {news.slice(0, 4).map((item, index) => (
-        <div key={index} className="flex flex-col justify-between p-4 bg-gray-50 rounded-lg">
+        <div key={index} className="flex flex-col justify-between p-4 bg-gray-50 dark:bg-black rounded-lg">
           <a
             href={item.link}
             target="_blank"
