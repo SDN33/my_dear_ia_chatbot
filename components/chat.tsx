@@ -2,13 +2,11 @@
 
 import type { Attachment, Message } from 'ai';
 import { useChat } from 'ai/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
-
 import { ChatHeader } from '@/components/chat-header';
 import type { Vote } from '@/lib/db/schema';
 import { fetcher } from '@/lib/utils';
-
 import { Block } from './block';
 import { MultimodalInput } from './multimodal-input';
 import { Messages } from './messages';
@@ -30,6 +28,17 @@ export function Chat({
   isReadonly: boolean;
 }) {
   const { mutate } = useSWRConfig();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const {
     messages,
@@ -51,11 +60,7 @@ export function Chat({
     },
   });
 
-  const { data: votes } = useSWR<Array<Vote>>(
-    `/api/vote?chatId=${id}`,
-    fetcher,
-  );
-
+  const { data: votes } = useSWR<Array<Vote>>(`/api/vote?chatId=${id}`, fetcher);
   const [attachments, setAttachments] = useState<Array<Attachment>>([]);
   const isBlockVisible = useBlockSelector((state) => state.isVisible);
 
@@ -70,46 +75,55 @@ export function Chat({
         />
 
         {messages.length === 0 && (
-          <div className='flex flex-col items-center justify-center mb-4'>
-        <span className='mx-4 text-sm text-muted-foreground text-center'>
-          <p className="text-base font-bold text-gray-800 dark:text-zinc-200" style={{ fontFamily: "'Jersey 15'" }}>
-            My Dear <span className="font-bold bg-teal-700 bg-clip-text text-transparent -mb-10">IA</span>
-          </p>
-            <span className='text-xs -mt-4'>ton assistant plus que jamais à ton service</span>
-        </span>
+          <div className="flex flex-col items-center justify-center my-2 px-4">
+            <span className="text-sm text-muted-foreground text-center">
+              <p className={`text-base font-bold text-gray-800 dark:text-zinc-200 ${isMobile ? 'text-lg' : ''}`}
+                 style={{ fontFamily: "'Jersey 15'" }}>
+                My Dear <span className="font-bold bg-teal-700 bg-clip-text text-transparent">IA</span>
+              </p>
+            </span>
           </div>
         )}
 
-        {messages.length === 0 && <TrendingCards />}
-        <br />
-        {messages.length > 0 && (
-          <Messages
-        chatId={id}
-        isLoading={isLoading}
-        votes={votes}
-        messages={messages}
-        setMessages={setMessages}
-        reload={reload}
-        isReadonly={isReadonly}
-        isBlockVisible={isBlockVisible}
-          />
+        {messages.length === 0 && (
+          <div className={`${isMobile ? 'px-4' : ''}`}>
+            <TrendingCards />
+          </div>
         )}
 
-        <form className="flex mx-auto px-4 bg-background pb-4 md:pb-6 gap-2 w-full md:max-w-3xl">
+        <br />
+
+        {messages.length > 0 && (
+          <div className={`flex-1 overflow-y-auto ${isMobile ? 'px-2' : ''}`}>
+            <Messages
+              chatId={id}
+              isLoading={isLoading}
+              votes={votes}
+              messages={messages}
+              setMessages={setMessages}
+              reload={reload}
+              isReadonly={isReadonly}
+              isBlockVisible={isBlockVisible}
+            />
+          </div>
+        )}
+
+        <form className={`flex mx-auto px-4 bg-background pb-4 md:pb-6 gap-2 w-full
+          ${isMobile ? 'max-w-full' : 'md:max-w-3xl'}`}>
           {!isReadonly && (
-        <MultimodalInput
-          chatId={id}
-          input={input}
-          setInput={setInput}
-          handleSubmit={handleSubmit}
-          isLoading={isLoading}
-          stop={stop}
-          attachments={attachments}
-          setAttachments={setAttachments}
-          messages={messages}
-          setMessages={setMessages}
-          append={append}
-        />
+            <MultimodalInput
+              chatId={id}
+              input={input}
+              setInput={setInput}
+              handleSubmit={handleSubmit}
+              isLoading={isLoading}
+              stop={stop}
+              attachments={attachments}
+              setAttachments={setAttachments}
+              messages={messages}
+              setMessages={setMessages}
+              append={append}
+            />
           )}
         </form>
       </div>

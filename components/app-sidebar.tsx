@@ -67,8 +67,8 @@ export function AppSidebar({ user }: { user: User | undefined }) {
             </Tooltip>
           </div>
         </SidebarMenu>
-        <span className="block text-xs text-gray-500 dark:text-zinc-400 -mt-2 ml-2 mb-4">
-          Votre compagnon IA personnel
+        <span className="block text-xs text-gray-500 dark:text-zinc-400 -mt-4 ml-2 mb-4">
+          Plus Proche de Vous
         </span>
       </SidebarHeader>
       <SidebarContent>
