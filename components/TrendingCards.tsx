@@ -88,6 +88,8 @@ const NewsModule = () => {
     enclosure?: { url: string };
   }>>([]);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     const fetchNews = async () => {
       try {
@@ -105,6 +107,8 @@ const NewsModule = () => {
         })));
       } catch (error) {
         console.error('Erreur lors de la récupération des actualités :', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
