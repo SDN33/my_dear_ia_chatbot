@@ -9,7 +9,6 @@ import { AuthForm } from '@/components/auth-form';
 import { SubmitButton } from '@/components/submit-button';
 
 import { register, type RegisterActionState } from '../actions';
-import Header from '@/components/Header';
 
 export default function Page() {
   const router = useRouter();
@@ -45,9 +44,6 @@ export default function Page() {
 
   return (
     <div className="flex h-dvh w-screen flex-col items-center bg-background">
-      <div className="w-full text-center py-4 border-b">
-        <Header />
-      </div>
 
       <div className="flex-1 w-full flex items-start pt-12 md:pt-24 justify-center">
 
