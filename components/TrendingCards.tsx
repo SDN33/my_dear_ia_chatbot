@@ -56,7 +56,7 @@ const TrendingCards = () => {
       <button onClick={handlePrev} className="p-2 hover:scale-150 rounded-full" aria-label="Previous">
         <ChevronLeft className="size-6" />
       </button>
-      <Card className="w-full max-w-2xl mx-4">
+      <Card className="w-full max-w-2xl mx-4 shadow-md">
         <CardHeader className="flex justify-between pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
             {modules[activeModule].icon}
