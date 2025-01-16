@@ -151,7 +151,7 @@ export default function Page() {
             <br />
                 <button
                 type="button"
-                className="w-full cursor-pointer text-white mt-14 pb-3 pt-2 px-4 rounded-lg flex items-center justify-center space-x-2 hover:bg-teal-700/50 transition duration-300"
+                className="w-full cursor-pointer text-white mt-14 pb-3  px-4 rounded-lg flex items-center justify-center space-x-2"
                 onClick={() => {
                   window.location.href = "https://buy.stripe.com/9AQdU74ZCeMm4Ks28a"
                 }}
