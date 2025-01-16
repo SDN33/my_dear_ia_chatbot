@@ -150,22 +150,31 @@ export default function Page() {
             </div>
             <br />
                 <button
-                type="button"
-                className="w-full cursor-pointer text-white mt-14 pb-3  px-4 rounded-lg flex items-center justify-center space-x-2"
-                onClick={() => {
-                  window.location.href = "https://buy.stripe.com/9AQdU74ZCeMm4Ks28a"
-                }}
+                  type="button"
+                  className="w-full cursor-pointer text-white mt-14 pb-3 px-4 rounded-lg flex items-center justify-center"
+                  onClick={() => {
+                    window.location.href = "https://buy.stripe.com/9AQdU74ZCeMm4Ks28a";
+                  }}
                 >
-                <span className='text-black dark:text-white'>
-                  Faire un don
-                  <br /><span className='text-xs'>50% reversé à WWF France <br />pour lutter contre le réchauffement climatique</span>
-                </span>
-                <Image src="/images/wwf.svg" alt="WWF Logo" width={24} height={24} className="size-10 rounded-xl z-20" />
+                  <span className="text-black dark:text-white">
+                    <strong>Faire un don</strong>
+                    <br />
+                    <span className="text-xs">
+                      50% reversé à <strong>WWF France </strong><br />Pour lutter contre le réchauffement climatique
+                    </span>
+                  </span>
+                  <Image
+                    src="/images/wwf.svg"
+                    alt="WWF Logo"
+                    width={24}
+                    height={24}
+                    className="size-10 rounded-xl z-20 ml-4"
+                  />
                 </button>
           </motion.div>
 
           <motion.p
-              className="text-lg dark:text-gray-300 text-bold text-center"
+              className="text-lg dark:text-teal-500 text-bold text-center"
               {...fadeInUp}
               transition={{ delay: 0.2 }}
             >
