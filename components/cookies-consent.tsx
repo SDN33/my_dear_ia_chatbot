@@ -47,7 +47,7 @@ const CookieConsent = ({ onAccept, onReject, onCustomize }: CookieConsentProps) 
             exit={{ scale: 0.95 }}
             className="bg-black rounded-xl p-6 max-w-lg w-full mx-auto shadow-xl"
           >
-            <h2 className="text-xl font-semibold mb-4 text-white">Cookie settings</h2>
+            <h2 className="text-xl font-semibold mb-4 text-white">Gestion des cookies</h2>
 
             <p className="text-gray-300 text-sm mb-6">
               Nous utilisons des cookies pour fournir et améliorer nos services, analyser l&apos;utilisation du site et, si vous acceptez, personnaliser votre expérience et vous proposer des services adaptés. Vous pouvez lire notre politique de cookies{' '}

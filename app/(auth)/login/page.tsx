@@ -2,11 +2,16 @@
 
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
+
 import { useActionState, useEffect, useState } from 'react';
 import { toast } from 'sonner';
+
 import { AuthForm } from '@/components/auth-form';
 import { SubmitButton } from '@/components/submit-button';
-import { ArrowRight, Brain, MessageSquare, Sparkles } from 'lucide-react';
+
+import { ArrowRight, Brain, MessageSquare, Sparkles, HandCoins } from 'lucide-react';
+
 import { motion } from 'framer-motion';
 import { login, type LoginActionState } from '../actions';
 
@@ -143,6 +148,20 @@ export default function Page() {
                 </div>
               </AuthForm>
             </div>
+            <br />
+                <button
+                type="button"
+                className="w-full cursor-pointer text-white mt-14 pb-3 pt-2 px-4 rounded-lg flex items-center justify-center space-x-2 hover:bg-teal-700/50 transition duration-300"
+                onClick={() => {
+                  window.location.href = "https://buy.stripe.com/9AQdU74ZCeMm4Ks28a"
+                }}
+                >
+                <span className='text-black dark:text-white'>
+                  Faire un don
+                  <br /><span className='text-xs'>50% reversé à WWF France <br />pour lutter contre le réchauffement climatique</span>
+                </span>
+                <Image src="/images/wwf.svg" alt="WWF Logo" width={24} height={24} className="size-10 rounded-xl z-20" />
+                </button>
           </motion.div>
 
           <motion.p

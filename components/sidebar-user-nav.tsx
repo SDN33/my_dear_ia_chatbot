@@ -1,9 +1,13 @@
 'use client';
-import { ChevronUp } from 'lucide-react';
+
 import Image from 'next/image';
 import type { User } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import { useTheme } from 'next-themes';
+
+import { ChevronUp, HandCoins, Moon, Sun } from 'lucide-react';
+
+
 
 import {
   DropdownMenu,
@@ -46,7 +50,22 @@ export function SidebarUserNav({ user }: { user: User }) {
               className="cursor-pointer"
               onSelect={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
             >
-              {`Passer en mode ${theme === 'light' ? 'dark' : 'light'}`}
+                {theme === 'light' ? (
+                <>Passer en mode nuit <Moon /></>
+                ) : (
+                <>Passer en mode clair <Sun /></>
+                )}
+            </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <button
+                type="button"
+                className="w-full cursor-pointer"
+                onClick={() => {
+                    window.location.href = "https://buy.stripe.com/9AQdU74ZCeMm4Ks28a"
+                }}
+              >
+                Faire un don <HandCoins />
+              </button>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
