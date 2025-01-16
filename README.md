@@ -138,6 +138,8 @@
     </tbody>
   </table>
 
+ <br />
+ <br />
   <h1>Project: AI Chatbot</h1>
 
   <h2>Description</h2>
