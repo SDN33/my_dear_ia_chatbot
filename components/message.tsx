@@ -95,7 +95,7 @@ const PurePreviewMessage = ({
                         <PencilEditIcon />
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent>Edit message</TooltipContent>
+                    <TooltipContent>Modifier le message</TooltipContent>
                   </Tooltip>
                 )}
 
@@ -245,9 +245,23 @@ export const ThinkingMessage = () => {
           <SparklesIcon size={14} />
         </div>
 
-        <div className="flex flex-col gap-2 w-full">
-          <div className="flex flex-col gap-4 text-muted-foreground">
-            Je réfléchis my dear...
+        <div className="flex flex-col items-center justify-center w-full p-8">
+          <div className="flex items-center gap-4">
+            <div className="flex space-x-2">
+              <div className="size-3 rounded-full bg-primary animate-bounce [animation-delay:-0.3s]" />
+              <div className="size-3 rounded-full bg-primary animate-bounce [animation-delay:-0.15s]" />
+              <div className="size-3 rounded-full bg-primary animate-bounce" />
+            </div>
+            <span className="text-muted-foreground animate-pulse">
+              Je réfléchis my dear ...
+            </span>
+          </div>
+
+          <div className="mt-4 w-48 h-1 bg-muted rounded-full overflow-hidden">
+            <div className="h-full bg-primary animate-[loading_1.5s_ease-in-out_infinite]"
+                 style={{
+                   background: 'linear-gradient(90deg, transparent, currentColor, transparent)',
+                 }} />
           </div>
         </div>
       </div>
