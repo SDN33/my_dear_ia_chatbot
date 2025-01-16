@@ -1,6 +1,6 @@
 <body>
 
-  <img src="[https://via.placeholder.com/150](https://www.mydear.xyz/images/avatar.png](https://www.mydear.xyz/images/avatar.png)" alt="Avatar" />
+  <img src="https://www.mydear.xyz/images/avatar.png" alt="Avatar" />
 
   <h1>Projet : Chatbot IA</h1>
 
