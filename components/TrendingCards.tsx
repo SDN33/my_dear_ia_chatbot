@@ -5,6 +5,10 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 import { ChevronLeft, ChevronRight, Music, Film, Clock, Tv, FilmIcon, Smartphone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 
 import Parser from 'rss-parser';
 
@@ -44,7 +48,7 @@ const TrendingCards = () => {
     {
       title: 'TikTok - Top France',
       icon: <Smartphone className="size-4" />,
-      content: <TikTokModule />,
+      content: <YoutubeModule />,
     },
     {
       title: 'Publicités',
@@ -128,7 +132,7 @@ const fetchTopMovies = async () => {
     .slice(0, 4)
     .map(async ({ title }) => {
       const response = await fetch(
-        `http://www.omdbapi.com/?t=${title}&apikey=${OMDB_API_KEY}`
+        `https://www.omdbapi.com/?t=${title}&apikey=${OMDB_API_KEY}`
       );
       const movie = await response.json();
       return {
@@ -294,7 +298,7 @@ const NewsModule = () => {
 
 
 // Module pour les vidéos TikTok
-const TikTokModule = () => {
+const YoutubeModule = () => {
   return (
     <div className="h-full flex items-center justify-center">
       <p className="text-gray-500">Chargement...</p>
