@@ -29,7 +29,7 @@ export function AuthForm({
           name="email"
           className="bg-muted text-md md:text-sm"
           type="email"
-          placeholder="user@mydear.com"
+          placeholder="user@mydear.ai"
           autoComplete="email"
           required
           autoFocus
@@ -50,6 +50,7 @@ export function AuthForm({
           name="password"
           className="bg-muted text-md md:text-sm"
           type="password"
+          placeholder="********"
           required
         />
       </div>
