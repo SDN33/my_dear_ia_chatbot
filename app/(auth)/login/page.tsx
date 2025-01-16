@@ -210,7 +210,7 @@ export default function Page() {
                 &copy; {new Date().getFullYear()} My Dear IA - Une création de <a href="https://stillinov.com" className='underline'>Still-inov Agency</a>. Tous droits réservés.
                 </p>
                 <p>
-                <a href="/legal" className='underline'>Mentions Légales</a> - <a href="/privacy" className='underline'>Politique de Confidentialité</a> - <a href="/cookies" className='underline'>Cookies</a>
+                <a href="/contact" className='underline'>Contactez-nous !</a> - <a href="/legal" className='underline'>Mentions Légales</a> - <a href="/privacy" className='underline'>Politique de Confidentialité</a> - <a href="/cookies" className='underline'>Cookies</a>
                 </p>
             </footer>
 
