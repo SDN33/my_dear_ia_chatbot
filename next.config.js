@@ -2,6 +2,7 @@
 module.exports = {
   experimental: {
     ppr: true,
+    analyticsId: null, // Désactive complètement l'icône de Vercel Analytics
   },
   images: {
     remotePatterns: [

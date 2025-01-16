@@ -130,14 +130,14 @@ export default function Page() {
                   Se Connecter <ArrowRight className="ml-2 size-4" />
                 </SubmitButton>
 
-                <div className="mt-6 text-center">
+                <div className="mt-4 text-center">
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     {"Pas encore de compte? "}
                     <Link
                       href="/register"
                       className="font-semibold text-teal-700 hover:text-teal-500 dark:text-teal-400"
                     >
-                      S&apos;inscrire gratuitement
+                      <br />S&apos;inscrire gratuitement
                     </Link>
                   </p>
                 </div>

@@ -7,7 +7,6 @@ import CookiesConsent from '@/components/cookies-consent';
 import './globals.css';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://chat.vercel.ai'),
   title: 'My Dear IA | Un assistant Plus Proche de Vous',
   description: 'My Dear IA est un assistant personnel qui te permet de discuter avec une intelligence artificielle pour te divertir, t\'informer et t\'aider dans ton quotidien.',
   icons: {
