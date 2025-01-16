@@ -10,6 +10,7 @@ import Parser from 'rss-parser';
 
 const TrendingCards = () => {
   const [activeModule, setActiveModule] = useState(0);
+
   const modules = [
     {
       title: 'Top Musiques',
@@ -33,7 +34,7 @@ const TrendingCards = () => {
     {
       title: 'TikTok - Top France',
       icon: <Smartphone className="size-4" />,
-
+      content: <TikTokModule />,
     },
     {
       title: 'Publicités',
@@ -51,16 +52,16 @@ const TrendingCards = () => {
   };
 
   return (
-    <div className="w-full flex items-center justify-center">
+    <div className="w-full flex items-center justify-center p-4 bg-gradient-to-b from-teal-400 to-rose-200">
       <button onClick={handlePrev} className="p-2 hover:scale-150 rounded-full" aria-label="Previous">
         <ChevronLeft className="size-6" />
       </button>
       <Card className="w-full max-w-2xl mx-4">
         <CardHeader className="flex justify-between pb-2">
-          <CardTitle className="text-sm font-medium flex items-center gap-2">
+            <CardTitle className="text-sm font-medium flex items-center gap-2">
             {modules[activeModule].icon}
             {modules[activeModule].title}
-          </CardTitle>
+            </CardTitle>
         </CardHeader>
         <CardContent className="h-[260px] overflow-hidden dark:bg-black">
           <AnimatePresence mode="wait">
