@@ -1,8 +1,6 @@
 <body>
-
-  <img src="https://www.mydear.xyz/images/avatar.png" alt="Avatar" />
-
-  <h1>Projet : Chatbot IA</h1>
+  <img src="https://www.mydear.xyz/images/avatar.png" alt="Avatar" style="width:100px;height:auto;display:block;margin:auto;" />
+  <h1 style="text-align:center;">Projet : Chatbot IA</h1>
 
   <h2>Description</h2>
   <p>
@@ -10,8 +8,8 @@
     Développé à l'aide de technologies modernes comme <code>Next.js</code>, <code>React</code>, <code>Drizzle ORM</code> et <code>TailwindCSS</code>, ce projet intègre des fonctionnalités d'IA propulsées par <code>OpenAI</code> pour créer un chatbot réactif et convivial.
   </p>
   <p>
-    La plateforme inclut également des outils de gestion de base de données, un système d'authentification utilisateur et une intégration fluide avec des frameworks d'interface utilisateur modernes pour une apparence et une convivialité soignées.
-    Elle est optimisée pour les performances, l'évolutivité et la maintenabilité.
+    La plateforme inclut également des outils de gestion de base de données, un système d'authentification utilisateur, et une intégration fluide avec des frameworks d'interface utilisateur modernes pour une apparence et une convivialité soignées.
+    Elle est optimisée pour les performances, l'évolutivité, et la maintenabilité.
   </p>
 
   <h3>Détails du Projet</h3>
@@ -24,7 +22,7 @@
   </ul>
 
   <h2>Scripts</h2>
-  <table>
+  <table border="1" style="width:100%;border-collapse:collapse;text-align:left;">
     <thead>
       <tr>
         <th>Script</th>
@@ -64,7 +62,7 @@
   </table>
 
   <h2>Dépendances</h2>
-  <table>
+  <table border="1" style="width:100%;border-collapse:collapse;text-align:left;">
     <thead>
       <tr>
         <th>Package</th>
@@ -107,7 +105,7 @@
   </table>
 
   <h2>Dépendances de Développement</h2>
-  <table>
+  <table border="1" style="width:100%;border-collapse:collapse;text-align:left;">
     <thead>
       <tr>
         <th>Package</th>
