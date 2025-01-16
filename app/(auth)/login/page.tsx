@@ -174,12 +174,12 @@ export default function Page() {
           </motion.div>
 
           <motion.p
-              className="text-lg dark:text-teal-500 text-bold text-center"
+              className="text-lg text-teal-700 dark:text-teal-500 font-bold text-center"
               {...fadeInUp}
               transition={{ delay: 0.2 }}
             >
               Découvrez une nouvelle façon de travailler, se divertir avec un assistant IA qui comprend
-              vos besoins plus que jamais.
+              vos besoins plus que jamais
             </motion.p>
 
             <motion.div
@@ -190,7 +190,7 @@ export default function Page() {
               {features.map((feature, index) => (
                 <div
                   key={index}
-                  className="p-4 rounded-xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700"
+                  className="p-4 rounded-xl bg-white dark:bg-gray-800 shadow-lg border border-gray-100 dark:border-gray-700"
                 >
                   <div className=" dark:text-white mb-2">
                     {feature.icon}
