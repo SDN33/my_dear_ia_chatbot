@@ -27,7 +27,8 @@ function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
     { title: "J'ai besoin d'un Coach sportif virtuel 🏃‍♂️", label: "programme personnalisé", action: "Peux-tu me créer un programme d'entraînement adapté à mon niveau débutant ?" },
     { title: "Je veux apprendre à jouer d'un instrument 🎸", label: "cours en ligne", action: "Je veux apprendre à jouer de la guitare. Peux-tu me recommander un cours en ligne pour débutant ?" },
     { title: "Je veux faire un régime alimentaire 🥗", label: "conseils et astuces", action: "Je veux faire un régime alimentaire. Peux-tu me donner des conseils et astuces pour m'aider à bien démarrer ?" },
-    { title: "Je veux apprendre une nouvelle langue 🗣️", label: "méthode efficace", action: "Je veux apprendre une nouvelle langue. Peux-tu me recommander une méthode efficace pour démarrer ?" }
+    { title: "Je veux apprendre une nouvelle langue 🗣️", label: "méthode efficace", action: "Je veux apprendre une nouvelle langue. Peux-tu me recommander une méthode efficace pour démarrer ?" },
+    { title: "Je veux apprendre plus sur le Bitcoin 👩‍💻", label: "Le Bitcoin : Comment cela ça fonctione ?", action: "Peux tu me faire un cours documenté et illustré pour débutant sur le bitcoin et les cryptomonnais ?" },
   ], []);
 
   // State to handle hydration
