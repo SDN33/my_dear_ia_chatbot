@@ -73,7 +73,7 @@ const TrendingCards = () => {
       <button onClick={handlePrev} className="p-1 hover:scale-150 rounded-full" aria-label="Previous">
         <ChevronLeft className="size-6" />
       </button>
-      <Card className="w-full max-w-4xl mx-4 shadow-md">
+      <Card className="w-full max-w-full mx-2 shadow-md">
         <CardHeader className="flex justify-between pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
             {modules[activeModule].icon}
@@ -286,7 +286,7 @@ const NewsModule = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm font-medium hover:underline line-clamp-3"
-            
+
           >
             {item.title}
           </a>
