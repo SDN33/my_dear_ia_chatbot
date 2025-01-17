@@ -17,8 +17,8 @@ export const metadata: Metadata = {
       url: '/images/banner.png',
       alt: 'My Dear IA - Un assistant IA qui vous comprend',
     }],
-    description: 'My Dear IA est un assistant personnel qui te permet de discuter avec une intelligence artificielle pour te divertir, t\'informer et t\'aider dans ton quotidien.',
-    
+    description: 'My Dear IA est un assistant personnel connecté qui te permet de discuter avec une intelligence artificielle pour te divertir, t\'informer et t\'aider dans ton quotidien.',
+
   },
 };
 
