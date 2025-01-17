@@ -1,3 +1,6 @@
+import React, { useState } from 'react';
+import { validate } from 'email-validator'; // Import de la validation d'email
+import sanitizeHtml from 'sanitize-html'; // Import de sanitize-html
 import Form from 'next/form';
 
 import { Input } from './ui/input';
@@ -14,6 +17,36 @@ export function AuthForm({
   children: React.ReactNode;
   defaultEmail?: string;
 }) {
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [emailValue, setEmailValue] = useState<string>(defaultEmail);
+  const [passwordValue, setPasswordValue] = useState<string>('');
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const sanitizedEmail = sanitizeHtml(event.target.value, {
+      allowedTags: [],
+      allowedAttributes: {},
+    });
+
+    setEmailValue(sanitizedEmail);
+
+    if (!validate(sanitizedEmail)) {
+      if (sanitizedEmail !== '') {
+        setEmailError('Veuillez entrer une adresse email valide.');
+      }
+    } else {
+      setEmailError(null);
+    }
+  };
+
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const sanitizedPassword = sanitizeHtml(event.target.value, {
+      allowedTags: [],
+      allowedAttributes: {},
+    });
+
+    setPasswordValue(sanitizedPassword);
+  };
+
   return (
     <Form action={action} className="flex flex-col gap-4 px-4 sm:px-16">
       <div className="flex flex-col gap-2">
@@ -29,12 +62,14 @@ export function AuthForm({
           name="email"
           className="bg-muted text-md md:text-sm"
           type="email"
-          placeholder="user@mydear.ai"
+          placeholder="email@mydear.xyz"
           autoComplete="email"
           required
           autoFocus
-          defaultValue={defaultEmail}
+          value={emailValue} // Définit la valeur contrôlée
+          onChange={handleEmailChange} // Gestionnaire pour permettre les modifications
         />
+        {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
       </div>
 
       <div className="flex flex-col gap-2">
@@ -52,6 +87,8 @@ export function AuthForm({
           type="password"
           placeholder="********"
           required
+          value={passwordValue} // Définit la valeur contrôlée
+          onChange={handlePasswordChange} // Gestionnaire pour permettre les modifications
         />
       </div>
 
