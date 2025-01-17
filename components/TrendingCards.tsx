@@ -16,9 +16,9 @@ const TrendingCards = () => {
       title: 'Top Musiques',
       icon: <Music className="size-4" />,
       content: (
-        <div className="h-full flex items-center justify-center mt-4 md:mt-16 dark:bg-black">
+        <div className="h-full flex items-center justify-center mt-4 md:mt-8 dark:bg-black">
             <iframe
-            className='w-full h-[260px] md:h-[152px] md:-mt-20'
+            className='w-full h-[200px] md:h-[152px] md:-mt-20'
             style={{ borderRadius: '12px' }}
             src="https://open.spotify.com/embed/playlist/37i9dQZF1DWVuV87wUBNwc?utm_source=generator"
             width="auto"
