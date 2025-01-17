@@ -37,6 +37,7 @@ function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
 
   const [hydrated, setHydrated] = useState(false);
   const [randomizedActions, setRandomizedActions] = useState<any[]>([]);
+  const [expandedActions, setExpandedActions] = useState<any[]>([]);
   const [showMore, setShowMore] = useState(false);
 
   const handleActionClick = useCallback(async (action: string) => {
@@ -89,62 +90,55 @@ function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
           </motion.div>
         ))}
       </div>
-
       {isMobile && !showMore && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="w-full text-center"
+        <Button
+        onClick={() => {
+          setShowMore(true);
+          const moreActions = [...suggestedActions]
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 6);
+          setExpandedActions(moreActions);
+        }}
+        className="w-full text-center"
         >
-            {showMore ? (
-            <Button
-              variant="ghost"
-              onClick={() => setShowMore(false)}
-              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Voir moins de suggestions
-            </Button>
-            ) : (
-            <Button
-              variant="ghost"
-              onClick={() => setShowMore(true)}
-              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Voir plus de suggestions
-            </Button>
-            )}
-        </motion.div>
+          Voir plus de suggestions
+        </Button>
       )}
 
       {isMobile && showMore && (
-        <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          className="grid gap-2 w-full"
-        >
-          {suggestedActions.slice(3).map((suggestedAction, index) => (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.05 * index }}
-              key={`more-action-${suggestedAction.title}-${index}`}
-            >
-              <Button
-                variant="ghost"
-                onClick={() => handleActionClick(suggestedAction.action)}
-                className="text-left border rounded-xl px-4 py-3.5 text-sm flex flex-col w-full h-auto justify-start items-start gap-1 hover:bg-muted/80 transition-colors"
+        <>
+          <Button
+            variant="ghost"
+            onClick={() => setShowMore(false)}
+            className="w-full text-center bg-gray-100 text-gray-900 hover:bg-muted/70 transition-colors"
+          >
+            Voir moins de suggestions
+          </Button>
+          <div className="grid gap-2">
+            {expandedActions.map((suggestedAction, index) => (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.05 * index }}
+                key={`more-action-${suggestedAction.title}-${index}`}
               >
-                <span className="font-medium line-clamp-1">{suggestedAction.title}</span>
-                <span className="text-muted-foreground text-xs line-clamp-2">
-                  {suggestedAction.label}
-                </span>
-              </Button>
-            </motion.div>
-          ))}
-        </motion.div>
+                <Button
+                  variant="ghost"
+                  onClick={() => handleActionClick(suggestedAction.action)}
+                  className="text-left border rounded-xl px-4 py-3.5 text-sm flex flex-col w-full h-auto justify-start items-start gap-1 hover:bg-muted/80 transition-colors"
+                >
+                  <span className="font-medium line-clamp-1">{suggestedAction.title}</span>
+                  <span className="text-muted-foreground text-xs line-clamp-2">
+                    {suggestedAction.label}
+                  </span>
+                </Button>
+              </motion.div>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
 }
 
-export const SuggestedActions = memo(PureSuggestedActions, () => true);
+export const SuggestedActions = memo(PureSuggestedActions, () => true)

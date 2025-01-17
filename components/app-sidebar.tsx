@@ -39,13 +39,6 @@ export function AppSidebar({ user }: { user: User | undefined }) {
                 <h1 className="text-xl font-bold tracking-wide text-gray-800 dark:text-zinc-200" style={{ fontFamily: "'Jersey 15'" }}>
                   My Dear <span className="font-bold bg-teal-500 bg-clip-text text-transparent">IA</span>
                 </h1>
-                <Image
-                  src="/images/avatar.png"
-                  alt="My Dear IA"
-                  width={40}
-                  height={40}
-                  className="rounded-full"
-                />
                 </span>
             </Link>
             <Tooltip>

@@ -9,12 +9,10 @@ import { Button } from '@/components/ui/button';
 import { PlusIcon } from './icons';
 import { useSidebar } from './ui/sidebar';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
-import { VisibilityType, VisibilitySelector } from './visibility-selector';
+import { VisibilityType } from './visibility-selector';
 
 function PureChatHeader({
-  chatId,
   selectedModelId,
-  selectedVisibilityType,
   isReadonly,
 }: {
   chatId: string;
@@ -69,7 +67,7 @@ function PureChatHeader({
             </span>
         </div>
         {/* Selectors Container - Hidden on Mobile */}
-        <div className={`items-center gap-2`}>
+        <div className={`items-center gap-2 hidden`}>
           {!isReadonly && (
             <>
               <ModelSelector

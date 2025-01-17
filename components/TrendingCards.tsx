@@ -3,10 +3,11 @@ import Image from 'next/image';
 
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
-import { ChevronLeft, ChevronRight, Music, Film, Clock, Tv, FilmIcon, Smartphone, Link } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Film, Clock, Link, Rss } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import Parser from 'rss-parser';
+import SpotifyPlayer from './BestMusic';
 
 const TrendingCards = () => {
   const [activeModule, setActiveModule] = useState(0);
@@ -19,48 +20,44 @@ const TrendingCards = () => {
 
   const modules: Module[] = [
       {
-        title: 'Top Musiques',
-        icon: <Music className="size-4" />,
+        title: 'Spotify',
+        icon: (
+          <svg viewBox="0 0 24 24" className="size-4" fill="currentColor">
+            <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+          </svg>
+        ),
         content: (
-        <div>
-          <div className="hidden md:block h-full items-center justify-center -mt-4 md:mt-28 dark:bg-black">
-              <iframe
-              className='w-full h-[80px] md:h-[152px] md:-mt-20 bg-transparent dark:bg-black'
-              style={{ borderRadius: '12px' }}
-              src="https://open.spotify.com/embed/playlist/37i9dQZEVXbIPWwFssbupI?utm_source=generator"
-              width="auto"
-              height="auto"
-              frameBorder="0"
-              allowFullScreen
-              allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-              loading="lazy">
-              </iframe>
+          <div>
+            <div className=" h-full items-center justify-center -mt-4  dark:bg-black">
+              <SpotifyPlayer />
+            </div>
           </div>
-          <BestMusic />
-        </div>
-      ),
-
-    },
-    {
-      title: 'Films populaires',
-      icon: <FilmIcon className="size-4" />,
-      content: <BestRatedMovies />,
-    },
-    {
-      title: 'Actualités',
-      icon: <Film className="size-4" />,
-      content: <NewsModule />,
-    },
-    {
-      title: 'Youtube',
-      icon: <Smartphone className="size-4" />,
-      content: <YoutubeModule />,
-    },
-    {
-      title: 'Publicités',
-      icon: <Tv className="size-4" />,
-      content: <RiddlesModule />,
-    },
+        ),
+      },
+      {
+        title: 'Films populaires',
+        icon: <Film className="size-4" />,
+        content: <BestRatedMovies />,
+      },
+      {
+        title: 'Actualités',
+        icon: <Rss className="size-4" />,
+        content: <NewsModule />,
+      },
+      {
+        title: 'Youtube',
+        icon: (
+          <svg viewBox="0 0 24 24" className="size-4" fill="currentColor">
+            <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+          </svg>
+        ),
+        content: <YoutubeModule />,
+      },
+      {
+        title: 'Publicités',
+        icon: <Link className="size-4" />,
+        content: <RiddlesModule />,
+      },
   ];
 
   const handlePrev = () => {
@@ -76,7 +73,7 @@ const TrendingCards = () => {
       <button onClick={handlePrev} className="p-2 hover:scale-150 rounded-full" aria-label="Previous">
         <ChevronLeft className="size-6" />
       </button>
-      <Card className="w-full max-w-2xl mx-4 shadow-md">
+      <Card className="w-full max-w-4xl mx-4 shadow-md">
         <CardHeader className="flex justify-between pb-2">
             <CardTitle className="text-sm font-medium flex items-center gap-2">
             {modules[activeModule].icon}
@@ -111,47 +108,7 @@ interface Track {
   cover: string;
 }
 
-const topTracks: Track[] = [
-  {
-    title: "Nanani Nanana",
-    artist: "Gazo",
-    cover: "/path/to/cover1.jpg"
-  },
-  {
-    title: "DtMF",
-    artist: "Bad Bunny",
-    cover: "/path/to/cover2.jpg"
-  },
-  {
-    title: "Ciel",
-    artist: "Gims",
-    cover: "/path/to/cover3.jpg"
-  }
-];
 
-const BestMusic = () => {
-  return (
-    <div className="h-full overflow-y-auto md:hidden">
-      {topTracks.map((track, index) => (
-        <div key={index} className="flex items-center p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg mb-2">
-          <div className="relative size-12 mr-4">
-            <Image
-              src={track.cover}
-              alt={track.title}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-md"
-            />
-          </div>
-          <div>
-            <p className="font-medium">{track.title}</p>
-            <p className="text-sm text-gray-500">{track.artist}</p>
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-};
 
 const BestRatedMovies = () => {
   interface Movie {
@@ -188,11 +145,13 @@ const fetchTopMovies = async () => {
       const response = await fetch(
         `https://www.omdbapi.com/?t=${title}&apikey=${OMDB_API_KEY}`
       );
+      console.log(response);
       const movie = await response.json();
       return {
         title: movie.Title,
         year: movie.Year,
         poster: movie.Poster,
+
         link: `https://www.imdb.com/title/${movie.imdbID}`
       };
     });
