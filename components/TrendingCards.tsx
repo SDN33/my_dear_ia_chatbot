@@ -10,26 +10,36 @@ import Parser from 'rss-parser';
 
 const TrendingCards = () => {
   const [activeModule, setActiveModule] = useState(0);
+  interface Module {
+    title: string;
+    icon: React.ReactElement;
+    content: React.ReactElement;
+    className?: string;
+  }
 
-  const modules = [
-    {
-      title: 'Top Musiques',
-      icon: <Music className="size-4" />,
-      content: (
-        <div className="h-full flex items-center justify-center mt-4 md:mt-8 dark:bg-black">
-            <iframe
-            className='w-full h-[200px] md:h-[152px] md:-mt-20'
-            style={{ borderRadius: '12px' }}
-            src="https://open.spotify.com/embed/playlist/37i9dQZF1DWVuV87wUBNwc?utm_source=generator"
-            width="auto"
-            height="auto"
-            frameBorder="0"
-            allowFullScreen
-            allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-            loading="lazy">
-            </iframe>
+  const modules: Module[] = [
+      {
+        title: 'Top Musiques',
+        icon: <Music className="size-4" />,
+        content: (
+        <div>
+          <div className="hidden md:block h-full items-center justify-center -mt-4 md:mt-28 dark:bg-black">
+              <iframe
+              className='w-full h-[80px] md:h-[152px] md:-mt-20 bg-transparent dark:bg-black'
+              style={{ borderRadius: '12px' }}
+              src="https://open.spotify.com/embed/playlist/37i9dQZEVXbIPWwFssbupI?utm_source=generator"
+              width="auto"
+              height="auto"
+              frameBorder="0"
+              allowFullScreen
+              allow="clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy">
+              </iframe>
+          </div>
+          <BestMusic />
         </div>
       ),
+
     },
     {
       title: 'Films populaires',
@@ -42,7 +52,7 @@ const TrendingCards = () => {
       content: <NewsModule />,
     },
     {
-      title: 'TikTok - Top France',
+      title: 'Youtube',
       icon: <Smartphone className="size-4" />,
       content: <YoutubeModule />,
     },
@@ -73,7 +83,7 @@ const TrendingCards = () => {
             {modules[activeModule].title}
             </CardTitle>
         </CardHeader>
-        <CardContent className="h-[260px] overflow-hidden dark:bg-black">
+        <CardContent className="h-[260px] w-auto overflow-hidden dark:bg-transparent">
           <AnimatePresence mode="wait">
             <motion.div
               key={activeModule}
@@ -81,7 +91,7 @@ const TrendingCards = () => {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.3 }}
-              className="h-full"
+              className={`h-full ${modules[activeModule].className || ''}`}
             >
               {modules[activeModule].content}
             </motion.div>
@@ -91,6 +101,54 @@ const TrendingCards = () => {
       <button onClick={handleNext} className="p-2 hover:scale-150 rounded-full" aria-label="Next">
         <ChevronRight className="size-6" />
       </button>
+    </div>
+  );
+};
+
+interface Track {
+  title: string;
+  artist: string;
+  cover: string;
+}
+
+const topTracks: Track[] = [
+  {
+    title: "Nanani Nanana",
+    artist: "Gazo",
+    cover: "/path/to/cover1.jpg"
+  },
+  {
+    title: "DtMF",
+    artist: "Bad Bunny",
+    cover: "/path/to/cover2.jpg"
+  },
+  {
+    title: "Ciel",
+    artist: "Gims",
+    cover: "/path/to/cover3.jpg"
+  }
+];
+
+const BestMusic = () => {
+  return (
+    <div className="h-full overflow-y-auto md:hidden">
+      {topTracks.map((track, index) => (
+        <div key={index} className="flex items-center p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-lg mb-2">
+          <div className="relative size-12 mr-4">
+            <Image
+              src={track.cover}
+              alt={track.title}
+              layout="fill"
+              objectFit="cover"
+              className="rounded-md"
+            />
+          </div>
+          <div>
+            <p className="font-medium">{track.title}</p>
+            <p className="text-sm text-gray-500">{track.artist}</p>
+          </div>
+        </div>
+      ))}
     </div>
   );
 };

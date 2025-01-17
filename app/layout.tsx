@@ -13,12 +13,13 @@ export const metadata: Metadata = {
     icon: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"%3E%3Ccircle cx="16" cy="16" r="16" fill="%23F8E1E8"/%3E%3Ccircle cx="16" cy="16" r="12" fill="%23E8B4BC"/%3E%3Ccircle cx="16" cy="16" r="8" fill="%23B4D7D9"/%3E%3Ccircle cx="16" cy="16" r="3" fill="%23F8E1E8"/%3E%3Ccircle cx="16" cy="10" r="2" fill="%23F8E1E8"/%3E%3C/svg%3E',
   },
   openGraph: {
+    title: 'My Dear IA | Un Assistant Plus Proche de Vous',
+    description: 'My Dear IA est un assistant personnel connecté qui te permet de discuter avec une intelligence artificielle pour te divertir, t\'informer et t\'aider dans ton quotidien.',
+    type: 'website',
     images: [{
       url: '/images/banner.png',
       alt: 'My Dear IA - Un assistant IA qui vous comprend',
     }],
-    description: 'My Dear IA est un assistant personnel connecté qui te permet de discuter avec une intelligence artificielle pour te divertir, t\'informer et t\'aider dans ton quotidien.',
-
   },
 };
 
