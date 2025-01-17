@@ -48,7 +48,7 @@ function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
   }, [append, chatId]);
 
   useEffect(() => {
-    const actionsToShow = isMobile ? 2 : 4;
+    const actionsToShow = isMobile ? 1 : 4;
     setRandomizedActions([...suggestedActions].sort(() => Math.random() - 0.5).slice(0, actionsToShow));
     setHydrated(true);
   }, [suggestedActions, isMobile]);
