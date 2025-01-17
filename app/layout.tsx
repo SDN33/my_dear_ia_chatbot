@@ -7,6 +7,10 @@ import CookiesConsent from '@/components/cookies-consent';
 import './globals.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://mydear-ia.com'),
+  alternates: {
+    canonical: 'https://mydear.xyz',
+  },
   title: 'My Dear IA | Un Assistant Plus Proche de Vous',
   description: 'My Dear IA est un assistant personnel qui te permet de discuter avec une intelligence artificielle pour te divertir, t\'informer et t\'aider dans ton quotidien.',
   icons: {
@@ -18,7 +22,7 @@ export const metadata: Metadata = {
     type: 'website',
     images: [{
       url: '/images/banner.png',
-      alt: 'My Dear IA - Un assistant IA qui vous comprend',
+      alt: 'My Dear IA | Un Assistant Plus Proche de Vous',
     }],
   },
 };
