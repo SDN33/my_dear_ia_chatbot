@@ -69,8 +69,8 @@ const TrendingCards = () => {
   };
 
   return (
-    <div className="w-full flex items-center justify-center p-4 bg-gradient-to-b from-teal-400 to-rose-200">
-      <button onClick={handlePrev} className="p-2 hover:scale-150 rounded-full" aria-label="Previous">
+    <div className="w-full flex items-center justify-center py-4 bg-gradient-to-b from-teal-400 to-rose-200">
+      <button onClick={handlePrev} className="p-1 hover:scale-150 rounded-full" aria-label="Previous">
         <ChevronLeft className="size-6" />
       </button>
       <Card className="w-full max-w-4xl mx-4 shadow-md">
@@ -95,7 +95,7 @@ const TrendingCards = () => {
           </AnimatePresence>
         </CardContent>
       </Card>
-      <button onClick={handleNext} className="p-2 hover:scale-150 rounded-full" aria-label="Next">
+      <button onClick={handleNext} className="p-1 hover:scale-150 rounded-full" aria-label="Next">
         <ChevronRight className="size-6" />
       </button>
     </div>
@@ -135,7 +135,6 @@ const BestRatedMovies = () => {
         const response = await fetch(
           `https://www.omdbapi.com/?t=${title}&apikey=${OMDB_API_KEY}`
         );
-        console.log(response);
         const movie = await response.json();
         return {
           title: movie.Title,
@@ -203,11 +202,11 @@ const NewsModule = () => {
     title: string;
     link: string;
     pubDate?: string;
+    image?: string;
   }
 
   const [news, setNews] = useState<NewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     const fetchNews = async () => {
@@ -238,7 +237,8 @@ const NewsModule = () => {
           link: item.link || '',
           description: item.contentSnippet || item.content || '',
           pubDate: item.pubDate || '',
-          enclosure: item.enclosure
+          enclosure: item.enclosure,
+          image: item.image
         }));
 
         // Update cache
@@ -286,6 +286,7 @@ const NewsModule = () => {
             target="_blank"
             rel="noopener noreferrer"
             className="text-sm font-medium hover:underline line-clamp-3"
+            
           >
             {item.title}
           </a>
