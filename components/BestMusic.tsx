@@ -18,30 +18,29 @@ const SpotifyPlayer = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const CLIENT_ID = process.env.NEXT_PUBLIC_SPOTIFY_CLIENT_ID;
-  // Use explicit redirect URI that matches Spotify Dashboard
   const REDIRECT_URI = process.env.NEXT_PUBLIC_SPOTIFY_REDIRECT_URI || 'http://localhost:3000/callback';
   const SCOPES = ['user-read-private', 'playlist-read-private', 'playlist-read-collaborative'];
 
   const handleLogin = () => {
-    // Encode redirect URI to handle special characters
     const encodedRedirectUri = encodeURIComponent(REDIRECT_URI);
     const encodedScopes = encodeURIComponent(SCOPES.join(' '));
 
     const authUrl = `https://accounts.spotify.com/authorize?client_id=${CLIENT_ID}&response_type=token&redirect_uri=${encodedRedirectUri}&scope=${encodedScopes}&show_dialog=true`;
 
-    // Log the URL in development to verify it's correct
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Auth URL:', authUrl);
-    }
-
     window.location.href = authUrl;
   };
 
+  const handleLogout = () => {
+    setAccessToken(null);
+    localStorage.removeItem('spotify_access_token');
+    localStorage.removeItem('spotify_token_expiration');
+    // Optionally redirect to a different page after logout
+    window.location.href = '/'; // Redirect to home page or another page
+  };
+
   useEffect(() => {
-    // Check for access token in URL hash after redirect
     const hash = window.location.hash;
     if (hash) {
-      // Parse hash to get access token and other params
       const params = new URLSearchParams(hash.substring(1));
       const token = params.get('access_token');
 
@@ -50,7 +49,6 @@ const SpotifyPlayer = () => {
         window.location.hash = '';
         localStorage.setItem('spotify_access_token', token);
 
-        // Store token expiration time
         const expiresIn = params.get('expires_in');
         if (expiresIn) {
           const expirationTime = Date.now() + (parseInt(expiresIn) * 1000);
@@ -59,16 +57,13 @@ const SpotifyPlayer = () => {
       }
     }
 
-    // Check for existing valid token in localStorage
     const storedToken = localStorage.getItem('spotify_access_token');
     const tokenExpiration = localStorage.getItem('spotify_token_expiration');
 
     if (storedToken && tokenExpiration) {
-      // Check if token is still valid
       if (Date.now() < parseInt(tokenExpiration)) {
         setAccessToken(storedToken);
       } else {
-        // Token expired, clean up
         localStorage.removeItem('spotify_access_token');
         localStorage.removeItem('spotify_token_expiration');
       }
@@ -88,7 +83,6 @@ const SpotifyPlayer = () => {
         });
 
         if (response.status === 401) {
-          // Token expired or invalid
           localStorage.removeItem('spotify_access_token');
           localStorage.removeItem('spotify_token_expiration');
           setAccessToken(null);
@@ -117,7 +111,7 @@ const SpotifyPlayer = () => {
 
   if (!accessToken) {
     return (
-      <div className="flex flex-col md:flex-row justify-center items-center min-h-64 bg-transparent rounded-lg gap-8 md:gap-8">
+      <div className="flex flex-col justify-center items-center min-h-64 bg-transparent rounded-lg gap-8 md:gap-8">
         <iframe
           style={{ borderRadius: "12px" }}
           src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF?utm_source=generator"
@@ -135,34 +129,6 @@ const SpotifyPlayer = () => {
         >
           Connexion avec Spotify
         </button>
-        {playlists.length > 0 && (
-          <div
-            className="w-full touch-pan-y select-none"
-            onTouchStart={(e) => {
-              const touch = e.touches[0];
-              const startX = touch.clientX;
-
-              const handleTouchMove = (e: TouchEvent) => {
-                const touch = e.touches[0];
-                const diff = startX - touch.clientX;
-
-                if (Math.abs(diff) > 50) {
-                  if (diff > 0) {
-                    handleNext();
-                  } else {
-                    handlePrevious();
-                  }
-                  document.removeEventListener('touchmove', handleTouchMove);
-                }
-              };
-
-              document.addEventListener('touchmove', handleTouchMove);
-              document.addEventListener('touchend', () => {
-                document.removeEventListener('touchmove', handleTouchMove);
-              }, { once: true });
-            }}
-          />
-        )}
       </div>
     );
   }
@@ -199,7 +165,7 @@ const SpotifyPlayer = () => {
               <ChevronRight size={24} />
             </button>
           </div>
-          <div className="relative size-40 overflow-hidden rounded-lg">
+          <div className="relative size-28 overflow-hidden rounded-lg">
             {playlists.length > 0 ? (
               <img
                 src={playlists[currentIndex]?.images[0]?.url || "/api/placeholder/400/320"}
@@ -212,6 +178,14 @@ const SpotifyPlayer = () => {
               </div>
             )}
           </div>
+            <div className="flex justify-center w-full">
+            <button
+              onClick={handleLogout}
+              className="mt-10 text-xs bg-red-500/80 text-white px-3 py-1 rounded-full hover:bg-red-600 transition-colors w-fit"
+            >
+              Déconnexion
+            </button>
+            </div>
         </>
       )}
     </div>

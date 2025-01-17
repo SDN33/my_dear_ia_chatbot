@@ -10,7 +10,15 @@ export default function Callback() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const chatId = params.get('state');
-    router.push(`/chat/${chatId}`);
+    const previousPath = sessionStorage.getItem('previousPath') || '/';
+
+    if (chatId) {
+      // Retourner à la page précédente avec le chatId
+      router.push(`${previousPath}?authenticated=true`);
+    } else {
+      console.error('Chat ID not found in URL');
+      router.push('/error');
+    }
   }, [router]);
 
   return <SpotifyPlayer />;
