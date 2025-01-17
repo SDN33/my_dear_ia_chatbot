@@ -102,13 +102,6 @@ const TrendingCards = () => {
   );
 };
 
-interface Track {
-  title: string;
-  artist: string;
-  cover: string;
-}
-
-
 
 const BestRatedMovies = () => {
   interface Movie {
@@ -118,53 +111,48 @@ const BestRatedMovies = () => {
     link: string;
   }
 
-  // Module pour les meilleurs films notés
-const [isLoading, setIsLoading] = useState(true);
-const [movies, setMovies] = useState<Movie[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [movies, setMovies] = useState<Movie[]>([]);
 
-const fetchTopMovies = async () => {
-  const OMDB_API_KEY = process.env.NEXT_PUBLIC_OMDB_API_KEY;
+  const fetchTopMovies = async () => {
+    const OMDB_API_KEY = process.env.NEXT_PUBLIC_OMDB_API_KEY;
 
-  const topMovieTitles = [
-    { title: 'The Brutalist' },
-    { title: 'The Substance' },
-    { title: 'Wicked' },
-    { title: 'Emilia Pérez' },
-    { title: 'Babygirl' },
-    { title: 'Anora' },
-    { title: 'Landman' },
-    { title: 'Squid Game' },
+    const topMovieTitles = [
+      { title: 'The Brutalist' },
+      { title: 'The Substance' },
+      { title: 'Wicked' },
+      { title: 'Emilia Pérez' },
+      { title: 'Babygirl' },
+      { title: 'Anora' },
+      { title: 'Landman' },
+      { title: 'Squid Game' },
+    ]
 
+    const moviePromises = topMovieTitles
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 4)
+      .map(async ({ title }) => {
+        const response = await fetch(
+          `https://www.omdbapi.com/?t=${title}&apikey=${OMDB_API_KEY}`
+        );
+        console.log(response);
+        const movie = await response.json();
+        return {
+          title: movie.Title,
+          year: movie.Year,
+          poster: movie.Poster,
+          link: `https://www.imdb.com/title/${movie.imdbID}`
+        };
+      });
 
-  ]
-
-  const moviePromises = topMovieTitles
-    .sort(() => 0.5 - Math.random())
-    .slice(0, 4)
-    .map(async ({ title }) => {
-      const response = await fetch(
-        `https://www.omdbapi.com/?t=${title}&apikey=${OMDB_API_KEY}`
-      );
-      console.log(response);
-      const movie = await response.json();
-      return {
-        title: movie.Title,
-        year: movie.Year,
-        poster: movie.Poster,
-
-        link: `https://www.imdb.com/title/${movie.imdbID}`
-      };
-    });
-
-  const movies = await Promise.all(moviePromises);
-  setMovies(movies);
-  setIsLoading(false);
+    const movies = await Promise.all(moviePromises);
+    setMovies(movies);
+    setIsLoading(false);
   };
 
   useEffect(() => {
     fetchTopMovies();
   }, []);
-
 
   if (isLoading) {
     return (
@@ -175,34 +163,31 @@ const fetchTopMovies = async () => {
   }
 
   return (
-    <div className="h-full grid grid-cols-2 md:grid-cols-4 gap-4">
+    <div className="h-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
       {movies.map((movie, index) => (
-        <div key={index} className="flex flex-col justify-between p-2 bg-gray-50 dark:bg-black rounded-lg">
-          <div className="relative w-full h-40 mb-2">
-            <a
-              href={movie.link}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+          <div key={index} className="flex flex-col justify-between p-1 md:p-2 bg-gray-50 dark:bg-black rounded-lg">
+          <div className="relative w-full h-32 md:h-40 mb-1 md:mb-2">
+            <a href={movie.link} target="_blank" rel="noopener noreferrer">
               <Image
                 src={movie.poster || '/api/placeholder/160/200'}
                 alt={movie.title}
                 layout="fill"
                 objectFit="cover"
-                className="rounded-md sm:h-8 md:h-auto"
+                className="rounded-md"
               />
             </a>
           </div>
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-sm font-medium text-center line-clamp-2" title={movie.title}>
+          <div className="flex flex-col items-center gap-1 md:gap-2">
+            <p className="text-xs md:text-sm font-medium text-center line-clamp-1 md:line-clamp-2" title={movie.title}>
               {movie.title}
             </p>
-            <p className='hidden md:flex'>{movie.year}</p>
+            <p className="text-xs md:hidden">{movie.year}</p>
+            <p className="hidden md:block">{movie.year}</p>
             <a
               href={movie.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-teal-500 hover:underline hidden md:flex"
+              className="text-[10px] md:text-xs text-teal-500 hover:underline"
             >
               Voir sur IMDb
             </a>
@@ -222,6 +207,7 @@ const NewsModule = () => {
 
   const [news, setNews] = useState<NewsItem[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     const fetchNews = async () => {
