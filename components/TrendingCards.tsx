@@ -3,12 +3,8 @@ import Image from 'next/image';
 
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
-import { ChevronLeft, ChevronRight, Music, Film, Clock, Tv, FilmIcon, Smartphone } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Music, Film, Clock, Tv, FilmIcon, Smartphone, Link } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 
 import Parser from 'rss-parser';
 
@@ -166,24 +162,30 @@ const fetchTopMovies = async () => {
       {movies.map((movie, index) => (
         <div key={index} className="flex flex-col justify-between p-2 bg-gray-50 dark:bg-black rounded-lg">
           <div className="relative w-full h-40 mb-2">
-            <Image
-              src={movie.poster || '/api/placeholder/160/200'}
-              alt={movie.title}
-              layout="fill"
-              objectFit="cover"
-              className="rounded-md"
-            />
+            <a
+              href={movie.link}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Image
+                src={movie.poster || '/api/placeholder/160/200'}
+                alt={movie.title}
+                layout="fill"
+                objectFit="cover"
+                className="rounded-md sm:h-8 md:h-auto"
+              />
+            </a>
           </div>
           <div className="flex flex-col items-center gap-2">
             <p className="text-sm font-medium text-center line-clamp-2" title={movie.title}>
               {movie.title}
             </p>
-            <p>{movie.year}</p>
+            <p className='hidden md:flex'>{movie.year}</p>
             <a
               href={movie.link}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs text-teal-500 hover:underline"
+              className="text-xs text-teal-500 hover:underline hidden md:flex"
             >
               Voir sur IMDb
             </a>

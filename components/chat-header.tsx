@@ -64,7 +64,7 @@ function PureChatHeader({
 
         {/* Warning Message */}
         <div className={`flex justify-center py-2 px-4 text-center w-full text-xs`}>
-            <span className="text-muted-foreground text-center mx-auto">
+            <span className="text-muted-foreground text-center mx-auto hidden md:flex">
             My Dear IA peut faire des erreurs. Envisagez de vérifier les informations importantes.
             </span>
         </div>

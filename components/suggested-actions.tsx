@@ -3,7 +3,8 @@
 import { motion } from 'framer-motion';
 import { Button } from './ui/button';
 import { ChatRequestOptions, CreateMessage, Message } from 'ai';
-import { memo, useState, useEffect, useMemo } from 'react';
+import { memo, useState, useEffect, useMemo, useCallback } from 'react';
+import { useWindowSize } from 'usehooks-ts';
 
 interface SuggestedActionsProps {
   chatId: string;
@@ -14,6 +15,9 @@ interface SuggestedActionsProps {
 }
 
 function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
+  const { width } = useWindowSize();
+  const isMobile = width <= 640; // sm breakpoint
+
   const suggestedActions = useMemo(() => [
     { title: "Quelle tenue porter ce soir ? 🧥", label: "à Bordeaux en fonction de la météo", action: "En tenant compte de la météo à Bordeaux ce soir, quelle tenue me conseilles-tu de porter pour sortir ?" },
     { title: "Mon meilleur ami m'a ghosté 😢", label: "comment gérer ça ?", action: "Mon meilleur ami m'a ghosté et je ne sais pas comment réagir. Peux-tu m'aider à gérer ça ?" },
@@ -31,49 +35,114 @@ function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
     { title: "Je veux apprendre plus sur le Bitcoin 👩‍💻", label: "Le Bitcoin : Comment cela ça fonctione ?", action: "Peux tu me faire un cours documenté et illustré pour débutant sur le bitcoin et les cryptomonnais ?" },
   ], []);
 
-  // State to handle hydration
   const [hydrated, setHydrated] = useState(false);
   const [randomizedActions, setRandomizedActions] = useState<any[]>([]);
+  const [showMore, setShowMore] = useState(false);
+
+  const handleActionClick = useCallback(async (action: string) => {
+    window.history.replaceState({}, '', `/chat/${chatId}`);
+    await append({
+      role: 'user',
+      content: action,
+    });
+  }, [append, chatId]);
 
   useEffect(() => {
-    // Randomly select 4 actions only after the component has hydrated
-    setRandomizedActions([...suggestedActions].sort(() => Math.random() - 0.5).slice(0, 4));
-    setHydrated(true); // Indicate that the component is hydrated
-  }, [suggestedActions]);
+    const actionsToShow = isMobile ? 2 : 4;
+    setRandomizedActions([...suggestedActions].sort(() => Math.random() - 0.5).slice(0, actionsToShow));
+    setHydrated(true);
+  }, [suggestedActions, isMobile]);
 
   if (!hydrated) {
-    return null; // Render nothing before hydration
+    return null;
   }
 
   return (
-    <div className="grid sm:grid-cols-2 gap-2 w-full">
-      {randomizedActions.map((suggestedAction, index) => (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 20 }}
-          transition={{ delay: 0.05 * index }}
-          key={`suggested-action-${suggestedAction.title}-${index}`}
-          className={index > 1 ? 'hidden sm:block' : 'block'}
-        >
-          <Button
-            variant="ghost"
-            onClick={async () => {
-              window.history.replaceState({}, '', `/chat/${chatId}`);
-              append({
-                role: 'user',
-                content: suggestedAction.action,
-              });
+    <div className="flex flex-col w-full gap-4">
+      <div className="grid sm:grid-cols-2 gap-2 w-full">
+        {randomizedActions.map((suggestedAction, index) => (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{
+              delay: 0.05 * index,
+              duration: 0.3,
+              ease: "easeOut"
             }}
-            className="text-left border rounded-xl px-4 py-3.5 text-sm flex-1 gap-1 sm:flex-col w-full h-auto justify-start items-start"
+            key={`suggested-action-${suggestedAction.title}-${index}`}
+            className={`
+              ${index === 2 ? 'sm:block' : 'block'}
+              ${index === 3 ? 'hidden sm:block' : ''}
+            `}
           >
-            <span className="font-medium">{suggestedAction.title}</span>
-            <span className="text-muted-foreground">
-              {suggestedAction.label}
-            </span>
-          </Button>
+            <Button
+              variant="ghost"
+              onClick={() => handleActionClick(suggestedAction.action)}
+              className="text-left border rounded-xl px-4 py-3 text-sm flex flex-col w-full h-auto justify-start items-start gap-1 hover:bg-muted/80 transition-colors"
+            >
+              <span className="font-medium line-clamp-1">{suggestedAction.title}</span>
+              <span className="text-muted-foreground text-xs line-clamp-2">
+                {suggestedAction.label}
+              </span>
+            </Button>
+          </motion.div>
+        ))}
+      </div>
+
+      {isMobile && !showMore && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          className="w-full text-center"
+        >
+            {showMore ? (
+            <Button
+              variant="ghost"
+              onClick={() => setShowMore(false)}
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Voir moins de suggestions
+            </Button>
+            ) : (
+            <Button
+              variant="ghost"
+              onClick={() => setShowMore(true)}
+              className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Voir plus de suggestions
+            </Button>
+            )}
         </motion.div>
-      ))}
+      )}
+
+      {isMobile && showMore && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          className="grid gap-2 w-full"
+        >
+          {suggestedActions.slice(3).map((suggestedAction, index) => (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 * index }}
+              key={`more-action-${suggestedAction.title}-${index}`}
+            >
+              <Button
+                variant="ghost"
+                onClick={() => handleActionClick(suggestedAction.action)}
+                className="text-left border rounded-xl px-4 py-3.5 text-sm flex flex-col w-full h-auto justify-start items-start gap-1 hover:bg-muted/80 transition-colors"
+              >
+                <span className="font-medium line-clamp-1">{suggestedAction.title}</span>
+                <span className="text-muted-foreground text-xs line-clamp-2">
+                  {suggestedAction.label}
+                </span>
+              </Button>
+            </motion.div>
+          ))}
+        </motion.div>
+      )}
     </div>
   );
 }

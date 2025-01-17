@@ -30,7 +30,6 @@ import { Textarea } from './ui/textarea';
 import { SuggestedActions } from './suggested-actions';
 import equal from 'fast-deep-equal';
 
-
 function PureMultimodalInput({
   chatId,
   input,
@@ -68,6 +67,7 @@ function PureMultimodalInput({
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { width } = useWindowSize();
+  const isMobile = width <= 768;
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -75,19 +75,20 @@ function PureMultimodalInput({
     }
   }, []);
 
-  const adjustHeight = () => {
+  const adjustHeight = useCallback(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight + 2}px`;
+      const maxHeight = isMobile ? '150px' : `${textareaRef.current.scrollHeight + 2}px`;
+      textareaRef.current.style.height = maxHeight;
     }
-  };
+  }, [isMobile]);
 
-  const resetHeight = () => {
+  const resetHeight = useCallback(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = '98px';
+      textareaRef.current.style.height = isMobile ? '60px' : '80px';
     }
-  };
+  }, [isMobile]);
 
   const [localStorageInput, setLocalStorageInput] = useLocalStorage(
     'input',
@@ -97,14 +98,11 @@ function PureMultimodalInput({
   useEffect(() => {
     if (textareaRef.current) {
       const domValue = textareaRef.current.value;
-      // Prefer DOM value over localStorage to handle hydration
       const finalValue = domValue || localStorageInput || '';
       setInput(finalValue);
       adjustHeight();
     }
-    // Only run once after hydration
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [adjustHeight, localStorageInput, setInput]);
 
   useEffect(() => {
     setLocalStorageInput(input);
@@ -139,6 +137,7 @@ function PureMultimodalInput({
     setLocalStorageInput,
     width,
     chatId,
+    resetHeight,
   ]);
 
   const uploadFile = async (file: File) => {
@@ -212,7 +211,7 @@ function PureMultimodalInput({
       />
 
       {(attachments.length > 0 || uploadQueue.length > 0) && (
-        <div className="flex flex-row gap-2 overflow-x-scroll items-end">
+        <div className="flex flex-row gap-2 overflow-x-auto items-end md:pb-0 pb-2">
           {attachments.map((attachment) => (
             <PreviewAttachment key={attachment.url} attachment={attachment} />
           ))}
@@ -231,45 +230,57 @@ function PureMultimodalInput({
         </div>
       )}
 
-      <Textarea
-        ref={textareaRef}
-        placeholder="Envoyer un message..."
-        value={input}
-        onChange={handleInput}
-        className={cx(
-          'min-h-[24px] max-h-[calc(75dvh)] overflow-hidden resize-none rounded-2xl !text-base bg-muted pb-10 dark:border-zinc-700',
-          className,
-        )}
-        rows={2}
-        autoFocus
-        onKeyDown={(event) => {
-          if (event.key === 'Enter' && !event.shiftKey) {
-            event.preventDefault();
+      <div className={cx(
+        'relative flex flex-row items-end gap-2',
+        'md:flex-nowrap flex-wrap',
+        'w-full'
+      )}>
+        <Textarea
+          ref={textareaRef}
+          placeholder="Envoyer un message..."
+          value={input}
+          onChange={handleInput}
+          className={cx(
+            'min-h-[24px]',
+            'md:max-h-[calc(75dvh)] max-h-[150px]',
+            'overflow-hidden resize-none rounded-2xl',
+            '!text-base bg-muted',
+            'md:pb-10 pb-3',
+            'dark:border-zinc-700',
+            'flex-grow',
+            className,
+          )}
+          rows={2}
+          autoFocus
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' && !event.shiftKey) {
+              event.preventDefault();
 
-            if (isLoading) {
-              toast.error('Veuillez attendre que le message soit envoyé.');
-            } else {
-              submitForm();
+              if (isLoading) {
+                toast.error('Veuillez attendre que le message soit envoyé.');
+              } else {
+                submitForm();
+              }
             }
-          }
-        }}
+          }}
+        />
+
+        <div className={cx(
+          'flex flex-row gap-2',
+          'md:absolute md:bottom-0 md:right-0 md:p-2',
+          'w-fit'
+        )}>
+          <AttachmentsButton fileInputRef={fileInputRef} isLoading={isLoading} />
+          {isLoading ? (
+            <StopButton stop={stop} setMessages={setMessages} />
+          ) : (
+            <SendButton
+              input={input}
+              submitForm={submitForm}
+              uploadQueue={uploadQueue}
             />
-
-
-      <div className="absolute bottom-0 p-2 w-fit hidden">
-        <AttachmentsButton fileInputRef={fileInputRef} isLoading={isLoading} />
-      </div>
-
-      <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row justify-end">
-        {isLoading ? (
-          <StopButton stop={stop} setMessages={setMessages} />
-        ) : (
-          <SendButton
-            input={input}
-            submitForm={submitForm}
-            uploadQueue={uploadQueue}
-          />
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
