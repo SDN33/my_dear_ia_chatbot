@@ -121,7 +121,7 @@ const SpotifyPlayer = () => {
         <iframe
           style={{ borderRadius: "12px" }}
           src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF?utm_source=generator"
-          width="40%"
+          width="100%"
           height="152"
           className="w-full"
           frameBorder="0"
