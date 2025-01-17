@@ -67,7 +67,6 @@ function PureMultimodalInput({
 }) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { width } = useWindowSize();
-  const isMobile = width <= 768;
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -75,20 +74,19 @@ function PureMultimodalInput({
     }
   }, []);
 
-  const adjustHeight = useCallback(() => {
+  const adjustHeight = () => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      const maxHeight = isMobile ? '150px' : `${textareaRef.current.scrollHeight + 2}px`;
-      textareaRef.current.style.height = maxHeight;
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight + 2}px`;
     }
-  }, [isMobile]);
+  };
 
-  const resetHeight = useCallback(() => {
+  const resetHeight = () => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = isMobile ? '60px' : '80px';
+      textareaRef.current.style.height = '98px';
     }
-  }, [isMobile]);
+  };
 
   const [localStorageInput, setLocalStorageInput] = useLocalStorage(
     'input',
@@ -102,7 +100,7 @@ function PureMultimodalInput({
       setInput(finalValue);
       adjustHeight();
     }
-  }, [adjustHeight, localStorageInput, setInput]);
+  }, [localStorageInput, setInput]);
 
   useEffect(() => {
     setLocalStorageInput(input);
@@ -137,7 +135,6 @@ function PureMultimodalInput({
     setLocalStorageInput,
     width,
     chatId,
-    resetHeight,
   ]);
 
   const uploadFile = async (file: File) => {
@@ -211,7 +208,7 @@ function PureMultimodalInput({
       />
 
       {(attachments.length > 0 || uploadQueue.length > 0) && (
-        <div className="flex flex-row gap-2 overflow-x-auto items-end md:pb-0 pb-2">
+        <div className="flex flex-row gap-2 overflow-x-scroll items-end">
           {attachments.map((attachment) => (
             <PreviewAttachment key={attachment.url} attachment={attachment} />
           ))}
@@ -230,57 +227,41 @@ function PureMultimodalInput({
         </div>
       )}
 
-      <div className={cx(
-        'relative flex flex-row items-end gap-2',
-        'md:flex-nowrap flex-wrap',
-        'w-full'
-      )}>
-        <Textarea
-          ref={textareaRef}
-          placeholder="Envoyer un message..."
-          value={input}
-          onChange={handleInput}
-          className={cx(
-            'min-h-[24px]',
-            'md:max-h-[calc(75dvh)] max-h-[150px]',
-            'overflow-hidden resize-none rounded-2xl',
-            '!text-base bg-muted',
-            'md:pb-10 pb-3',
-            'dark:border-zinc-700',
-            'flex-grow',
-            className,
-          )}
-          rows={2}
-          autoFocus
-          onKeyDown={(event) => {
-            if (event.key === 'Enter' && !event.shiftKey) {
-              event.preventDefault();
+      <Textarea
+        ref={textareaRef}
+        placeholder="Envoyer un message..."
+        value={input}
+        onChange={handleInput}
+        className={cx(
+          'min-h-[24px] max-h-[calc(75dvh)] overflow-hidden resize-none rounded-2xl !text-base bg-muted pb-10 dark:border-zinc-700',
+          className,
+        )}
+        rows={2}
+        autoFocus
+        onKeyDown={(event) => {
+          if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
 
-              if (isLoading) {
-                toast.error('Veuillez attendre que le message soit envoyé.');
-              } else {
-                submitForm();
-              }
+            if (isLoading) {
+              toast.error('Veuillez attendre que le message soit envoyé.');
+            } else {
+              submitForm();
             }
-          }}
-        />
+          }
+        }}
+      />
 
-        <div className={cx(
-          'flex flex-row gap-2',
-          'md:absolute md:bottom-0 md:right-0 md:p-2',
-          'w-fit'
-        )}>
-          <AttachmentsButton fileInputRef={fileInputRef} isLoading={isLoading} />
-          {isLoading ? (
-            <StopButton stop={stop} setMessages={setMessages} />
-          ) : (
-            <SendButton
-              input={input}
-              submitForm={submitForm}
-              uploadQueue={uploadQueue}
-            />
-          )}
-        </div>
+      <div className="absolute bottom-0 right-0 p-2 w-fit flex flex-row gap-2">
+        <AttachmentsButton fileInputRef={fileInputRef} isLoading={isLoading} />
+        {isLoading ? (
+          <StopButton stop={stop} setMessages={setMessages} />
+        ) : (
+          <SendButton
+            input={input}
+            submitForm={submitForm}
+            uploadQueue={uploadQueue}
+          />
+        )}
       </div>
     </div>
   );
@@ -306,7 +287,7 @@ function PureAttachmentsButton({
 }) {
   return (
     <Button
-      className="rounded-md rounded-bl-lg p-[7px] h-fit dark:border-zinc-700 hover:dark:bg-zinc-900 hover:bg-zinc-200"
+      className="hidden rounded-md rounded-bl-lg p-[7px] h-fit dark:border-zinc-700 hover:dark:bg-zinc-900 hover:bg-zinc-200"
       onClick={(event) => {
         event.preventDefault();
         fileInputRef.current?.click();

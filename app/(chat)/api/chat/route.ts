@@ -124,7 +124,7 @@ export async function POST(request: Request) {
           },
           createDocument: {
             description:
-              'Create a document for a writing activity. This tool will call other functions that will generate the contents of the document based on the title and kind.',
+              'Créer un document avec le titre et le type de contenu donnés.',
             parameters: z.object({
               title: z.string(),
               kind: z.enum(['text', 'code']),

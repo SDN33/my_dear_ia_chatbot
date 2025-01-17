@@ -98,7 +98,7 @@ const Tool = ({
         append({
           role: 'user',
           content:
-            'Please add final polish and check for grammar, add section titles for better structure, and ensure everything reads smoothly.',
+            'Ajoutez les dernières touches pour améliorer la qualité du texte.',
         });
 
         setSelectedTool(null);
@@ -106,21 +106,21 @@ const Tool = ({
         append({
           role: 'user',
           content:
-            'Please add suggestions you have that could improve the writing.',
+            'Ajoutez des suggestions pour améliorer le texte ou le code.',
         });
 
         setSelectedTool(null);
       } else if (type === 'add-comments') {
         append({
           role: 'user',
-          content: 'Please add comments to explain the code.',
+          content: 'Ajoutez des commentaires pour expliquer le code.',
         });
 
         setSelectedTool(null);
       } else if (type === 'add-logs') {
         append({
           role: 'user',
-          content: 'Please add logs to help debug the code.',
+          content: 'Ajoutez des logs pour suivre le comportement du code.',
         });
 
         setSelectedTool(null);
@@ -188,12 +188,12 @@ const ReadingLevelSelector = ({
   ) => Promise<string | null | undefined>;
 }) => {
   const LEVELS = [
-    'Elementary',
-    'Middle School',
-    'Keep current level',
-    'High School',
-    'College',
-    'Graduate',
+    'Enfant',
+    'Collège',
+    'Garder ce niveau',
+    'Lycée',
+    'Université',
+    'Expert',
   ];
 
   const y = useMotionValue(-40 * 2);
@@ -261,7 +261,7 @@ const ReadingLevelSelector = ({
                 if (currentLevel !== 2 && hasUserSelectedLevel) {
                   append({
                     role: 'user',
-                    content: `Please adjust the reading level to ${LEVELS[currentLevel]} level.`,
+                    content: `Ajuster le niveau de lecture à ${LEVELS[currentLevel]}.`,
                   });
 
                   setSelectedTool(null);
@@ -301,29 +301,29 @@ const toolsByBlockKind: Record<
   text: [
     {
       type: 'final-polish',
-      description: 'Add final polish',
+      description: 'Ajourter les dernières touches',
       icon: <PenIcon />,
     },
     {
       type: 'adjust-reading-level',
-      description: 'Adjust reading level',
+      description: 'Ajuster le niveau de lecture',
       icon: <SummarizeIcon />,
     },
     {
       type: 'request-suggestions',
-      description: 'Request suggestions',
+      description: 'Demandez des suggestions',
       icon: <MessageIcon />,
     },
   ],
   code: [
     {
       type: 'add-comments',
-      description: 'Add comments',
+      description: 'Ajouter des commentaires',
       icon: <CodeIcon />,
     },
     {
       type: 'add-logs',
-      description: 'Add logs',
+      description: 'Ajourter des logs',
       icon: <LogsIcon />,
     },
   ],
