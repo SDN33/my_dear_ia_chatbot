@@ -71,6 +71,7 @@ export default async function RootLayout({
             __html: THEME_COLOR_SCRIPT,
           }}
         />
+        <meta name="monetag" content="985202062f34f2ad512f3f312a091681"></meta>
       </head>
       <body className="antialiased">
         <ThemeProvider
