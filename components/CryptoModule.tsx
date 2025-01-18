@@ -1,0 +1,119 @@
+import React, { useState, useEffect, useMemo } from 'react';
+import { Card, CardContent } from '@/components/ui/card';
+import { ArrowDownIcon, ArrowUpIcon, RefreshCw } from 'lucide-react';
+
+interface CryptoRate {
+  rate: number;
+  high?: number;
+  low?: number;
+  vol?: number;
+}
+
+interface CryptoData {
+  success: boolean;
+  rates: Record<string, CryptoRate>;
+  error?: {
+    info: string;
+  };
+}
+
+const CryptoModule = () => {
+  const [cryptoData, setCryptoData] = useState<CryptoData | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const topCryptos = useMemo(() => ['BTC', 'ETH', 'USDT', 'BNB', 'SOL', 'XRP'], []);
+  const API_KEY = process.env.NEXT_PUBLIC_COINLAYER_API_KEY;
+
+  useEffect(() => {
+    const fetchCryptoData = async () => {
+      try {
+        setIsLoading(true);
+        const response = await fetch(
+          `http://api.coinlayer.com/live?access_key=${API_KEY}&symbols=${topCryptos.join(',')}&expand=1`
+        );
+        const data = await response.json();
+
+        if (!data.success) {
+          throw new Error(data.error?.info || 'Failed to fetch crypto data');
+        }
+
+        setCryptoData(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchCryptoData();
+    const interval = setInterval(fetchCryptoData, 60000); // Refresh every minute
+
+    return () => clearInterval(interval);
+  }, [API_KEY, topCryptos]);
+
+  if (isLoading) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <RefreshCw className="size-6 animate-spin text-gray-400" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="h-full flex items-center justify-center text-red-500 text-sm">
+        {error}
+      </div>
+    );
+  }
+
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(price);
+  };
+
+  const formatChange = (change: number) => {
+    if (!change) return '0.00%';
+    return `${(change * 100).toFixed(2)}%`;
+  };
+
+  return (
+    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 h-full p-2">
+      {topCryptos.map((symbol) => {
+        const crypto = cryptoData?.rates[symbol];
+        if (!crypto) return null;
+
+        const priceChange = crypto.high && crypto.low
+          ? (crypto.rate - crypto.low) / crypto.low
+          : 0;
+
+        const isPositive = priceChange >= 0;
+
+        return (
+          <Card key={symbol} className="flex flex-col justify-between p-3">
+            <div className="flex items-center justify-between">
+              <div className="font-semibold">{symbol}</div>
+              {priceChange !== 0 && (
+                <div className={`flex items-center text-xs ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
+                  {isPositive ? <ArrowUpIcon className="size-3 mr-1" /> : <ArrowDownIcon className="size-3 mr-1" />}
+                  {formatChange(Math.abs(priceChange))}
+                </div>
+              )}
+            </div>
+            <div className="text-sm mt-2">{formatPrice(crypto.rate)}</div>
+            <div className="text-xs text-gray-500 mt-1">
+              Vol: {crypto.vol ? new Intl.NumberFormat().format(crypto.vol) : 'N/A'}
+            </div>
+          </Card>
+        );
+      })}
+    </div>
+  );
+};
+
+export default CryptoModule;
