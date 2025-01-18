@@ -24,6 +24,7 @@ function PureChatHeader({
   const { open } = useSidebar();
   const { width: windowWidth } = useWindowSize();
   const [isMobile, setIsMobile] = useState(false);
+  const [openMobile, setOpenMobile] = useState(false);
 
   useEffect(() => {
     setIsMobile(windowWidth < 768);
