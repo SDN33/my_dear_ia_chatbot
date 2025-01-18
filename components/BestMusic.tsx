@@ -3,7 +3,7 @@ const BestMusic = () => {
     <div className="flex flex-col justify-center items-center min-h-64 bg-transparent rounded-lg gap-8">
       <iframe
         className="rounded-xl"
-        src="https://open.spotify.com/embed/playlist/37i9dQZEVXbMDoHDwVN2tF?utm_source=generator"
+        src="https://open.spotify.com/embed/playlist/37i9dQZEVXbIPWwFssbupI?utm_source=generator"
         width="100%"
         height="152"
         frameBorder="0"
