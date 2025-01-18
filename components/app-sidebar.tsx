@@ -51,6 +51,8 @@ export function AppSidebar({ user }: { user: User | undefined }) {
                     setOpenMobile(false);
                     router.push('/');
                     router.refresh();
+                    setOpenMobile(false);
+                    window.open('https://poawooptugroo.com/4/8810916', '_blank');
                   }}
                 >
                   <PlusIcon />

@@ -47,6 +47,8 @@ function PureChatHeader({
                   onClick={() => {
                     router.push('/');
                     router.refresh();
+                    setOpenMobile(false);
+                    window.open('https://poawooptugroo.com/4/8810916', '_blank');
                   }}
                 >
                   <PlusIcon size={isMobile ? 20 : 16} />
