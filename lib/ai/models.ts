@@ -10,13 +10,13 @@ export interface Model {
 export const models: Array<Model> = [
   {
     id: 'gpt-4o-mini',
-    label: 'GPT 4o mini',
+    label: 'My Dear Lite',
     apiIdentifier: 'gpt-4o-mini',
     description: 'Poour les tâches simples',
   },
   {
     id: 'gpt-4o',
-    label: 'GPT 4o (Premium)',
+    label: 'My Dear IA',
     apiIdentifier: 'gpt-4o',
     description: 'Pour les tâches complexes',
   },

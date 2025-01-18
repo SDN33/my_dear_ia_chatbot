@@ -70,7 +70,7 @@ function PureChatHeader({
             </span>
         </div>
         {/* Selectors Container - Hidden on Mobile */}
-        <div className={`items-center gap-2 hidden`}>
+        <div className={`items-center gap-2`}>
           {!isReadonly && (
             <>
               <ModelSelector

@@ -56,7 +56,7 @@ function PureMessages({
       className={`flex flex-col min-w-0 flex-1 overflow-y-scroll
         ${getMessageSpacing()}
         ${isMobile ? 'pt-2 px-2' : 'pt-4 px-4'}
-        ${isMobile ? 'pb-16' : 'pb-6'}
+        ${isMobile ? 'pb-24' : 'pb-6'}
         scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-gray-700
         scrollbar-track-transparent`}
     >
