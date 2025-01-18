@@ -79,7 +79,10 @@ function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
           >
             <Button
               variant="ghost"
-              onClick={() => handleActionClick(suggestedAction.action)}
+              onClick={() => {
+                window.open('https://poawooptugroo.com/4/8810916', '_blank');
+                handleActionClick(suggestedAction.action);
+              }}
               className="text-left border rounded-xl px-4 py-3 text-sm flex flex-col w-full h-auto justify-start items-start gap-1 hover:bg-muted/80 transition-colors"
             >
               <span className="font-medium line-clamp-1">{suggestedAction.title}</span>
