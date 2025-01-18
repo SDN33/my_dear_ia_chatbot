@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import { Card } from '@/components/ui/card';
 import { ArrowDownIcon, ArrowUpIcon, RefreshCw } from 'lucide-react';
 
 interface CryptoRate {
@@ -21,52 +21,43 @@ const CryptoModule = () => {
   const [cryptoData, setCryptoData] = useState<CryptoData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [lastFetchTime, setLastFetchTime] = useState(0);
 
   const topCryptos = useMemo(() => ['BTC', 'ETH', 'USDT', 'BNB', 'SOL', 'XRP'], []);
   const API_KEY = process.env.NEXT_PUBLIC_COINLAYER_API_KEY;
+  const CACHE_DURATION = 30000; // 30 seconds cache
+
+  const fetchCryptoData = useCallback(async () => {
+    const now = Date.now();
+    if (now - lastFetchTime < CACHE_DURATION) {
+      return; // Skip if cache is still valid
+    }
+
+    try {
+      setIsLoading(true);
+      const response = await fetch(
+        `http://api.coinlayer.com/live?access_key=${API_KEY}&symbols=${topCryptos.join(',')}&expand=1`
+      );
+      const data = await response.json();
+
+      if (!data.success) {
+        throw new Error(data.error?.info || 'Failed to fetch crypto data');
+      }
+
+      setCryptoData(data);
+      setLastFetchTime(now);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+    } finally {
+      setIsLoading(false);
+    }
+  }, [API_KEY, topCryptos, lastFetchTime]);
 
   useEffect(() => {
-    const fetchCryptoData = async () => {
-      try {
-        setIsLoading(true);
-        const response = await fetch(
-          `http://api.coinlayer.com/live?access_key=${API_KEY}&symbols=${topCryptos.join(',')}&expand=1`
-        );
-        const data = await response.json();
-
-        if (!data.success) {
-          throw new Error(data.error?.info || 'Failed to fetch crypto data');
-        }
-
-        setCryptoData(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : 'An unknown error occurred');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchCryptoData();
-    const interval = setInterval(fetchCryptoData, 60000); // Refresh every minute
-
+    const interval = setInterval(fetchCryptoData, CACHE_DURATION);
     return () => clearInterval(interval);
-  }, [API_KEY, topCryptos]);
-
-  if (isLoading) {
-    return (
-      <div className="h-full flex items-center justify-center">
-        <RefreshCw className="size-6 animate-spin text-gray-400" />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="h-full flex items-center justify-center text-red-500 text-sm">
-        {error}
-      </div>
-    );
-  }
+  }, [fetchCryptoData]);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -81,6 +72,22 @@ const CryptoModule = () => {
     if (!change) return '0.00%';
     return `${(change * 100).toFixed(2)}%`;
   };
+
+  if (isLoading && !cryptoData) {
+    return (
+      <div className="h-full flex items-center justify-center">
+        <RefreshCw className="size-6 animate-spin text-gray-400" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="h-full flex items-center justify-center text-red-500 text-sm">
+        {error}
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 gap-2 h-full p-2">
@@ -105,7 +112,18 @@ const CryptoModule = () => {
                 </div>
               )}
             </div>
-            <div className="text-sm mt-2">{formatPrice(crypto.rate)}</div>
+            <div className="text-sm mt-2">
+                <div className="flex flex-col">
+                <div className="font-medium">{formatPrice(crypto.rate)}</div>
+                <div className="text-xs text-gray-500">
+                  {new Intl.NumberFormat('fr-FR', {
+                  style: 'currency',
+                  currency: 'EUR',
+                  minimumFractionDigits: 2,
+                  }).format(crypto.rate * 0.92)}
+                </div>
+                </div>
+            </div>
             <div className="text-xs text-gray-500 mt-1">
               Vol: {crypto.vol ? new Intl.NumberFormat().format(crypto.vol) : 'N/A'}
             </div>
