@@ -26,17 +26,17 @@ const features = [
   {
     icon: <MessageSquare className="size-6 text-teal-600" />,
     title: "Chat Intuitif",
-    description: "Échangez naturellement avec des réponses pertinentes et contextualisées"
+    description: "Nous Simplifions la Communication avec une IA plus Humaine"
   },
   {
     icon: <Sparkles className="size-6 text-teal-600" />,
     title: "Contenus Connectés",
-    description: "Accédez à des informations à jour et des ressources personnalisées"
+    description: "Actualités, Cryptomonnaies, Spotify et bien plus encore"
   },
   {
     icon: <HandCoins className="size-6 text-teal-600" />,
     title: "Engagement Éthique",
-    description: "Une IA responsable qui contribue à des causes environnementales"
+    description: "Engagé pour la Planète avec 50% de vos Dons reversés à WWF France"
   }
 ];
 
