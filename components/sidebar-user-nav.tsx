@@ -32,11 +32,11 @@ export function SidebarUserNav({ user }: { user: User }) {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10">
               <Image
-                src="/images/avatar.png"
+                src="/images/logo.png"
                 alt={user.email ?? 'User Avatar'}
                 width={24}
                 height={24}
-                className="rounded-full"
+                className="rounded-full mt-1"
               />
               <span className="truncate">{user?.email}</span>
               <ChevronUp className="ml-auto" />

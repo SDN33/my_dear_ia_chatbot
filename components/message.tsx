@@ -4,6 +4,7 @@ import type { ChatRequestOptions, Message } from 'ai';
 import cx from 'classnames';
 import { AnimatePresence, motion } from 'framer-motion';
 import { memo, useMemo, useState } from 'react';
+import Image from 'next/image';
 
 import type { Vote } from '@/lib/db/schema';
 
@@ -46,7 +47,7 @@ const PurePreviewMessage = ({
   return (
     <AnimatePresence>
       <motion.div
-        className="w-full mx-auto max-w-3xl px-4 group/message"
+        className="w-full mx-auto max-w-3xl px-4 group-[message]"
         initial={{ y: 5, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         data-role={message.role}
@@ -61,9 +62,14 @@ const PurePreviewMessage = ({
           )}
         >
           {message.role === 'assistant' && (
-            <div className="size-8 flex items-center rounded-full justify-center ring-1 shrink-0 ring-border bg-background">
+            <div className="size-8 flex items-center rounded-full justify-center bg-background">
               <div className="translate-y-px">
-                <SparklesIcon size={14} />
+                <Image
+                  src="/images/avatar.png"
+                  alt="Assistant"
+                  width={32}
+                  height={32}
+                />
               </div>
             </div>
           )}

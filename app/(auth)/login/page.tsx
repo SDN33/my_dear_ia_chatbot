@@ -177,13 +177,19 @@ export default function Page() {
 
           {/* Features Section */}
             <div className="col-span-2">
-            <motion.p
-              className="text-sm sm:text-base md:text-lg text-center font-bold text-black dark:text-teal-500 max-w-[85%] mx-auto mt-4 sm:mt-6 mb-8 sm:mb-12 px-4 mx-auto"
-              {...fadeInUp}
-              transition={{ delay: 0.2 }}
-            >
-              Découvrez une nouvelle façon de travailler et se divertir<br />avec un assistant IA connecté qui comprend vos besoins plus que jamais...
-            </motion.p>
+              <div>
+                <motion.p
+                  className="text-sm sm:text-base md:text-lg text-center font-bold text-black dark:text-teal-500 mt-4 sm:mt-6 mb-8 sm:mb-12"
+                  {...fadeInUp}
+                  transition={{ delay: 0.2 }}
+                >
+                  Découvrez une nouvelle façon de travailler et se divertir
+                  <br />
+                  avec un assistant IA connecté qui comprend vos besoins
+                  <br className="sm:hidden" />
+                  plus que jamais...
+                </motion.p>
+              </div>
 
             <div className="w-full overflow-hidden bg-white/5 backdrop-blur-sm py-8 my-8 rounded-2xl relative">
               <div className="relative max-w-7xl mx-auto px-4">
