@@ -196,7 +196,7 @@ export default function Page() {
           </motion.p>
 
             <motion.p
-            className="text-sm sm:text-base md:text-lg text-center text-gray-600 dark:text-gray-400 -mt-10"
+            className="text-xs sm:text-sm md:text-lg text-center text-gray-600 dark:text-gray-400 -mt-10"
             {...fadeInUp}
             transition={{ delay: 0.3 }}
             >

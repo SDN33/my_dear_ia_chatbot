@@ -132,7 +132,7 @@ const CryptoModule = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="text-xs text-gray-500 px-2">
+      <div className="text-[7px] text-gray-500 px-2">
         Dernière mise à jour : {lastFetchTime ? new Date(lastFetchTime).toLocaleString('fr-FR') : 'Chargement...'}
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2 h-full p-2">
@@ -158,11 +158,11 @@ const CryptoModule = () => {
               <div className="text-[10px] mt-1">
               <div className="font-medium">{formatPrice(crypto.current_price)}</div>
               </div>
-              <div className="text-[7px] text-gray-700">
+              <div className="text-[7px] text-gray-700 dark:text-gray-100 mt-1">
               Vol : {new Intl.NumberFormat('fr-FR').format(crypto.total_volume)} €
               </div>
               <div className="relative group">
-              <div className="text-[9px] text-gray-900 mt-1">
+              <div className="text-[9px] text-gray-900 mt-1 dark:text-gray-100">
               {summaries[crypto.symbol]
               ? `${summaries[crypto.symbol].substring(0, 80)}... `
               : 'Analyse en cours...'}
@@ -179,7 +179,7 @@ const CryptoModule = () => {
               </button>
               </div>
               {windowWidth >= 768 && (
-              <div className="absolute z-50 invisible group-hover:visible -top-16 bg-white border p-2 rounded-md shadow-lg w-48 text-[10px]">
+              <div className="absolute z-50 invisible group-hover:visible -top-16 bg-white text-black border p-2 rounded-md shadow-lg w-48 text-[10px]">
               {summaries[crypto.symbol]}
               </div>
               )}
