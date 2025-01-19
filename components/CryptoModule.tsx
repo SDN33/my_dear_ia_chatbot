@@ -167,7 +167,7 @@ const CryptoModule = () => {
               ? `${summaries[crypto.symbol].substring(0, 80)}... `
               : 'Analyse en cours...'}
               <button
-              className="text-blue-500 hover:underline"
+              className="text-teal-500 hover:underline"
               onClick={(e) => {
                 e.stopPropagation();
                 if (windowWidth < 768) {
