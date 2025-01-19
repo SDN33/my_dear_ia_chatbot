@@ -24,6 +24,9 @@ const MovieModule: React.FC = () => {
       { title: 'Anora' },
       { title: 'Landman' },
       { title: 'Squid Game' },
+      { title: 'Heretic' },
+      { title: 'Criminal Squad : Pantera'}
+
     ];
 
     const moviePromises = topMovieTitles

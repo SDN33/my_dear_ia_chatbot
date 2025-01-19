@@ -49,7 +49,7 @@ function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
   }, [append, chatId]);
 
   useEffect(() => {
-    const actionsToShow = isMobile ? 1 : 4;
+    const actionsToShow = isMobile ? 1 : 2;
     setRandomizedActions([...suggestedActions].sort(() => Math.random() - 0.5).slice(0, actionsToShow));
     setHydrated(true);
   }, [suggestedActions, isMobile]);
@@ -93,13 +93,13 @@ function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
           </motion.div>
         ))}
       </div>
-      {isMobile && !showMore && (
+      {!showMore && (
         <Button
         onClick={() => {
           setShowMore(true);
           const moreActions = [...suggestedActions]
             .sort(() => Math.random() - 0.5)
-            .slice(0, 6);
+            .slice(0, 4);
           setExpandedActions(moreActions);
         }}
         className="w-full text-center"
@@ -108,7 +108,7 @@ function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
         </Button>
       )}
 
-      {isMobile && showMore && (
+      {showMore && (
         <>
           <Button
             variant="ghost"
