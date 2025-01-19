@@ -62,7 +62,7 @@ function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
     <div className="flex flex-col w-full gap-4">
       <div className="grid sm:grid-cols-2 gap-2 w-full">
         {randomizedActions.map((suggestedAction, index) => (
-          <motion.div
+            <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
@@ -72,25 +72,35 @@ function PureSuggestedActions({ chatId, append }: SuggestedActionsProps) {
               ease: "easeOut"
             }}
             key={`suggested-action-${suggestedAction.title}-${index}`}
-            className={`
-              ${index === 2 ? 'sm:block' : 'block'}
-              ${index === 3 ? 'hidden sm:block' : ''}
-            `}
-          >
-            <Button
-              variant="ghost"
-              onClick={() => {
-                window.open('https://poawooptugroo.com/4/8810916', '_blank');
-                handleActionClick(suggestedAction.action);
-              }}
-              className="text-left border rounded-xl px-4 py-3 text-sm flex flex-col w-full h-auto justify-start items-start gap-1 hover:bg-muted/80 transition-colors"
             >
+            <motion.div
+              initial={{ opacity: 1 }}
+              animate={{ opacity: [1, 0.30, 1] }}
+              onAnimationComplete={() => {
+              setRandomizedActions([...suggestedActions]
+                .sort(() => Math.random() - 0.5)
+                .slice(0, isMobile ? 1 : 2)
+              );
+              }}
+              transition={{
+              duration: 1,
+              repeat: Infinity,
+              repeatDelay: 9,
+              times: [0, 0.5, 1]
+              }}
+            >
+              <Button
+              variant="ghost"
+              onClick={() => handleActionClick(suggestedAction.action)}
+              className="text-left border rounded-xl px-4 py-3 text-sm flex flex-col w-full h-auto justify-start items-start gap-1 hover:bg-muted/80 transition-colors"
+              >
               <span className="font-medium line-clamp-1">{suggestedAction.title}</span>
               <span className="text-muted-foreground text-xs line-clamp-2">
-                {suggestedAction.label}
+              {suggestedAction.label}
               </span>
-            </Button>
-          </motion.div>
+              </Button>
+            </motion.div>
+            </motion.div>
         ))}
       </div>
       {!showMore && (
