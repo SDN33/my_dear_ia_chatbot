@@ -150,10 +150,10 @@ const CryptoModule = () => {
               <img src={crypto.image} alt={crypto.name} className="size-4" />
               <div className="font-semibold text-xs">{crypto.symbol.toUpperCase()}</div>
               </div>
-              <div className={`flex items-center text-[10px] ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
-              {isPositive ? <ArrowUpIcon className="size-2" /> : <ArrowDownIcon className="size-2" />}
-              {formatChange(crypto.price_change_percentage_24h)}
-              </div>
+                <div className={`flex items-center text-[5px] md:text-[10px] ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
+                {isPositive ? <ArrowUpIcon className="size-2" /> : <ArrowDownIcon className="size-2" />}
+                {formatChange(crypto.price_change_percentage_24h)}
+                </div>
               </div>
               <div className="text-[10px] mt-1">
               <div className="font-medium">{formatPrice(crypto.current_price)}</div>
