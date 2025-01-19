@@ -86,19 +86,16 @@ const CryptoModule = () => {
       .join(' ');
 
     for (const [symbol, crypto] of Object.entries(data)) {
-      const prompt = `En 140 caractères max et en tant qu'expert chevronné du trading, analysez ces données pour ${symbol}:
-      - Prix actuel: ${crypto.price_usd} USD
-      - Volume 24h: ${crypto.volume_24h}
-      - Variation 24h: ${crypto.percent_change_24h}%
+      const prompt = `En tant qu'expert trading, donnez une analyse de marché pour ${symbol} en EXACTEMENT 120 caractères (ni plus ni moins):
 
-      Actualités récentes du marché:
-      ${last24hNews}
+      Prix: ${crypto.price_usd}USD
+      Volume 24h: ${crypto.volume_24h}
+      Var 24h: ${crypto.percent_change_24h}%
 
-      Fournissez une brève analyse de marché en vous concentrant sur:
-      Si vous recommandez d'acheter, de vendre ou de conserver
+      News: ${last24hNews}
+      Ne repetéz pas les informations ci-dessus.
 
-      Répondez en français avec le ton d'un trader expérimenté, en une phrase concise.
-      140 caractères maximum impérativement ce qui inclut les espaces et la ponctuation, ce point est prioritaire.`;
+      Incluez votre recommandation (achat/vente/conservation).`;
 
       try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -167,38 +164,55 @@ const CryptoModule = () => {
         Dernière mise à jour : {lastFetchTime ? new Date(lastFetchTime).toLocaleString('fr-FR') : 'Chargement...'}
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2 h-full p-2">
-        {Object.entries(cryptoData || {}).map(([symbol, crypto]) => {
+        {Object.entries(cryptoData ?? {}).map(([symbol, crypto]) => {
+          // Skip Solana on mobile
+          if (windowWidth < 768 && symbol.toLowerCase() === 'sol') return null;
+
           const isPositive = crypto.percent_change_24h >= 0;
 
           return (
-            <Card key={symbol} className="flex flex-col justify-between p-3">
-              <div className="flex items-center justify-between">
-                <div className="font-semibold">{symbol.toUpperCase()}</div>
-                <div
-                  className={`flex items-center text-xs ${
-                    isPositive ? 'text-green-500' : 'text-red-500'
-                  }`}
-                >
-                  {isPositive ? <ArrowUpIcon className="size-3" /> : <ArrowDownIcon className="size-3" />}
-                  {formatChange(crypto.percent_change_24h)}
-                </div>
-              </div>
-              <div className="text-xs mt-2">
-                <div className="font-medium">{formatPrice(crypto.price_usd)}</div>
-              </div>
-              <div className="text-xs text-gray-500 mt-1">
-                Vol : {new Intl.NumberFormat().format(crypto.volume_24h)}
-              </div>
-              <div className="text-[10px] text-gray-900 mt-2">
-                {summaries[symbol]?.length > (window.innerWidth < 768 ? 140 : 190)
-                  ? summaries[symbol].substring(0, window.innerWidth < 768 ? 140 : 190).replace(/,\s*$/, '.') + '.'
-                  : summaries[symbol]?.endsWith('.')
-                  ? summaries[symbol]
-                  : summaries[symbol]
-                    ? `${summaries[symbol]}.`
-                    : 'Prévisions en cours...'}
-              </div>
-            </Card>
+        <Card key={symbol} className="flex flex-col justify-between p-3">
+          <div className="flex items-center justify-between">
+            <div className="font-semibold">{symbol.toUpperCase()}</div>
+            <div
+          className={`flex items-center text-xs ${
+            isPositive ? 'text-green-500' : 'text-red-500'
+          }`}
+            >
+          {isPositive ? <ArrowUpIcon className="size-3" /> : <ArrowDownIcon className="size-3" />}
+          {formatChange(crypto.percent_change_24h)}
+            </div>
+          </div>
+          <div className="text-xs mt-2">
+            <div className="font-medium">{formatPrice(crypto.price_usd)}</div>
+          </div>
+          <div className="text-xs text-gray-500 mt-1">
+            Vol : {new Intl.NumberFormat().format(crypto.volume_24h)}
+          </div>
+            <div className="relative group">
+            <div className="text-[10px] text-gray-900 mt-2">
+          {summaries[symbol]
+          ? `${summaries[symbol].substring(0, 100)}... `
+          : 'Prévisions en cours...'}
+          <button
+          className="text-blue-500 hover:underline"
+          onClick={(e) => {
+          e.stopPropagation();
+          if (windowWidth < 768) {
+            alert(summaries[symbol]);
+          }
+          }}
+          >
+          voir plus
+          </button>
+            </div>
+            {windowWidth >= 768 && (
+            <div className="absolute z-50 invisible group-hover:visible -top-20 bg-white border p-2 rounded-md shadow-lg w-64 text-xs">
+            {summaries[symbol]}
+            </div>
+            )}
+            </div>
+        </Card>
           );
         })}
       </div>
