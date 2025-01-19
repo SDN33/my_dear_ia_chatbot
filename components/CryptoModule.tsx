@@ -158,7 +158,7 @@ const CryptoModule = () => {
               <div className="text-[10px] mt-1">
               <div className="font-medium">{formatPrice(crypto.current_price)}</div>
               </div>
-              <div className="text-[5px] text-gray-700">
+              <div className="text-[7px] text-gray-700">
               Vol : {new Intl.NumberFormat('fr-FR').format(crypto.total_volume)} €
               </div>
               <div className="relative group">
