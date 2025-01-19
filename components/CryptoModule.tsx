@@ -92,9 +92,9 @@ const CryptoModule = () => {
       Volume 24h: ${crypto.volume_24h}
       Var 24h: ${crypto.percent_change_24h}%
 
-      News: ${last24hNews}
-      Ne repetéz pas les informations ci-dessus.
+      ne repetez pas les informations ci-dessus
 
+      News: ${last24hNews}
       Incluez votre recommandation (achat/vente/conservation).`;
 
       try {
