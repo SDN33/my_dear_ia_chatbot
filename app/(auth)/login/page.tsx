@@ -168,12 +168,13 @@ export default function Page() {
           {/* Features Section */}
           <div className="col-span-2 ">
             <motion.p
-              className="text-base text-center -mt-4 mb-10 md:text-lg mx-auto max-w-xl flex justify-center items-center text-teal-700 dark:text-teal-500 font-bold"
+              className="text-base text-center -mt-4 mb-10 md:text-lg mx-auto max-w-xl flex justify-center items-center text-black dark:text-teal-500 font-bold
+              transition-all duration-300 hover:-translate-y-1"
               {...fadeInUp}
               transition={{ delay: 0.2 }}
             >
               Découvrez une nouvelle façon de travailler et se divertir avec un assistant IA qui comprend
-              vos besoins plus que jamais
+              vos besoins plus que jamais...
             </motion.p>
             <motion.div
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
