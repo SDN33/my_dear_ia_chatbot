@@ -19,7 +19,7 @@ const CryptoModule = () => {
   const [lastFetchTime, setLastFetchTime] = useState(0);
   const [summaries, setSummaries] = useState<Record<string, string>>({});
 
-  const topCryptos = useMemo(() => ['btc-bitcoin', 'eth-ethereum', 'usdt-tether', 'bnb-binance-coin', 'sol-solana', 'xrp-xrp'], []);
+  const topCryptos = useMemo(() => ['btc-bitcoin', 'eth-ethereum', 'sol-solana',], []);
 
   const fetchCryptoData = useCallback(async () => {
     try {
@@ -61,17 +61,18 @@ const CryptoModule = () => {
 
     const summariesTemp: Record<string, string> = {};
     for (const [symbol, crypto] of Object.entries(data)) {
-      const prompt = `Based on the following data for ${symbol}:
-      - Current price: ${crypto.price_usd} USD
-      - 24h volume: ${crypto.volume_24h}
-      - 24h change: ${crypto.percent_change_24h}%
+      const prompt = `En tant qu'expert chevronné du trading, analysez ces données pour ${symbol}:
+      - Prix actuel: ${crypto.price_usd} USD
+      - Volume 24h: ${crypto.volume_24h}
+      - Variation 24h: ${crypto.percent_change_24h}%
 
-      Provide a brief market analysis (2-3 sentences) focusing on:
-      1. Current price trend
-      2. Trading volume significance
-      3. Short-term market sentiment
+      Fournissez une brève analyse de marché en vous concentrant sur:
+      1. La tendance actuelle des prix
+      2. La signification du volume
+      3. Le sentiment du marché à court terme
 
-      Keep the response concise and avoid investment advice, one short sentence.`;
+      Répondez en français avec le ton d'un trader expérimenté, en une phrase concise.
+      195 caractères maximum impérativement.`;
 
       try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
