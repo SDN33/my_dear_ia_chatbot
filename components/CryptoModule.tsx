@@ -17,6 +17,7 @@ const CryptoModule = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastFetchTime, setLastFetchTime] = useState(0);
+  const [summaries, setSummaries] = useState<Record<string, string>>({});
 
   const topCryptos = useMemo(() => ['btc-bitcoin', 'eth-ethereum', 'usdt-tether', 'bnb-binance-coin', 'sol-solana', 'xrp-xrp'], []);
 
@@ -40,12 +41,60 @@ const CryptoModule = () => {
 
       setCryptoData(data);
       setLastFetchTime(Date.now());
+
+      // Générer des résumés via OpenAI
+      generateSummaries(data);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred');
     } finally {
       setIsLoading(false);
     }
   }, [topCryptos]);
+
+  const generateSummaries = async (data: CryptoData) => {
+    const openaiApiKey = process.env.NEXT_PUBLIC_OPENAI_API_KEY;
+
+    if (!openaiApiKey) {
+      console.error('API key for OpenAI is missing');
+      return;
+    }
+
+    const summariesTemp: Record<string, string> = {};
+    for (const [symbol, crypto] of Object.entries(data)) {
+      const prompt = `Based on the following data for ${symbol}:
+      - Current price: ${crypto.price_usd} USD
+      - 24h volume: ${crypto.volume_24h}
+      - 24h change: ${crypto.percent_change_24h}%
+
+      Provide a brief market analysis (2-3 sentences) focusing on:
+      1. Current price trend
+      2. Trading volume significance
+      3. Short-term market sentiment
+
+      Keep the response concise and avoid investment advice, one short sentence.`;
+
+      try {
+        const response = await fetch('https://api.openai.com/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${openaiApiKey}`,
+          },
+          body: JSON.stringify({
+            model: 'gpt-3.5-turbo',
+            messages: [{ role: 'user', content: prompt }],
+          }),
+        });
+
+        const result = await response.json();
+        const summary = result.choices?.[0]?.message?.content || 'Résumé non disponible';
+        summariesTemp[symbol] = summary;
+      } catch (error) {
+        summariesTemp[symbol] = 'Erreur lors de la génération du résumé.';
+      }
+    }
+    setSummaries(summariesTemp);
+  };
 
   useEffect(() => {
     fetchCryptoData();
@@ -107,12 +156,15 @@ const CryptoModule = () => {
               </div>
               <div className="text-xs mt-2">
                 <div className="font-medium">{formatPrice(crypto.price_usd)}</div>
-              <div className="text-[10px] text-gray-500">
-                {formatPrice(crypto.price_usd * 0.92)} EUR
-              </div>
+                <div className="text-[10px] text-gray-500">
+                  {formatPrice(crypto.price_usd * 0.92)} EUR
+                </div>
               </div>
               <div className="text-xs text-gray-500 mt-1">
                 Vol : {new Intl.NumberFormat().format(crypto.volume_24h)}
+              </div>
+              <div className="text-[10px] text-blue-500 mt-2">
+                {summaries[symbol] || 'Génération du résumé...'}
               </div>
             </Card>
           );
