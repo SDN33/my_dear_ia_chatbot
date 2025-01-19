@@ -147,7 +147,7 @@ const CryptoModule = () => {
             <Card key={crypto.id} className="flex flex-col justify-between p-2">
               <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
-              <img src={crypto.image} alt={crypto.name} className="w-4 h-4" />
+              <img src={crypto.image} alt={crypto.name} className="size-4" />
               <div className="font-semibold text-xs">{crypto.symbol.toUpperCase()}</div>
               </div>
               <div className={`flex items-center text-[10px] ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
