@@ -141,16 +141,18 @@ const CryptoModule = () => {
 
           const isPositive = (crypto.price_change_percentage_24h || 0) >= 0;
 
-          return (
+            if (windowWidth < 768 && !['btc', 'eth'].includes(crypto.symbol)) return null;
+
+            return (
             <Card key={crypto.id} className="flex flex-col justify-between p-2">
               <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
-                <img src={crypto.image} alt={crypto.name} className="w-4 h-4" />
-                <div className="font-semibold text-xs">{crypto.symbol.toUpperCase()}</div>
+              <img src={crypto.image} alt={crypto.name} className="w-4 h-4" />
+              <div className="font-semibold text-xs">{crypto.symbol.toUpperCase()}</div>
               </div>
               <div className={`flex items-center text-[10px] ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
-                {isPositive ? <ArrowUpIcon className="size-2" /> : <ArrowDownIcon className="size-2" />}
-                {formatChange(crypto.price_change_percentage_24h)}
+              {isPositive ? <ArrowUpIcon className="size-2" /> : <ArrowDownIcon className="size-2" />}
+              {formatChange(crypto.price_change_percentage_24h)}
               </div>
               </div>
               <div className="text-[10px] mt-1">
@@ -161,29 +163,29 @@ const CryptoModule = () => {
               </div>
               <div className="relative group">
               <div className="text-[9px] text-gray-900 mt-1">
-                {summaries[crypto.symbol]
-                ? `${summaries[crypto.symbol].substring(0, 80)}... `
-                : 'Analyse en cours...'}
-                <button
-                className="text-blue-500 hover:underline"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  if (windowWidth < 768) {
-                  alert(summaries[crypto.symbol]);
-                  }
-                }}
-                >
-                voir plus
-                </button>
+              {summaries[crypto.symbol]
+              ? `${summaries[crypto.symbol].substring(0, 80)}... `
+              : 'Analyse en cours...'}
+              <button
+              className="text-blue-500 hover:underline"
+              onClick={(e) => {
+                e.stopPropagation();
+                if (windowWidth < 768) {
+                alert(summaries[crypto.symbol]);
+                }
+              }}
+              >
+              voir plus
+              </button>
               </div>
               {windowWidth >= 768 && (
-                <div className="absolute z-50 invisible group-hover:visible -top-16 bg-white border p-2 rounded-md shadow-lg w-48 text-[10px]">
-                {summaries[crypto.symbol]}
-                </div>
+              <div className="absolute z-50 invisible group-hover:visible -top-16 bg-white border p-2 rounded-md shadow-lg w-48 text-[10px]">
+              {summaries[crypto.symbol]}
+              </div>
               )}
               </div>
             </Card>
-          );
+            );
         })}
       </div>
     </div>
