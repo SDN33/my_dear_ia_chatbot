@@ -77,7 +77,7 @@ export default function Page() {
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center mb-16 md:mb-24">
           {/* Left Column */}
             <motion.div
-            className="space-y-6 md:space-y-8 text-center lg:text-left"
+            className="space-y-6 md:space-y-8 text-center lg:text-left mt-24 md:mt-0"
             initial="initial"
             animate="animate"
             >
@@ -103,7 +103,7 @@ export default function Page() {
               <motion.img
               src="/images/avatar.png"
               alt="Assistant IA"
-              className="w-80 h-auto mx-auto lg:mx-0 rounded-full shadow-2xl"
+              className="w-80 h-auto mx-auto lg:mx-0 rounded-full shadow-2xl mt-10 md:mt-0"
               {...fadeInUp}
               transition={{ delay: 0.2 }}
               style={{
