@@ -60,19 +60,39 @@ const CryptoModule = () => {
     }
 
     const summariesTemp: Record<string, string> = {};
+
+    // Fetch RSS feed first using a CORS proxy
+    let rssText = '';
+    try {
+      const rssResponse = await fetch('https://api.allorigins.win/raw?url=' + encodeURIComponent('https://fr.cointelegraph.com/rss/category/market-analysis'));
+      rssText = await rssResponse.text();
+    } catch (error) {
+      console.error('Failed to fetch RSS feed:', error);
+    }
+    const parser = new DOMParser();
+    const rssDoc = parser.parseFromString(rssText, 'text/xml');
+    const items = Array.from(rssDoc.querySelectorAll('item'));
+    const last24hNews = items
+      .slice(0, 5)
+      .map(item => item.querySelector('title')?.textContent || '')
+      .join(' ');
+
     for (const [symbol, crypto] of Object.entries(data)) {
       const prompt = `En tant qu'expert chevronné du trading, analysez ces données pour ${symbol}:
       - Prix actuel: ${crypto.price_usd} USD
       - Volume 24h: ${crypto.volume_24h}
       - Variation 24h: ${crypto.percent_change_24h}%
 
+      Actualités récentes du marché:
+      ${last24hNews}
+
       Fournissez une brève analyse de marché en vous concentrant sur:
-      1. La tendance actuelle des prix
-      2. La signification du volume
-      3. Le sentiment du marché à court terme
+      1.Les prévisions de prix à moyen et long terme
+      2.Les facteurs qui influencent le prix incluant les actualités ci-dessus si pertinentes
+      3.Si vous recommandez d'acheter, de vendre ou de conserver
 
       Répondez en français avec le ton d'un trader expérimenté, en une phrase concise.
-      195 caractères maximum impérativement.`;
+      190 caractères maximum impérativement ce qui inclut les espaces et la ponctuation, ce point est prioritaire.`;
 
       try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -82,7 +102,9 @@ const CryptoModule = () => {
             Authorization: `Bearer ${openaiApiKey}`,
           },
           body: JSON.stringify({
-            model: 'gpt-3.5-turbo',
+            model: 'gpt-3.5-turbo-16k',
+            max_tokens: 60,
+            temperature: 0.7,
             messages: [{ role: 'user', content: prompt }],
           }),
         });
@@ -164,8 +186,8 @@ const CryptoModule = () => {
               <div className="text-xs text-gray-500 mt-1">
                 Vol : {new Intl.NumberFormat().format(crypto.volume_24h)}
               </div>
-              <div className="text-[10px] text-blue-500 mt-2">
-                {summaries[symbol] || 'Génération du résumé...'}
+              <div className="text-[10px] text-gray-900 mt-2">
+                {summaries[symbol]?.endsWith('.') ? summaries[symbol] : summaries[symbol] ? `${summaries[symbol]}.` : 'Génération du résumé...'}
               </div>
             </Card>
           );
