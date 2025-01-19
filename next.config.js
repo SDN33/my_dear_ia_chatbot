@@ -8,8 +8,9 @@ module.exports = {
       {
         hostname: 'avatar.vercel.sh',
       },
+      {
+        hostname: 'm.media-amazon.com',
+      },
     ],
-    domains: ['m.media-amazon.com'], // Ajoute ce domaine ici
-
   },
 };
