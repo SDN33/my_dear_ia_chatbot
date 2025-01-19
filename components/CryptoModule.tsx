@@ -25,18 +25,22 @@ const CryptoModule = () => {
 
   const topCryptos = useMemo(() => ['BTC', 'ETH', 'USDT', 'BNB', 'SOL', 'XRP'], []);
   const API_KEY = process.env.NEXT_PUBLIC_COINLAYER_API_KEY;
-  const CACHE_DURATION = 30000; // 30 seconds cache
+  const CACHE_DURATION = 24 * 60 * 60 * 1000; // 24 hours cache
 
   const fetchCryptoData = useCallback(async () => {
     const now = Date.now();
-    if (now - lastFetchTime < CACHE_DURATION) {
-      return; // Skip if cache is still valid
+    const lastFetchDate = new Date(lastFetchTime).setHours(0, 0, 0, 0);
+    const todayDate = new Date(now).setHours(0, 0, 0, 0);
+
+    if (lastFetchDate === todayDate) {
+      return; // Skip if we already fetched today
     }
+
 
     try {
       setIsLoading(true);
       const response = await fetch(
-        `http://api.coinlayer.com/live?access_key=${API_KEY}&symbols=${topCryptos.join(',')}&expand=1`
+        `https://api.coinlayer.com/live?access_key=${API_KEY}&symbols=${topCryptos.join(',')}&expand=1`
       );
       const data = await response.json();
 
@@ -57,7 +61,7 @@ const CryptoModule = () => {
     fetchCryptoData();
     const interval = setInterval(fetchCryptoData, CACHE_DURATION);
     return () => clearInterval(interval);
-  }, [fetchCryptoData]);
+  }, [fetchCryptoData, CACHE_DURATION]);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat('en-US', {
@@ -90,46 +94,53 @@ const CryptoModule = () => {
   }
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 h-full p-2">
+    <div className="flex flex-col h-full">
+      <div className="text-xs text-gray-500 px-2 pb-1">
+      Dernière mise à jour : {lastFetchTime ? new Date(lastFetchTime).toLocaleString('fr-FR') : 'Chargement...'}
+      </div>
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 h-full p-2">
       {topCryptos.map((symbol) => {
         const crypto = cryptoData?.rates[symbol];
         if (!crypto) return null;
 
         const priceChange = crypto.high && crypto.low
-          ? (crypto.rate - crypto.low) / crypto.low
-          : 0;
+        ? (crypto.rate - crypto.low) / crypto.low
+        : 0;
 
         const isPositive = priceChange >= 0;
 
         return (
-          <Card key={symbol} className="flex flex-col justify-between p-3">
-            <div className="flex items-center justify-between">
-              <div className="font-semibold">{symbol}</div>
-              {priceChange !== 0 && (
-                <div className={`flex items-center text-xs ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
-                  {isPositive ? <ArrowUpIcon className="size-3 mr-1" /> : <ArrowDownIcon className="size-3 mr-1" />}
-                  {formatChange(Math.abs(priceChange))}
-                </div>
-              )}
+        <Card key={symbol} className="flex flex-col justify-between p-3">
+          <div className="flex items-center justify-between">
+          <div className="font-semibold">{symbol}</div>
+          <span className="ml-1 text-gray-500 text-right text-xs -mr-28">Ce jour</span>
+
+          {priceChange !== 0 && (
+            <div className={`flex items-center text-xs ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
+            {isPositive ? <ArrowUpIcon className="size-3 mr-1" /> : <ArrowDownIcon className="size-3 mr-1" />}
+            {formatChange(Math.abs(priceChange))}
             </div>
-            <div className="text-sm mt-2">
-                <div className="flex flex-col">
-                <div className="font-medium">{formatPrice(crypto.rate)}</div>
-                <div className="text-xs text-gray-500">
-                  {new Intl.NumberFormat('fr-FR', {
-                  style: 'currency',
-                  currency: 'EUR',
-                  minimumFractionDigits: 2,
-                  }).format(crypto.rate * 0.92)}
-                </div>
-                </div>
+          )}
+          </div>
+          <div className="text-sm mt-2">
+            <div className="flex flex-col">
+            <div className="font-medium">{formatPrice(crypto.rate)}</div>
+            <div className="text-xs text-gray-500">
+            {new Intl.NumberFormat('fr-FR', {
+            style: 'currency',
+            currency: 'EUR',
+            minimumFractionDigits: 2,
+            }).format(crypto.rate * 0.92)}
             </div>
-            <div className="text-xs text-gray-500 mt-1">
-              Vol: {crypto.vol ? new Intl.NumberFormat().format(crypto.vol) : 'N/A'}
             </div>
-          </Card>
+          </div>
+          <div className="text-xs text-gray-500 mt-1">
+          Vol: {crypto.vol ? new Intl.NumberFormat().format(crypto.vol) : 'N/A'}
+          </div>
+        </Card>
         );
       })}
+      </div>
     </div>
   );
 };
