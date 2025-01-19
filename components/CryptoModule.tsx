@@ -95,7 +95,7 @@ const CryptoModule = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="text-xs text-gray-500 px-2 pb-1">
+      <div className="text-xs text-gray-500 px-2 ">
       Dernière mise à jour : {lastFetchTime ? new Date(lastFetchTime).toLocaleString('fr-FR') : 'Chargement...'}
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-2 h-full p-2">
@@ -110,19 +110,20 @@ const CryptoModule = () => {
         const isPositive = priceChange >= 0;
 
         return (
-        <Card key={symbol} className="flex flex-col justify-between p-3">
+        <Card key={symbol} className={`flex flex-col justify-between p-3 ${
+          (window.innerWidth < 768 && !['BTC', 'ETH'].includes(symbol)) ? 'hidden' : ''
+        }`}>
           <div className="flex items-center justify-between">
           <div className="font-semibold">{symbol}</div>
-          <span className="ml-1 text-gray-500 text-right text-xs -mr-28">Ce jour</span>
 
           {priceChange !== 0 && (
             <div className={`flex items-center text-xs ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
-            {isPositive ? <ArrowUpIcon className="size-3 mr-1" /> : <ArrowDownIcon className="size-3 mr-1" />}
+            {isPositive ? <ArrowUpIcon className="size-3 " /> : <ArrowDownIcon className="size-3" />}
             {formatChange(Math.abs(priceChange))}
             </div>
           )}
           </div>
-          <div className="text-sm mt-2">
+          <div className="text-xs mt-2">
             <div className="flex flex-col">
             <div className="font-medium">{formatPrice(crypto.rate)}</div>
             <div className="text-xs text-gray-500">
