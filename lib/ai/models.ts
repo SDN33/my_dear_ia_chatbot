@@ -16,7 +16,7 @@ export const models: Array<Model> = [
   },
   {
     id: 'gpt-4o',
-    label: 'My Dear IA',
+    label: 'My Dear IA (gpt-4o)',
     apiIdentifier: 'gpt-4o',
     description: 'Pour les tâches complexes',
   },
