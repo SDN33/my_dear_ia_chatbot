@@ -24,19 +24,19 @@ const fadeInUp = {
 
 const features = [
   {
-    icon: <MessageSquare className="size-6 text-teal-600" />,
-    title: "Chat Intuitif",
-    description: "Nous Simplifions la Communication avec une IA plus Humaine"
+    icon: <MessageSquare className="size-6 text-teal-600 group-hover:scale-110 transition-transform" />,
+    title: "Assistant Personnel Intelligent",
+    description: "Profitez d'une conversation naturelle et fluide avec une IA qui comprend vos besoins et s'adapte à votre style"
   },
   {
-    icon: <Sparkles className="size-6 text-teal-600" />,
-    title: "Contenus Connectés",
-    description: "Actualités, Cryptomonnaies, Spotify et bien plus encore"
+    icon: <Sparkles className="size-6 text-teal-600 group-hover:rotate-12 transition-transform" />,
+    title: "Univers Connecté",
+    description: "Explorez un monde d'informations en temps réel : marchés financiers, musique, actualités, divertissement et bien plus"
   },
   {
-    icon: <HandCoins className="size-6 text-teal-600" />,
-    title: "Engagement Éthique",
-    description: "Engagé pour la Planète avec 50% de vos Dons reversés à WWF France"
+    icon: <HandCoins className="size-6 text-teal-600 group-hover:bounce transition-all" />,
+    title: "Impact Positif",
+    description: "Contribuez à un avenir meilleur avec nous : 50% de chaque don soutient directement les actions de WWF France"
   }
 ];
 
@@ -64,6 +64,16 @@ export default function Page() {
     setEmail(formData.get('email') as string);
     formAction(formData);
   };
+
+
+  const logos = [
+    { src: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/OpenAI_Logo.svg/langfr-195px-OpenAI_Logo.svg.png", alt: "OpenAI" },
+    { src: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/2024_Spotify_Logo.svg/langfr-300px-2024_Spotify_Logo.svg.png", alt: "Spotify" },
+    { src: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Bitcoin_logo.svg/langfr-330px-Bitcoin_logo.svg.png", alt: "Bitcoin" },
+    { src: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/YouTube_2024.svg/langfr-210px-YouTube_2024.svg.png", alt: "YouTube" },
+    { src: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Google_News_icon.png/332px-Google_News_icon.png", alt: "Google News" },
+    { src: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/IMDB_Logo_2016.svg/langfr-225px-IMDB_Logo_2016.svg.png", alt: "IMDb" },
+  ];
 
   return (
     <div className="min-h-dvh w-full bg-background overflow-x-hidden">
@@ -166,70 +176,103 @@ export default function Page() {
           </div>
 
           {/* Features Section */}
-          <div className="col-span-2 ">
+            <div className="col-span-2">
             <motion.p
-              className="text-base text-center -mt-4 mb-10 md:text-lg mx-auto max-w-xl flex justify-center items-center text-black dark:text-teal-500 font-bold
-              transition-all duration-300 hover:-translate-y-1"
+              className="text-sm sm:text-base md:text-lg text-center font-bold text-black dark:text-teal-500 max-w-[85%] mx-auto mt-4 sm:mt-6 mb-8 sm:mb-12 px-4 mx-auto"
               {...fadeInUp}
               transition={{ delay: 0.2 }}
             >
-              Découvrez une nouvelle façon de travailler et se divertir avec un assistant IA qui comprend
-              vos besoins plus que jamais...
+              Découvrez une nouvelle façon de travailler et se divertir<br />avec un assistant IA connecté qui comprend vos besoins plus que jamais...
             </motion.p>
+
+            <div className="w-full overflow-hidden bg-white/5 backdrop-blur-sm py-8 my-8 rounded-2xl relative">
+              <div className="relative max-w-7xl mx-auto px-4">
+                {/* First row of logos */}
+                <div className="flex space-x-16 animate-scroll">
+                  {[...logos, ...logos].map((logo, index) => (
+                    <div
+                      key={index}
+                      className="flex-none size-40 flex items-center justify-center"
+                    >
+                      <div className="relative w-16 h-16">
+                        <Image
+                          src={logo.src}
+                          alt={logo.alt}
+                          layout="fill"
+                          objectFit="contain"
+                          className="opacity-60 hover:opacity-100 transition-opacity duration-300 transform hover:scale-110"
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+               {/* Gradient overlays for smooth fade effect */}
+                <div className="absolute left-0 top-0 w-24 h-full bg-gradient-to-r from-background to-transparent" />
+                <div className="absolute right-0 top-0 w-24 h-full bg-gradient-to-l from-background to-transparent" />
+              </div>
+
             <motion.div
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
               {...fadeInUp}
               transition={{ delay: 0.4 }}
             >
               {features.map((feature, index) => (
-                <motion.div
-                  key={index}
-                  className="group relative p-6 rounded-2xl bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100/20 dark:border-gray-700/30 backdrop-blur-sm"
-                  whileHover={{ y: -4 }}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
-                >
-                  <div className="flex flex-col items-center space-y-4">
-                    <div className="p-3 rounded-full bg-teal-50 dark:bg-teal-900/20">
-                      {feature.icon}
-                    </div>
-                    <h3 className="text-base font-medium text-gray-900 dark:text-white">
-                      {feature.title}
-                    </h3>
-                    <p className="text-sm text-gray-500 dark:text-gray-400 text-center leading-relaxed">
-                      {feature.description}
-                    </p>
-                  </div>
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-transparent to-transparent group-hover:from-teal-50/20 group-hover:to-transparent transition-all duration-300" />
-                </motion.div>
+              <motion.div
+                key={index}
+                className="group relative p-6 rounded-2xl bg-gradient-to-b from-white to-gray-50 dark:from-gray-800 dark:to-gray-900 shadow-sm hover:shadow-md transition-all duration-300 border border-gray-100/20 dark:border-gray-700/30 backdrop-blur-sm"
+                whileHover={{ y: -4 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <div className="flex flex-col items-center space-y-4">
+                <div className="p-3 rounded-full bg-teal-50 dark:bg-teal-900/20">
+                  {feature.icon}
+                </div>
+                <h3 className="text-base font-medium text-gray-900 dark:text-white">
+                  {feature.title}
+                </h3>
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-center leading-relaxed">
+                  {feature.description}
+                </p>
+                </div>
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-transparent to-transparent group-hover:from-teal-50/20 group-hover:to-transparent transition-all duration-300" />
+              </motion.div>
               ))}
             </motion.div>
+            </div>
+
+            {/* Footer */}
+            <Footer />
+          </div>
           </div>
 
-          {/* Footer */}
-          <Footer />
-        </div>
-      </div>
-
-      <style jsx>{`
-        .neon-effect {
-          position: relative;
-          z-index: 1;
+          <style jsx global>{`
+          .neon-effect {
+            position: relative;
+            z-index: 1;
+          }
+          .neon-effect::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 20, 147, 0.6), rgba(0, 128, 128, 0.3));
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            filter: blur(20px);
+          }
+          @keyframes scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+          }
+          .animate-scroll {
+            animation: scroll 30s linear infinite;
+          }
+                  `}</style>
+            </div>
+          );
         }
-        .neon-effect::before {
-          content: '';
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          width: 100%;
-          height: 100%;
-          background: radial-gradient(circle, rgba(255, 20, 147, 0.6), rgba(0, 128, 128, 0.3));
-          transform: translate(-50%, -50%);
-          z-index: -1;
-          filter: blur(20px);
-        }
-      `}</style>
-    </div>
-  );
-}

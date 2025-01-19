@@ -1,3 +1,5 @@
+const { hostname } = require("os");
+
 // next.config.js
 module.exports = {
   experimental: {
@@ -11,6 +13,12 @@ module.exports = {
       {
         hostname: 'm.media-amazon.com',
       },
+      {
+        hostname: 'commons.wikimedia.org',
+      },
+      {
+        hostname: 'upload.wikimedia.org',
+      }
     ],
   },
 };
