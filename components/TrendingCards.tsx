@@ -174,7 +174,7 @@ const BestRatedMovies = () => {
   return (
     <div className="h-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
       {movies.map((movie, index) => (
-          <div key={index} className="flex flex-col justify-between p-1 md:p-2 bg-gray-50 dark:bg-black rounded-lg">
+          <div key={index} className="flex flex-col justify-between p-1 md:p-2 bg-transparent dark:bg-black rounded-lg">
           <div className="relative w-full lg:w-2/4 h-32 md:h-40 mb-1 md:mb-2 justify-center mx-auto">
             <a href={movie.link} target="_blank" rel="noopener noreferrer">
               <Image
@@ -191,7 +191,7 @@ const BestRatedMovies = () => {
               {movie.title}
             </p>
             <p className="text-xs md:hidden">{movie.year}</p>
-            <p className="hidden md:block">{movie.year}</p>
+            <p className="hidden md:block  text-xs">{movie.year}</p>
             <a
               href={movie.link}
               target="_blank"
