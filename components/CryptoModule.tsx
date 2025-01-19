@@ -18,6 +18,14 @@ const CryptoModule = () => {
   const [error, setError] = useState<string | null>(null);
   const [lastFetchTime, setLastFetchTime] = useState(0);
   const [summaries, setSummaries] = useState<Record<string, string>>({});
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const topCryptos = useMemo(() => ['btc-bitcoin', 'eth-ethereum', 'sol-solana',], []);
 
@@ -78,7 +86,7 @@ const CryptoModule = () => {
       .join(' ');
 
     for (const [symbol, crypto] of Object.entries(data)) {
-      const prompt = `En tant qu'expert chevronné du trading, analysez ces données pour ${symbol}:
+      const prompt = `En 140 caractères max et en tant qu'expert chevronné du trading, analysez ces données pour ${symbol}:
       - Prix actuel: ${crypto.price_usd} USD
       - Volume 24h: ${crypto.volume_24h}
       - Variation 24h: ${crypto.percent_change_24h}%
@@ -87,12 +95,10 @@ const CryptoModule = () => {
       ${last24hNews}
 
       Fournissez une brève analyse de marché en vous concentrant sur:
-      1.Les prévisions de prix à moyen et long terme
-      2.Les facteurs qui influencent le prix incluant les actualités ci-dessus si pertinentes
-      3.Si vous recommandez d'acheter, de vendre ou de conserver
+      Si vous recommandez d'acheter, de vendre ou de conserver
 
       Répondez en français avec le ton d'un trader expérimenté, en une phrase concise.
-      190 caractères maximum impérativement ce qui inclut les espaces et la ponctuation, ce point est prioritaire.`;
+      140 caractères maximum impérativement ce qui inclut les espaces et la ponctuation, ce point est prioritaire.`;
 
       try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -179,15 +185,18 @@ const CryptoModule = () => {
               </div>
               <div className="text-xs mt-2">
                 <div className="font-medium">{formatPrice(crypto.price_usd)}</div>
-                <div className="text-[10px] text-gray-500">
-                  {formatPrice(crypto.price_usd * 0.92)} EUR
-                </div>
               </div>
               <div className="text-xs text-gray-500 mt-1">
                 Vol : {new Intl.NumberFormat().format(crypto.volume_24h)}
               </div>
               <div className="text-[10px] text-gray-900 mt-2">
-                {summaries[symbol]?.endsWith('.') ? summaries[symbol] : summaries[symbol] ? `${summaries[symbol]}.` : 'Génération du résumé...'}
+                {summaries[symbol]?.length > (window.innerWidth < 768 ? 140 : 190)
+                  ? summaries[symbol].substring(0, window.innerWidth < 768 ? 140 : 190).replace(/,\s*$/, '.') + '.'
+                  : summaries[symbol]?.endsWith('.')
+                  ? summaries[symbol]
+                  : summaries[symbol]
+                    ? `${summaries[symbol]}.`
+                    : 'Prévisions en cours...'}
               </div>
             </Card>
           );
