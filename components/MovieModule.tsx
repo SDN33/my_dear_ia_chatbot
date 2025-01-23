@@ -25,7 +25,8 @@ const MovieModule: React.FC = () => {
       { title: 'Landman' },
       { title: 'Squid Game' },
       { title: 'Heretic' },
-      { title: 'Criminal Squad : Pantera'}
+      { title: 'Nickel Boys' },
+      { title: 'Je suis toujours là' },
 
     ];
 
