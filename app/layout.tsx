@@ -72,6 +72,7 @@ export default async function RootLayout({
           }}
         />
         <meta name="monetag" content="985202062f34f2ad512f3f312a091681"></meta>
+        <meta name="google-adsense-account" content="ca-pub-2463769733352328"></meta>
       </head>
       <body className="antialiased">
         <ThemeProvider
