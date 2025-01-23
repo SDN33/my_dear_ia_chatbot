@@ -68,7 +68,7 @@ const CryptoModule = () => {
       Volume 24h: ${crypto.total_volume}
       Var 24h: ${crypto.price_change_percentage_24h}%
 
-      Incluez votre recommandation (achat/vente/conservation).`;
+      Incluez votre recommandation (achat/vente/conservation); fais gaffe à l'actu pour ton jugement.`;
 
       try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -135,7 +135,7 @@ const CryptoModule = () => {
       <div className="text-[7px] text-gray-500 px-2">
         Dernière mise à jour : {lastFetchTime ? new Date(lastFetchTime).toLocaleString('fr-FR') : 'Chargement...'}
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-2 h-full p-2">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 h-full p-2">
         {cryptoData.map((crypto) => {
           if (windowWidth < 768 && crypto.symbol === 'sol') return null;
 
