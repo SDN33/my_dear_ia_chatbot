@@ -73,6 +73,17 @@ export default async function RootLayout({
         />
         <meta name="monetag" content="985202062f34f2ad512f3f312a091681"></meta>
         <meta name="google-adsense-account" content="ca-pub-2463769733352328"></meta>
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1234567890123456" crossorigin="anonymous"></script>
+
+        <ins className="adsbygoogle"
+          style={{ display: "block" }}
+          data-ad-client="ca-pub-2463769733352328"
+          data-ad-slot="1761973122"
+          data-ad-format="auto"
+          data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
       </head>
       <body className="antialiased">
         <ThemeProvider

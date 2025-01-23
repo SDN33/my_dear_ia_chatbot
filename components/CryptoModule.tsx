@@ -68,7 +68,7 @@ const CryptoModule = () => {
       Volume 24h: ${crypto.total_volume}
       Var 24h: ${crypto.price_change_percentage_24h}%
 
-      Incluez votre recommandation (achat/vente/conservation); fais gaffe à l'actu pour ton jugement.`;
+      Incluez votre recommandation (achat/vente/conservation);`;
 
       try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
