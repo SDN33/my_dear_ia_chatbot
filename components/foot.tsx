@@ -48,7 +48,7 @@ const FootballNewsModule: React.FC = () => {
   if (isLoading) {
     return (
       <div className="h-full flex items-center justify-center">
-        <p className="text-gray-500">Loading football news...</p>
+        <p className="text-gray-500">Chargement des actualités football...</p>
       </div>
     );
   }
