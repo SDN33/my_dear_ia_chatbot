@@ -11,6 +11,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://mydear.xyz',
   },
+  keywords: ['chatbot', 'chatgpt', 'assistant', 'IA', 'intelligence artificielle', 'conversation', 'discussion', 'aide', 'information', 'divertissement', 'quotidien', 'assistant personnel', 'assistant virtuel', 'assistant connecté', 'assistant numérique', 'assistant vocal', 'assistant intelligent', 'assistant conversationnel'],
   title: 'My Dear IA | Un Assistant Plus Proche de Vous',
   description: 'My Dear IA est un assistant personnel qui te permet de discuter avec une intelligence artificielle pour te divertir, t\'informer et t\'aider dans ton quotidien.',
   icons: {
@@ -25,6 +26,12 @@ export const metadata: Metadata = {
       alt: 'My Dear IA | Un Assistant Plus Proche de Vous',
     }],
   },
+  twitter: {
+    creator: '@MyDearIA',
+    site: '@MyDearIA',
+    card: 'summary_large_image',
+  },
+
 };
 
 export const viewport = {
