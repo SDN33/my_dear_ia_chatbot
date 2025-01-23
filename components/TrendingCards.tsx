@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Parser from 'rss-parser';
 
+declare global {
+  interface Window {
+    adsbygoogle: any[];
+  }
+}
+
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 import { ChevronLeft, ChevronRight, Film, Link, Rss, Clock } from 'lucide-react';
@@ -310,9 +316,31 @@ const NewsModule = () => {
 
 // Module pour les publicités
 const RiddlesModule = () => {
+  useEffect(() => {
+
+    try {
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch (err) {
+      console.error('AdSense error:', err);
+    }
+  }, []);
+
   return (
     <div className="h-full flex items-center justify-center">
-      <p className="text-gray-500">Chargement...</p>
+      <script
+        async
+        src="https://pagead2.googlesyndirect.com/pagead/js/adsbygoogle.js?client=ca-pub-2463769733352328"
+        crossOrigin="anonymous"
+      />
+      {/* pub 1 MODULE */}
+      <ins
+        className="adsbygoogle"
+        style={{ display: 'block' }}
+        data-ad-client="ca-pub-2463769733352328"
+        data-ad-slot="1543039198"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      />
     </div>
   );
 };
