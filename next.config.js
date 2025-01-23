@@ -18,7 +18,10 @@ module.exports = {
       },
       {
         hostname: 'upload.wikimedia.org',
-      }
+      },
+      {
+        hostname: 'images.bfmtv.com',
+      },
     ],
   },
 };
