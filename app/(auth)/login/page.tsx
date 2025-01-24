@@ -192,7 +192,7 @@ export default function Page() {
             Découvrez une nouvelle façon de travailler et se divertir
             avec un assistant IA connecté
             <br className="hidden sm:block" />
-            qui comprend vos besoins plus que jamais
+            &nbsp; qui comprend vos besoins plus que jamais
           </motion.p>
 
             <motion.p
