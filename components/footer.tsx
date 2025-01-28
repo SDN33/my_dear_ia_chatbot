@@ -1,5 +1,4 @@
 
-
 export function Footer() {
   return (
     <footer className="col-span-2 text-center text-gray-800 dark:text-gray-400 mt-8 mx-auto">
