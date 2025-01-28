@@ -197,9 +197,9 @@ export function SidebarHistory({ user }: { user: User | undefined }) {
     return (
       <SidebarGroup>
         <SidebarGroupContent>
-          <div className="px-2 text-zinc-500 w-full flex flex-row justify-center items-center text-sm gap-2">
+            <Link href="/login" className="px-2 text-zinc-500 w-full flex flex-row justify-center items-center text-sm gap-2 hover:underline">
             Connectez vous pour voir vos discussions récentes.
-          </div>
+            </Link>
         </SidebarGroupContent>
       </SidebarGroup>
     );

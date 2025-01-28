@@ -67,6 +67,17 @@ export function SidebarUserNav({ user }: { user: User }) {
                 Faire un don <HandCoins />
               </button>
             </DropdownMenuItem>
+            <DropdownMenuItem asChild>
+              <button
+                type="button"
+                className="w-full cursor-pointer"
+                onClick={() => {
+                  window.location.href = "/contact"
+                }}
+              >
+                Contact
+              </button>
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <button

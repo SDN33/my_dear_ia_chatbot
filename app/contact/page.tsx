@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { Footer } from '@/components/footer';
 import { SubmitButton } from '@/components/submit-button';
-import { Mail, MessageSquare, Phone, MapPin } from 'lucide-react';
+import { Mail, MessageSquare } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const fadeInUp = {
@@ -21,7 +21,6 @@ const contactInfo = [
     description: "stillinovagency@gmail.com",
     link: "mailto:stillinovagency@gmail.com"
   },
-
 ];
 
 export default function ContactPage() {
@@ -32,7 +31,6 @@ export default function ContactPage() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simuler l'envoi du formulaire
     setTimeout(() => {
       toast.success('Message envoyé avec succès !');
       setIsSubmitting(false);
@@ -46,11 +44,7 @@ export default function ContactPage() {
         {/* Hero Section */}
         <div className="flex flex-col lg:grid lg:grid-cols-2 gap-8 lg:gap-12 items-center mb-16 md:mb-24">
           {/* Left Column */}
-          <motion.div
-            className="space-y-6 md:space-y-8 text-center lg:text-left"
-            initial="initial"
-            animate="animate"
-          >
+          <motion.div className="space-y-6 md:space-y-8 text-center lg:text-left" initial="initial" animate="animate">
             <motion.h1
               className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white"
               {...fadeInUp}
@@ -59,9 +53,7 @@ export default function ContactPage() {
                 Contactez-nous
               </span>
               <br />
-              <span className="text-teal-700 dark:text-teal-400">
-                Nous Sommes à Votre Écoute
-              </span>
+              <span className="text-teal-700 dark:text-teal-400">Nous Sommes à Votre Écoute</span>
             </motion.h1>
 
             <motion.p
@@ -110,7 +102,12 @@ export default function ContactPage() {
             transition={{ duration: 0.5, delay: 0.6 }}
           >
             <div className="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
-              <form onSubmit={handleSubmit} action="https://formspree.io/f/mkgornel" method="POST" className="space-y-6" >
+              <form
+                onSubmit={handleSubmit}
+                action="https://formspree.io/f/mkgornel"
+                method="POST"
+                className="space-y-6"
+              >
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Nom complet
