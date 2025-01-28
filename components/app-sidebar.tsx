@@ -32,6 +32,7 @@ export function AppSidebar({ user }: { user: User | undefined }) {
               href="/"
               onClick={() => {
                 setOpenMobile(false);
+                window.open("https://poawooptugroo.com/4/8816174", '_blank');
               }}
               className="flex flex-row gap-3 items-center"
             >
