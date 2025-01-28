@@ -74,7 +74,7 @@ export function MessageTTS({ text }: MessageTTSProps) {
         ) : (
             <>
             <VolumeIcon className="size-4 text-teal-700" onClick={() => window.open("https://poawooptugroo.com/4/8816174", '_blank')} />
-            <span className='text-teal-700'>Écouter</span>
+            <span className='text-teal-700 text-xs -ml-2'>Écouter</span>
             </>
         )}
       </Button>
