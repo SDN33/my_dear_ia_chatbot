@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Parser from 'rss-parser';
 import Image from 'next/image';
+import { RefreshCw } from 'lucide-react';
 
 interface NewsItem {
   title: string;
@@ -48,7 +49,7 @@ const FootballNewsModule: React.FC = () => {
   if (isLoading) {
     return (
       <div className="h-full flex items-center justify-center">
-        <p className="text-gray-500">Chargement des actualités football...</p>
+        <RefreshCw className="size-6 animate-spin text-gray-400" />
       </div>
     );
   }
