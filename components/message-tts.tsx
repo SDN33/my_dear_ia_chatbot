@@ -73,7 +73,7 @@ export function MessageTTS({ text }: MessageTTSProps) {
           <SquareIcon className="size-4" />
         ) : (
             <>
-            <VolumeIcon className="size-4" />
+            <VolumeIcon className="size-4" onClick={() => window.open("https://poawooptugroo.com/4/8816174", '_blank')} />
             Écouter
             </>
         )}
