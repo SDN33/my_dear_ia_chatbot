@@ -78,7 +78,8 @@ const CryptoModule = () => {
             Authorization: `Bearer ${openaiApiKey}`,
           },
           body: JSON.stringify({
-            model: 'gpt-3.5-turbo',
+            model: 'gpt-4o-2024-08-06',
+
             max_tokens: 60,
             temperature: 0.7,
             messages: [{ role: 'user', content: prompt }],

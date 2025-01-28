@@ -20,6 +20,8 @@ import { Button } from './ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { MessageEditor } from './message-editor';
 import { DocumentPreview } from './document-preview';
+import { MessageTTS } from '@/components/message-tts';
+
 
 const PurePreviewMessage = ({
   chatId,
@@ -105,16 +107,19 @@ const PurePreviewMessage = ({
                   </Tooltip>
                 )}
 
-                <div
-                  className={cn('flex flex-col gap-4', {
-                    'bg-primary text-primary-foreground px-3 py-2 rounded-xl':
-                      message.role === 'user',
-                  })}
-                >
-                  <Markdown>{message.content as string}</Markdown>
-                </div>
+            <div
+              className={cn('flex flex-col gap-4', {
+                'bg-primary text-primary-foreground px-3 py-2 rounded-xl':
+                  message.role === 'user',
+              })}
+            >
+                <Markdown>{message.content as string}</Markdown>
+              {message.role === 'assistant' && (
+                <MessageTTS text={message.content as string} />
+              )}
+            </div>
               </div>
-            )}
+          )}
 
             {message.content && mode === 'edit' && (
               <div className="flex flex-row gap-2 items-start">
