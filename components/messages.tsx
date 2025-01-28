@@ -100,16 +100,6 @@ function PureMessages({
   );
 }
 
-// Ajout d'une animation de fondu pour mobile
-const fadeInAnimation = `
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-fadeIn {
-  animation: fadeIn 0.3s ease-out forwards;
-}
-`;
 
 export const Messages = memo(PureMessages, (prevProps, nextProps) => {
   if (prevProps.isBlockVisible && nextProps.isBlockVisible) return true;

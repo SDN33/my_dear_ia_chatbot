@@ -39,7 +39,9 @@ type AllowedTools =
   | 'createDocument'
   | 'updateDocument'
   | 'requestSuggestions'
-  | 'getWeather';
+  | 'getWeather'
+  | 'getCryptoPrice';  // Ajout de l'outil de crypto
+
 
 const blocksTools: AllowedTools[] = [
   'createDocument',
@@ -50,6 +52,26 @@ const blocksTools: AllowedTools[] = [
 const weatherTools: AllowedTools[] = ['getWeather'];
 
 const allTools: AllowedTools[] = [...blocksTools, ...weatherTools];
+
+
+// Fonction pour récupérer le prix des crypto-monnaies
+export const getCryptoPrice = {
+  description: 'Get the current price of a cryptocurrency',
+  parameters: z.object({
+    cryptocurrency: z.string().describe('The name of the cryptocurrency (e.g., "bitcoin")'),
+  }),
+  execute: async ({ cryptocurrency }: { cryptocurrency: string }) => {
+    const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=${cryptocurrency}&vs_currencies=usd`);
+    const data = await response.json();
+
+    if (!data[cryptocurrency]) {
+      return { error: `Could not retrieve price for ${cryptocurrency}` };
+    }
+
+    return { price: data[cryptocurrency].usd };
+  },
+};
+
 
 export async function POST(request: Request) {
   const {
@@ -122,6 +144,7 @@ export async function POST(request: Request) {
               return weatherData;
             },
           },
+          getCryptoPrice,
           createDocument: {
             description:
               'Créer un document avec le titre et le type de contenu donnés.',

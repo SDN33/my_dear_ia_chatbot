@@ -249,7 +249,6 @@ const NewsModule = () => {
           description: item.contentSnippet || item.content || '',
           pubDate: item.pubDate || '',
           enclosure: item.enclosure,
-          image: item.image
         }));
 
         // Update cache
