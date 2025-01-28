@@ -55,7 +55,7 @@ export function MessageTTS({ text }: MessageTTSProps) {
   };
 
   return (
-    <div className="inline-flex items-center gap-2">
+    <div className="inline-flex items-center gap-2 mb-4">
       <audio
         ref={audioRef}
         onEnded={() => setIsPlaying(false)}
