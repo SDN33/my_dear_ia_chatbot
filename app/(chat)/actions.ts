@@ -10,113 +10,128 @@ import {
 } from '@/lib/db/queries';
 import { VisibilityType } from '@/components/visibility-selector';
 
-// Nouvelles fonctions pour les flux d'actualités
-const fetchCryptoNews = async () => {
+// Types pour les données renvoyées par les flux ou l'API CoinGecko
+interface CryptoData {
+  id: string;
+  name: string;
+  symbol: string;
+  image: string;
+  current_price: number;
+  total_volume: number;
+  price_change_percentage_24h: number;
+}
+
+interface NewsItem {
+  title: string;
+  link: string;
+  description: string;
+  pubDate: string;
+}
+
+// Fonction utilitaire pour récupérer et parser un flux RSS
+const fetchRSSFeed = async (url: string, limit: number = 5): Promise<NewsItem[]> => {
   try {
-    const response = await fetch('https://fr.cointelegraph.com/rss');
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Erreur récupération flux RSS (${response.status})`);
+    }
     const xmlText = await response.text();
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
     const items = xmlDoc.querySelectorAll('item');
 
-    return Array.from(items).map(item => ({
+    return Array.from(items).slice(0, limit).map(item => ({
       title: item.querySelector('title')?.textContent || '',
       link: item.querySelector('link')?.textContent || '',
       description: item.querySelector('description')?.textContent || '',
-      pubDate: item.querySelector('pubDate')?.textContent || ''
-    })).slice(0, 5);
+      pubDate: item.querySelector('pubDate')?.textContent || '',
+    }));
   } catch (error) {
-    console.error('Erreur récupération flux RSS', error);
+    console.error(`Erreur récupération flux RSS depuis ${url}:`, error);
     return [];
   }
 };
 
-const fetchGeneralNews = async () => {
-  try {
-    const response = await fetch('https://news.google.com/rss?hl=fr&gl=FR&ceid=FR:fr');
-    const xmlText = await response.text();
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-    const items = xmlDoc.querySelectorAll('item');
+// Récupération des actualités spécifiques
+const fetchCryptoNews = () => fetchRSSFeed('https://fr.cointelegraph.com/rss');
+const fetchGeneralNews = () => fetchRSSFeed('https://news.google.com/rss?hl=fr&gl=FR&ceid=FR:fr');
+const fetchFootballNews = () => fetchRSSFeed('https://rmcsport.bfmtv.com/rss/football/');
 
-    return Array.from(items).map(item => ({
-      title: item.querySelector('title')?.textContent || '',
-      link: item.querySelector('link')?.textContent || '',
-      description: item.querySelector('description')?.textContent || '',
-      pubDate: item.querySelector('pubDate')?.textContent || ''
-    })).slice(0, 5);
-  } catch (error) {
-    console.error('Erreur récupération news générales', error);
-    return [];
-  }
-};
-
-const fetchFootballNews = async () => {
-  try {
-    const response = await fetch('https://rmcsport.bfmtv.com/rss/football/');
-    const xmlText = await response.text();
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
-    const items = xmlDoc.querySelectorAll('item');
-
-    return Array.from(items).map(item => ({
-      title: item.querySelector('title')?.textContent || '',
-      link: item.querySelector('link')?.textContent || '',
-      description: item.querySelector('description')?.textContent || '',
-      pubDate: item.querySelector('pubDate')?.textContent || ''
-    })).slice(0, 5);
-  } catch (error) {
-    console.error('Erreur récupération news football', error);
-    return [];
-  }
-};
-
-
-export async function saveModelId(model: string) {
+// Sauvegarde de l'identifiant du modèle AI dans les cookies
+export async function saveModelId(model: string): Promise<void> {
   const cookieStore = await cookies();
   cookieStore.set('model-id', model);
 }
 
-const fetchCryptoData = async () => {
-  const targetCryptos = ['bitcoin', 'ethereum', 'solana', 'binancecoin', 'ripple', 'cardano'];
-  const response = await fetch(
-    `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&ids=${targetCryptos.join(',')}&order=market_cap_desc&sparkline=false&locale=fr`
-  );
-  const data = await response.json();
-  return data;
+// Fonction pour vérifier si le message parle de crypto
+const checkForCryptoKeywords = (content: any[] | string): boolean => {
+  const messageText = Array.isArray(content)
+    ? content.filter(part => 'text' in part).map(part => part.text).join(' ')
+    : content;
+  const cryptoKeywords = ['bitcoin', 'ethereum', 'crypto', 'cryptomonnaie', 'blockchain'];
+  return cryptoKeywords.some(keyword => messageText.toLowerCase().includes(keyword));
 };
 
+// Récupération des données crypto depuis l'API CoinGecko
+const fetchCryptoData = async (): Promise<CryptoData[]> => {
+  try {
+    const targetCryptos = ['bitcoin', 'ethereum', 'solana', 'binancecoin', 'ripple', 'cardano'];
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&ids=${targetCryptos.join(
+        ','
+      )}&order=market_cap_desc&sparkline=false&locale=fr`
+    );
+
+    if (!response.ok) {
+      throw new Error(`Erreur API CoinGecko: ${response.status}`);
+    }
+
+    const data: CryptoData[] = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Erreur récupération données crypto:', error);
+    return [];
+  }
+};
+
+// Génération de titres basés sur le contexte
 export async function generateTitleFromUserMessage({
   message,
 }: {
   message: CoreUserMessage;
-}) {
+}): Promise<string> {
   // Mots-clés pour différents contextes
-  const cryptoKeywords = ['bitcoin', 'ethereum', 'solana', 'binancecoin', 'ripple', 'cardano', 'crypto', 'cryptomonnaie', 'blockchain', 'trading', 'investissement crypto'];
+  const cryptoKeywords = [
+    'bitcoin',
+    'ethereum',
+    'solana',
+    'binancecoin',
+    'ripple',
+    'cardano',
+    'crypto',
+    'cryptomonnaie',
+    'blockchain',
+    'trading',
+    'investissement crypto',
+  ];
   const footballKeywords = ['football', 'match', 'équipe', 'ligue', 'championnat', 'but', 'joueur'];
   const generalNewsKeywords = ['actualité', 'news', 'information', 'monde', 'politique', 'économie'];
 
   // Fonction pour vérifier le contexte
-  const checkContext = (content: any, keywords: string[]) => {
-    if (Array.isArray(content)) {
-      return content.some(part =>
-        'text' in part &&
-        keywords.some(keyword => part.text.toLowerCase().includes(keyword))
-      );
-    } else if (typeof content === 'string') {
-      return keywords.some(keyword => content.toLowerCase().includes(keyword));
-    }
-    return false;
+  const checkContext = (content: string | any[], keywords: string[]): boolean => {
+    const normalizedContent =
+      typeof content === 'string'
+        ? content.toLowerCase()
+        : content.map(part => ('text' in part ? part.text.toLowerCase() : '')).join(' ');
+
+    return keywords.some(keyword => normalizedContent.includes(keyword));
   };
 
   // Récupération des données en fonction du contexte
   const getContextualData = async () => {
     try {
       if (checkContext(message.content, cryptoKeywords)) {
-        const [cryptoData, cryptoNews] = await Promise.all([
-          fetchCryptoData(),
-          fetchCryptoNews()
-        ]);
+        const [cryptoData, cryptoNews] = await Promise.all([fetchCryptoData(), fetchCryptoNews()]);
         return { type: 'crypto', data: { cryptoData, cryptoNews } };
       } else if (checkContext(message.content, footballKeywords)) {
         const footballNews = await fetchFootballNews();
@@ -127,11 +142,12 @@ export async function generateTitleFromUserMessage({
       }
       return null;
     } catch (error) {
-      console.error('Erreur récupération données contextuelles', error);
+      console.error('Erreur récupération données contextuelles:', error);
       return null;
     }
   };
 
+  // Génération du titre via AI
   const { text: title } = await generateText({
     model: customModel('gpt-4o-mini'),
     system: `Tu es un chatbot nommé My Dear Ai, expert en coaching et communication.
@@ -143,17 +159,28 @@ export async function generateTitleFromUserMessage({
 
   // Récupération des données contextuelles
   const contextResult = await getContextualData();
-
-  // Possibilité de traitement supplémentaire basé sur le contexte
   if (contextResult) {
-    // Logique supplémentaire si nécessaire
     console.log(`Données contextuelles récupérées pour le type : ${contextResult.type}`);
+  }
+
+  // Si le contexte est crypto et on parle du Bitcoin, on retourne les données
+  if (checkForCryptoKeywords(message.content)) {
+    const cryptoData = await fetchCryptoData();
+    const bitcoinData = cryptoData.find(crypto => crypto.id === 'bitcoin');
+    if (bitcoinData) {
+      const priceChange = bitcoinData.price_change_percentage_24h;
+      const priceTrend = priceChange >= 0 ? 'monte' : 'baisse';
+      return `Le Bitcoin ${priceTrend} actuellement de ${Math.abs(priceChange).toFixed(2)}% au cours des dernières 24 heures.`;
+    } else {
+      return 'Je n\'ai pas pu récupérer les données du Bitcoin en ce moment.';
+    }
   }
 
   return title;
 }
 
-export async function deleteTrailingMessages({ id }: { id: string }) {
+// Suppression des messages inutiles
+export async function deleteTrailingMessages({ id }: { id: string }): Promise<void> {
   const [message] = await getMessageById({ id });
 
   await deleteMessagesByChatIdAfterTimestamp({
@@ -162,12 +189,13 @@ export async function deleteTrailingMessages({ id }: { id: string }) {
   });
 }
 
+// Mise à jour de la visibilité d'une discussion
 export async function updateChatVisibility({
   chatId,
   visibility,
 }: {
   chatId: string;
   visibility: VisibilityType;
-}) {
+}): Promise<void> {
   await updateChatVisiblityById({ chatId, visibility });
 }

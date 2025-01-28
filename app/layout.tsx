@@ -82,15 +82,6 @@ export default async function RootLayout({
         <meta name="google-adsense-account" content="ca-pub-2463769733352328"></meta>
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1234567890123456" crossOrigin="anonymous"></script>
 
-        <ins className="adsbygoogle"
-          style={{ display: "block" }}
-          data-ad-client="ca-pub-2463769733352328"
-          data-ad-slot="1761973122"
-          data-ad-format="auto"
-          data-full-width-responsive="true"></ins>
-        <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
       </head>
       <body className="antialiased">
         <ThemeProvider
@@ -101,6 +92,17 @@ export default async function RootLayout({
         >
           <Toaster position="top-center" />
           {children}
+          <ins
+            className="adsbygoogle"
+            style={{ display: "block" }}
+            data-ad-client="ca-pub-2463769733352328"
+            data-ad-slot="1761973122"
+            data-ad-format="auto"
+            data-full-width-responsive="true"
+          />
+          <script>
+            {`(adsbygoogle = window.adsbygoogle || []).push({});`}
+          </script>
         </ThemeProvider>
         <CookiesConsent />
       </body>

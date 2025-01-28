@@ -200,7 +200,7 @@ export default function Page() {
             {...fadeInUp}
             transition={{ delay: 0.3 }}
             >
-            My Dear IA révolutionne l&apos;intelligence artificielle en connectant le modèle GPT-3 d&apos; OpenAI à un écosystème d&apos; APIs en temps réel...<br /> Cours des cryptomonnaies, playlists Spotify, contenus YouTube, flux RSS d&apos;actualités multi-domaines.<br /><br /> Cette interconnexion unique permet à l&apos;assistant de rester constamment informé sur l&apos;actualité mondiale, la finance, la musique et le divertissement pour des interactions toujours plus pertinentes.
+            My Dear IA révolutionne l&apos;intelligence artificielle en connectant le modèle GPT-3 d&apos;OpenAI à un écosystème d&apos; APIs en temps réel...<br /> Cours des cryptomonnaies, playlists Spotify, contenus YouTube, flux RSS d&apos;actualités multi-domaines.<br /><br /> Cette interconnexion unique permet à l&apos;assistant de rester constamment informé sur l&apos;actualité mondiale, la finance, la musique et le divertissement pour des interactions toujours plus pertinentes.
             </motion.p>
 
           {/* Logos Carousel */}

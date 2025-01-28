@@ -54,7 +54,7 @@ const FootballNewsModule: React.FC = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mt-8">
+    <div className="grid grid-cols-1 md:grid-cols-4 gap-2 mt-4">
       {news.map((item, index) => (
         <div key={index} className="bg-gray-50 dark:bg-black rounded-lg overflow-hidden shadow-sm">
           {item.imageUrl && (
