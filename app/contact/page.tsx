@@ -16,23 +16,12 @@ const fadeInUp = {
 
 const contactInfo = [
   {
-    icon: <Phone className="size-6 text-teal-600 group-hover:scale-110 transition-transform" />,
-    title: "Téléphone",
-    description: "+33 (0)1 23 45 67 89",
-    link: "tel:+33123456789"
-  },
-  {
     icon: <Mail className="size-6 text-teal-600 group-hover:rotate-12 transition-transform" />,
     title: "Email",
-    description: "contact@mydear.ai",
-    link: "mailto:contact@mydear.ai"
+    description: "stillinovagency@gmail.com",
+    link: "mailto:stillinovagency@gmail.com"
   },
-  {
-    icon: <MapPin className="size-6 text-teal-600 group-hover:bounce transition-all" />,
-    title: "Adresse",
-    description: "123 Avenue de l'Innovation, 75001 Paris",
-    link: "https://maps.google.com"
-  }
+
 ];
 
 export default function ContactPage() {
@@ -115,13 +104,13 @@ export default function ContactPage() {
 
           {/* Right Column - Contact Form */}
           <motion.div
-            className="w-full max-w-md mx-auto"
+            className="w-full max-w-md mx-auto mt-20"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.6 }}
           >
             <div className="bg-white dark:bg-gray-800 p-6 md:p-8 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-700">
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit} action="https://formspree.io/f/mkgornel" method="POST" className="space-y-6" >
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Nom complet
@@ -129,7 +118,7 @@ export default function ContactPage() {
                   <input
                     type="text"
                     required
-                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-gray-900 dark:text-white focus:border-teal-500 focus:ring-2 focus:ring-teal-500 focus:ring-opacity-20"
+                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-gray-900 dark:text-white focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
                   />
                 </div>
 
@@ -140,7 +129,7 @@ export default function ContactPage() {
                   <input
                     type="email"
                     required
-                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-gray-900 dark:text-white focus:border-teal-500 focus:ring-2 focus:ring-teal-500 focus:ring-opacity-20"
+                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-gray-900 dark:text-white focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
                   />
                 </div>
 
@@ -150,12 +139,12 @@ export default function ContactPage() {
                   </label>
                   <textarea
                     required
-                    rows={4}
-                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-gray-900 dark:text-white focus:border-teal-500 focus:ring-2 focus:ring-teal-500 focus:ring-opacity-20"
+                    rows={2}
+                    className="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-4 py-2 text-gray-900 dark:text-white focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20"
                   />
                 </div>
 
-                <SubmitButton isSuccessful={!isSubmitting}>
+                <SubmitButton isSuccessful={isSubmitting}>
                   <MessageSquare className="ml-2 size-4" />
                 </SubmitButton>
               </form>
