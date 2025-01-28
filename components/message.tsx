@@ -20,7 +20,7 @@ import { Button } from './ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { MessageEditor } from './message-editor';
 import { DocumentPreview } from './document-preview';
-import { MessageTTS } from '@/components/message-tts';
+import {MessageTTS} from '@/components/message-tts';
 
 
 const PurePreviewMessage = ({
@@ -89,35 +89,40 @@ const PurePreviewMessage = ({
             )}
 
             {message.content && mode === 'view' && (
-              <div className="flex flex-row gap-2 items-start">
+                <div className="flex flex-row gap-2 items-start">
                 {message.role === 'user' && !isReadonly && (
                   <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        className="px-2 h-fit rounded-full text-muted-foreground opacity-0 group-hover/message:opacity-100"
-                        onClick={() => {
-                          setMode('edit');
-                        }}
-                      >
-                        <PencilEditIcon />
-                      </Button>
-                    </TooltipTrigger>
-                    <TooltipContent>Modifier le message</TooltipContent>
+                  <TooltipTrigger asChild>
+                    <Button
+                    variant="ghost"
+                    className="px-2 h-fit rounded-full text-muted-foreground opacity-0 group-hover/message:opacity-100"
+                    onClick={() => {
+                      setMode('edit');
+                    }}
+                    >
+                    <PencilEditIcon />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>Modifier le message</TooltipContent>
                   </Tooltip>
                 )}
 
-            <div
-              className={cn('flex flex-col gap-4', {
+              <div
+                className={cn('flex flex-col gap-4', {
                 'bg-primary text-primary-foreground px-3 py-2 rounded-xl':
                   message.role === 'user',
-              })}
-            >
+                })}
+              >
                 <Markdown>{message.content as string}</Markdown>
-              {message.role === 'assistant' && (
-                <MessageTTS text={message.content as string} />
-              )}
-            </div>
+                {message.role === 'assistant' && (
+                <div className="flex items-center">
+                  <MessageTTS text={message.content as string} />
+                    <span className="ml-2 text-xs text-muted-foreground hidden md:group-hover:inline">
+                    Lire le message à haute voix
+                    </span>
+                </div>
+                )}
+                </div>
               </div>
           )}
 
