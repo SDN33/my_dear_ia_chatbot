@@ -195,20 +195,30 @@ export async function generateTitleFromUserMessage({
     console.log(`Données contextuelles récupérées pour le type : ${contextResult.type}`);
   }
 
-  // Si le contexte est crypto et on parle du Bitcoin, on retourne les données
+  // Add crypto data to AI prompt if relevant
+  let systemPrompt = `Tu es un chatbot nommé My Dear Ai, expert en coaching et communication.
+    Génère un titre concis capturant l'essence du message, en 80 caractères maximum.
+    Sois amical, engageant et utilise des emojis stratégiquement.
+    Adapte ton ton au contexte du message.`;
+
   if (checkForCryptoKeywords(message.content)) {
     const cryptoData = await fetchCryptoData();
     const bitcoinData = cryptoData.find(crypto => crypto.id === 'bitcoin');
     if (bitcoinData) {
       const priceChange = bitcoinData.price_change_percentage_24h;
-      const priceTrend = priceChange >= 0 ? 'monte' : 'baisse';
-      return `Le Bitcoin ${priceTrend} actuellement de ${Math.abs(priceChange).toFixed(2)}% au cours des dernières 24 heures.`;
-    } else {
-      return 'Je n\'ai pas pu récupérer les données du Bitcoin en ce moment.';
+      const priceTrend = priceChange >= 0 ? 'hausse' : 'baisse';
+      systemPrompt += `\nLe Bitcoin est en ${priceTrend} de ${Math.abs(priceChange).toFixed(2)}% sur 24h.`;
     }
   }
 
-  return title;
+  // Generate title with updated system prompt
+  const { text: updatedTitle } = await generateText({
+    model: customModel('gpt-4o-mini'),
+    system: systemPrompt,
+    prompt: JSON.stringify(message),
+  });
+
+  return updatedTitle;
 }
 
 // Suppression des messages inutiles

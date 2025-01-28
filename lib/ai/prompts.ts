@@ -1,5 +1,69 @@
 import { BlockKind } from '@/components/block';
 
+// Définition des types pour les données crypto
+interface CryptoData {
+  id: string;
+  name: string;
+  symbol: string;
+  image: string;
+  current_price: number;
+  total_volume: number;
+  price_change_percentage_24h: number;
+}
+
+// Fonction utilitaire pour récupérer les données crypto depuis CoinGecko
+const fetchCryptoData = async (): Promise<CryptoData[]> => {
+  try {
+    const targetCryptos = ['bitcoin', 'ethereum', 'solana', 'binancecoin', 'ripple', 'cardano'];
+    const response = await fetch(
+      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=eur&ids=${targetCryptos.join(
+        ','
+      )}&order=market_cap_desc&sparkline=false&locale=fr`
+    );
+
+    if (!response.ok) {
+      throw new Error(`Erreur API CoinGecko: ${response.status}`);
+    }
+
+    const data: CryptoData[] = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Erreur récupération données crypto:', error);
+    return [];
+  }
+};
+
+// Fonction pour ajouter un titre en fonction des données crypto
+export async function generateCryptoTitle(messageContent: string): Promise<string> {
+  // Vérification des mots-clés relatifs à la crypto
+  const cryptoKeywords = [
+    'bitcoin', 'ethereum', 'solana', 'binancecoin', 'ripple', 'cardano',
+    'crypto', 'cryptomonnaie', 'blockchain', 'trading', 'investissement crypto'
+  ];
+
+  const checkForCryptoKeywords = (content: string): boolean => {
+    return cryptoKeywords.some(keyword => content.toLowerCase().includes(keyword));
+  };
+
+  if (!checkForCryptoKeywords(messageContent)) {
+    return ''; // Si le message ne mentionne pas de crypto, on ne génère pas de titre
+  }
+
+  const cryptoData = await fetchCryptoData();
+  const bitcoinData = cryptoData.find(crypto => crypto.id === 'bitcoin');
+
+  if (!bitcoinData) {
+    return ''; // Si aucune donnée sur Bitcoin n'est disponible, ne pas générer de titre
+  }
+
+  const priceChange = bitcoinData.price_change_percentage_24h;
+  const priceTrend = priceChange >= 0 ? 'hausse' : 'baisse';
+  const title = `Le Bitcoin est en ${priceTrend} de ${Math.abs(priceChange).toFixed(2)}% sur 24h`;
+
+  return title;
+}
+
+// Le reste des prompts existants
 export const blocksPrompt = `
 Blocks is a special user interface mode that helps users with writing, editing, and other content creation tasks. When block is open, it is on the right side of the screen, while the conversation is on the left side. When creating or updating documents, changes are reflected in real-time on the blocks and visible to the user.
 
