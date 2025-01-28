@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Toaster } from 'sonner';
+import Script from 'next/script';
 
 import { ThemeProvider } from '@/components/theme-provider';
 import CookiesConsent from '@/components/cookies-consent';
@@ -103,6 +104,15 @@ export default async function RootLayout({
           <script>
             {`(adsbygoogle = window.adsbygoogle || []).push({});`}
           </script>
+          <Script src="https://www.googletagmanager.com/gtag/js?id=G-BDF64M8X0K" strategy="afterInteractive" />
+          <Script id="google-analytics" strategy="afterInteractive">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-BDF64M8X0K');
+            `}
+          </Script>
         </ThemeProvider>
         <CookiesConsent />
       </body>
