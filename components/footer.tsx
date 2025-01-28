@@ -6,7 +6,7 @@ export function Footer() {
         &copy; {new Date().getFullYear()} My Dear IA - Une création de <a href="https://stillinov.com" className='underline'>Still-inov Agency</a>. Tous droits réservés.
       </p>
       <p className="text-xs md:text-sm mt-2 space-x-2">
-        <a href="/contact" className='underline'>Contactez-nous</a>
+        <a href="https://mydear.xyz/contact" className='underline'>Contactez-nous</a>
         <span>-</span>
         <a href="/legal" className='underline'>Mentions Légales</a>
         <span>-</span>

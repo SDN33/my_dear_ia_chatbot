@@ -132,7 +132,39 @@ export async function generateTitleFromUserMessage({
     try {
       if (checkContext(message.content, cryptoKeywords)) {
         const [cryptoData, cryptoNews] = await Promise.all([fetchCryptoData(), fetchCryptoNews()]);
-        return { type: 'crypto', data: { cryptoData, cryptoNews } };
+        // Validation des paramètres crypto selon le schéma
+        const cryptoParams = {
+          action: 'buy', // Par défaut
+          amount: 0,
+          currency: '',
+          account_id: ''
+        };
+
+        // Parse le message pour extraire les paramètres
+        const content = Array.isArray(message.content)
+          ? message.content.map(part => 'text' in part ? part.text : '').join(' ')
+          : message.content;
+
+        // Extraction basique des paramètres (à améliorer selon les besoins)
+        if (content.includes('acheter')) cryptoParams.action = 'buy';
+        if (content.includes('vendre')) cryptoParams.action = 'sell';
+
+        // Recherche de montants avec regex
+        const amountMatch = content.match(/\d+(\.\d+)?/);
+        if (amountMatch) cryptoParams.amount = parseFloat(amountMatch[0]);
+
+        // Recherche de devise
+        for (const crypto of cryptoData) {
+          if (content.toLowerCase().includes(crypto.symbol.toLowerCase())) {
+            cryptoParams.currency = crypto.symbol.toUpperCase();
+            break;
+          }
+        }
+
+        return {
+          type: 'crypto',
+          data: { cryptoData, cryptoNews, parameters: cryptoParams }
+        };
       } else if (checkContext(message.content, footballKeywords)) {
         const footballNews = await fetchFootballNews();
         return { type: 'football', data: { footballNews } };
