@@ -63,7 +63,7 @@ export function MessageTTS({ text }: MessageTTSProps) {
       />
       <Button
         variant="ghost"
-        size="sm"
+        size="default"
         onClick={audioUrl ? togglePlay : generateAndPlaySpeech}
         disabled={isLoading}
       >
@@ -72,7 +72,10 @@ export function MessageTTS({ text }: MessageTTSProps) {
         ) : isPlaying ? (
           <SquareIcon className="size-4" />
         ) : (
-          <VolumeIcon className="size-4" />
+            <>
+            <VolumeIcon className="size-4" />
+            Écouter
+            </>
         )}
       </Button>
     </div>
