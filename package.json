@@ -60,7 +60,7 @@
     "googleapis": "^144.0.0",
     "lucide-react": "^0.446.0",
     "nanoid": "^5.0.8",
-    "next": "^15.2.0-canary.6",
+    "next": "^15.2.3",
     "next-auth": "^5.0.0-beta.25",
     "next-themes": "^0.3.0",
     "openai": "^4.80.1",
